@@ -1,0 +1,5 @@
+package gateway.core.model;
+
+public class McuData {
+
+}

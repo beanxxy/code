@@ -1,0 +1,33 @@
+package gateway.core.redis;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Map;
+
+import org.apache.ibatis.io.Resources;
+import org.junit.jupiter.api.Test;
+import org.yaml.snakeyaml.Yaml;
+
+import redis.clients.jedis.Jedis;
+
+public class Config {
+	public static Jedis jedis;
+	static {
+		try {
+			Yaml yaml = new Yaml();
+			InputStream inputStream  = Resources.getResourceAsStream("app.yaml");
+			Map<String, Object> map = (Map<String, Object>) yaml.loadAs(inputStream, Map.class).get("redis"); 
+			int database = Integer.parseInt(map.get("database")+"");
+			System.out.println(database);
+			String host = map.get("host")+"";
+			int port = Integer.parseInt(map.get("post")+"");
+			String pw = map.get("password")+""; 
+			jedis = new Jedis(host,port); 
+			jedis.auth(pw); 
+			jedis.select(11); 
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	} 
+}

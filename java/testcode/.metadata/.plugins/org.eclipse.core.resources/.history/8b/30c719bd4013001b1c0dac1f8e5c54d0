@@ -1,0 +1,5 @@
+package gateway.core.config;
+
+public class DataModel {
+
+}

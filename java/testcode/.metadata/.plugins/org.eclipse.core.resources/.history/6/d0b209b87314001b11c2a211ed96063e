@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases> 
+        <typeAlias alias="AddressConfig" type="gateway.core.config.AddressConfig"/> 
+        <typeAlias alias="ServerConfig" type="gateway.core.config.ServerConfig"/> 
+        <typeAlias alias="DataModel" type="gateway.core.config.DataModel"/> 
+    </typeAliases> 
+	<!-- 数据库环境配置-->
+    <environments default="development">
+        <environment id="development">
+        <!-- jdbc管理-->
+        <transactionManager type="JDBC"/>
+         <!-- 用什么连接池-->
+            <dataSource type="POOLED">
+             <!-- jdbc驱动-->
+           <!--  <property name="driver" value="com.mysql.cj.jdbc.Driver"/> -->
+           <property name="driver" value="com.mysql.jdbc.Driver"/>
+            <!-- 数据库名字url
+            <property name="url" value="jdbc:mysql://172.28.9.249:13306/device_check?useUnicode=true" /> 
+            <property name="username" value="bzlcrtcn"/> 
+            <property name="password" value="rjqNdG#1lKWP%(ltFTerv"/>-->
+            
+             <property name="url" value="jdbc:mysql://localhost:3306/gatewayconfig?useUnicode=true" /> 
+            <property name="username" value="root"/> 
+            <property name="password" value="123456"/>
+            </dataSource>
+        </environment>
+    </environments>
+   
+    <mappers> 
+        <mapper class="gateway.core.mapper.DevAddress"></mapper> 
+        <mapper class="gateway.core.mapper.DevServer"></mapper> 
+        <mapper class="gateway.core.mapper.DevData"></mapper> 
+    </mappers>
+</configuration>

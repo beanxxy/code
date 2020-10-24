@@ -1,0 +1,14 @@
+package gateway.core.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Select;
+
+import gateway.core.config.AddressConfig;
+
+public interface  DevAddress {
+
+	@Select("select * from addressconfig where state = 1 and ")
+	public List<AddressConfig> getAddr();
+	
+}

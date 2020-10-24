@@ -1,0 +1,13 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
+import gateway.core.model.McuData;
+
+public class bb {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Queue<String> rqueue = new LinkedList<String>();
+	}
+
+}

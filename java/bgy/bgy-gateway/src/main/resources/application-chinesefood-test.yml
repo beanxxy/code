@@ -1,0 +1,58 @@
+server:
+  port: 8111 # 根据具体情况修改
+  servlet:
+    context-path: /bgy
+gateway:
+  store-id: 1239863613804683265 # 根据具体情况修改
+  store-type: chinesefood # 根据具体情况修改(代码里没有用到，仅供标识用)
+  version: 2 # 1 简版中餐  其他为2
+spring:
+  datasource:
+    username: backzc
+    password: qcQ551Y5eD2cz0J1Areb!
+    url: jdbc:mysql://10.8.131.250:3306/rrs_fastfood?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false&serverTimezone=GMT%2b8
+
+  redis:
+    host: localhost
+    port: 6379
+    database: 6
+    password:
+    timeout: 10000
+    jedis:
+      pool:
+        max-active: 800
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+
+  kafka:
+    inside:
+      bootstrap-servers: 172.28.9.249:29092
+      consumer:
+        group-id: test
+        enable-auto-commit: true
+    #outside:
+      #bootstrap-servers: 106.53.2.103:29092
+      #consumer:
+        #group-id: test
+        #enable-auto-commit: true
+
+  mqtt:
+    dms:
+      username: emqdevback
+      password: hLJ9sTXd1RImYqKeEzQF
+      url: tcp://emqdev.bgyfoodom.com:18830
+      producerClientId: dms-chinesefood-producer-${gateway.store-id}
+      producerDefaultTopic: deviceStatus
+      consumerClientId: dms-chinesefood-consumer-${gateway.store-id}
+      consumerDefaultTopic: device
+      completionTimeout: 20000
+      keepAliveInterval: 30
+      defaultQos: 1
+      willTopic: deviceOfflineNotify
+      wilData: '{"restaurantId" : "1239863613804683265","code":""}'
+      onlineTopic : deviceOnlineNotify
+
+#logging:
+ # level:
+  #  ROOT: info

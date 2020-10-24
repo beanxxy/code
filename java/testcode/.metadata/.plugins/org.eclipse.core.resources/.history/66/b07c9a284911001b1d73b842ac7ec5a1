@@ -1,0 +1,9 @@
+package gateway.core.config;
+
+public class ServerConfig {
+	public int id;
+	public String port;
+	public String dataAddr;
+	public int addressConfigID;
+	public int state;
+}

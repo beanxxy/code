@@ -1,0 +1,31 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>mcu</groupId>
+  <artifactId>mcu-master</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <modules>
+      <module>mcu-core</module>
+  </modules> 
+  
+  <repositories>
+        <repository>
+            <id>releases</id>
+            <name>vsdata public resp</name>
+            <url>http://47.107.55.38:17081/repository/bgy_kcs/</url> 
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>releases</id>
+            <name>vsdata releases resp</name>
+            <url>http://47.107.55.38:17081/repository/bgy_kcs/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>vsdata snapshots resp</name>
+            <url>http://47.107.55.38:17081/repository/bgy_kcs/</url>
+        </snapshotRepository>
+    </distributionManagement>
+</project>

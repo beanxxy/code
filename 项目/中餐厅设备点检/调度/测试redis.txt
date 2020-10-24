@@ -1,0 +1,9 @@
+redis:
+host : 39.108.91.105
+port : 17097
+password: myRedisqx123C9876
+
+key:
+上菜口状态：gateway:device:state:5122
+下菜口状态：gateway:device:state:5889
+元器件状态：gateway:device:state:historical-data

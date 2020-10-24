@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <title>规则添加</title>
+	<#include "/index/lib.html"	encoding="utf-8" parse=true>
+  </head>
+  <body>
+	<#include "/index/include.html"		encoding="utf-8" parse=true>
+  	<div class="off-canvas-content">
+    	<div class="docs-content" id="content">
+        <h3 class="s-title">规则添加</h3>
+         <form action="./add" method="Post">
+
+		    <div class="form-group">
+		    	<label class="form-label" >名称</label>
+                <input class="form-input" value="${obj.name!}" name="name" type="text" placeholder="名称"/>
+		    </div>
+
+		    <div class="form-group">
+		    	<label class="form-label" >语句</label>
+                <input class="form-input" value="${obj.sql!}" name="sql"  placeholder="触发语句"/>
+		    </div>
+		    
+		    <div class="form-group">
+		    	<label class="form-label" >最大</label>
+                <input class="form-input" value="${obj.maxvalue!}" name="maxvalue"  placeholder="最大"/>
+		    </div>
+		    
+		    <div class="form-group">
+		    	<label class="form-label" >最小</label>
+                <input class="form-input" value="${obj.minvalue!}" name="minvalue"  placeholder="最小"/>
+		    </div>  
+		    
+		    <div class="form-group">
+		    	<label class="form-label" >短信模板</label>
+                <input class="form-input" value="${obj.model!}" name="model"  placeholder="短信模板"/>
+		    </div>
+		    
+		    <div class="form-group">
+		    	<label class="form-label" >标准</label>
+                <input class="form-input" value="${obj.msg!}" name="msg"  placeholder="标准"/>
+		    </div>
+		    
+		    <div class="form-group">
+		    	<label class="form-label" >分组</label>
+                <input class="form-input" value="${obj.dep!}" name="dep"  placeholder="分组"/>
+		    </div>
+
+			  
+		   <!-- <div class="form-group">
+		    	<label class="form-label" >间隔</label>
+                <input class="form-input" value="${obj.timecell!}" name="timecell"  placeholder="间隔"/>
+		    </div> --> 
+		    
+		  	<!--<div class="form-group">
+		    	<label class="form-label" >状态</label>
+                <input class="form-input" value="${obj.state!}" name="state"  placeholder="状态"/>
+		    </div>
+		    
+		    <div class="form-group">
+		    	<label class="form-label" >扫描时间</label>
+                <input class="form-input" value="${obj.nexttime!}" name="nexttime"  placeholder="分组"/>
+		    </div>
+		    
+		     <div class="form-group">
+		    	<label class="form-label" >报警时间</label>
+                <input class="form-input" value="${obj.alarmtime!}" name="alarmtime"  placeholder="分组"/>
+		    </div>--> 
+		    
+            <input name="id" value="${obj.id!}" type="hidden"/>
+            <button class="btn">保存</button><span class="text-warning">${msg!}</span>	
+          </form> 
+   		 
+    	</div>
+    </div> 
+  </body>
+</html>

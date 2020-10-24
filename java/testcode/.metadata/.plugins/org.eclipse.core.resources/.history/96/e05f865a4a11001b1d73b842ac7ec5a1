@@ -1,0 +1,12 @@
+package gateway.core.mapper;
+
+import java.util.List;
+
+import gateway.core.config.AddressConfig;
+
+public interface  DevAddress {
+
+	@Select("select * from user")
+	public List<AddressConfig> getAddr();
+	
+}

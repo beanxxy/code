@@ -1,0 +1,14 @@
+package gateway.core.model;
+
+import java.util.concurrent.CompletableFuture;
+
+import gateway.core.config.AddressConfig;
+
+public class McuData {
+	public CompletableFuture<String> future;
+	public AddressConfig address;
+	public void McuData(CompletableFuture<String> f,AddressConfig as) {
+		this.address = as;
+		this.future = f;
+	}
+}

@@ -1,0 +1,18 @@
+<div class="modal" id="modal">
+    <a href="#close" class="modal-overlay" aria-label="Close"></a>
+    <div class="modal-container">
+       <div class="modal-header">
+           <a href="#close" class="btn btn-clear float-right" aria-label="Close"></a>
+           <div class="modal-title h5">提示框</div>
+       </div>
+       <div class="modal-body">
+          <div class="content">
+              是否删除?${obj.name!}
+          </div>
+       </div>
+       <div class="modal-footer">
+            <a href="#close" class="btn" aria-label="Close">取消</a>
+            <a href="${path!}/delete?id=${obj.id!}" class="btn" aria-label="Close">确认</a>
+       </div>
+    </div>
+</div>

@@ -1,0 +1,8 @@
+[
+ {"deviceId":1011,"parentName":"云轨下菜口机构","estimateName":"顶端接近开关1（磁性）","estimateValue":1,"datatime":"2015-05-18 16:28:07.198690"},
+ {"deviceId":1011,"parentName":"云轨下菜口机构","estimateName":"顶端接近开关2（磁性）","estimateValue":0,"datatime":"2015-05-18 16:28:07.198690"},
+ {"deviceId":1011,"parentName":"云轨下菜口机构","estimateName":"绳子开关1（微动）","estimateValue":1,"datatime":"2015-05-18 16:28:07.198690"},
+ {"deviceId":1011,"parentName":"云轨下菜口机构","estimateName":"绳子开关2（微动）","estimateValue":0,"datatime":"2015-05-18 16:28:07.198690"},
+ {"deviceId":1011,"parentName":"云轨下菜口机构","estimateName":"推杆开关1（凹槽光电）","estimateValue":0,"datatime":"2015-05-18 16:28:07.198690"},
+ {"deviceId":1011,"parentName":"云轨下菜口机构","estimateName":"推杆开关2（凹槽光电）","estimateValue":1,"datatime":"2015-05-18 16:28:07.198690"}
+]

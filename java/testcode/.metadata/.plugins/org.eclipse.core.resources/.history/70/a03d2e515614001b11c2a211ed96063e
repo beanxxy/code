@@ -1,0 +1,24 @@
+
+public class bitTest {
+	public static int setInt(int index,int num,int value) {
+		int tmp = 1 << index;
+		if(value==0) {
+			return ~tmp & num;
+		}else {
+			return tmp | num;
+		}
+		
+	}
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub 
+		System.out.println(setInt(3,4,1));
+		System.out.println(setInt(3,4,1));
+		System.out.println(setInt(3,4,1));
+		System.out.println(setInt(3,4,1));
+		System.out.println(setInt(3,4,1));
+		System.out.println(setInt(3,4,1));
+		System.out.println(setInt(3,4,1));
+		System.out.println(setInt(3,4,1));
+	}
+
+}

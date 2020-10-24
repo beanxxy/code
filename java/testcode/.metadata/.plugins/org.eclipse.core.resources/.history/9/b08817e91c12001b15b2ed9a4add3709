@@ -1,0 +1,57 @@
+package gateway.core.imp;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+
+import gateway.core.Client;
+import gateway.core.config.AddressConfig;
+
+public class ClientTcp implements Client{
+	
+	public static Map<String,Client> clients = new HashMap<String,Client>();
+	//MelsecClientConfig config = new MelsecClientConfig.Builder("172.28.12.8").setPort(8000).build();
+    //MelsecTcpClient client = MelsecTcpClient.create3EBinary(config); 
+ 
+	/**
+	 * ��ѯ
+	 * 
+	 * @param address
+	 * @return
+	 */
+	public static String getKey(AddressConfig address) {
+		return address.protocal+address.dataAddr+address.port;
+	}
+	@Override
+	public CompletableFuture<String> batchRead(AddressConfig address) {  
+		System.out.println(getKey(address));
+		Client clt = clients.get(getKey(address));
+		if(clt==null) {
+			clt = ClientTcp.create(address);
+		}
+		return clt.batchRead(address);
+	}
+
+	@Override
+	public CompletableFuture<Void> batchWrite(AddressConfig address, String data) { 
+		Client clt = clients.get(getKey(address));
+		if(clt==null) {
+			clt = ClientTcp.create(address);
+		}
+		return clt.batchWrite(address, data);
+	}
+
+	public static Client create(AddressConfig address) {
+		// TODO Auto-generated method stub
+		Client client = null;
+		switch (address.protocal) {
+		case "mc":
+		case "melsec":
+			client = new MelseClient(address);
+			break; 
+		}
+		clients.put(getKey(address), client);
+		return client;
+	}
+
+}

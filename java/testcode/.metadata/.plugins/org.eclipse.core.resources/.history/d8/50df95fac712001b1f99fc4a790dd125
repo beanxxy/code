@@ -1,0 +1,17 @@
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class bb {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Deque<String> deque = new LinkedList<String>();
+		deque.offerFirst("a1");
+		deque.offerFirst("a2");
+		while(deque.size()!=0) {
+			System.out.println(deque.poll()); 
+		}
+	}
+
+}

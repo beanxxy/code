@@ -1,0 +1,50 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+import com.vsdata.melsec.client.MelsecClientConfig;
+import com.vsdata.melsec.client.MelsecTcpClient;
+
+import io.netty.buffer.ByteBufUtil;
+
+public class tt {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		/**String bint = "0010";
+		int i = Integer.parseInt(bint, 2);
+		int i1 = 1<<0;
+				//Integer.parseInt("100", 2);
+		System.out.println((i&i1)==i1);*/
+		MelsecClientConfig config = new MelsecClientConfig.Builder("172.28.12.6").setPort(8000).build();
+        MelsecTcpClient client = MelsecTcpClient.create3EBinary(config);
+        List<String> ls = new ArrayList<String>();
+        
+        ls.add("D2250");
+        ls.add("D3010");
+		Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(() -> {
+			for(String s : ls) {
+				client.batchRead("D2250", 2) .thenAccept(response -> {
+	            	 System.out.println("D2250: " + response.readShort());
+	            })
+	            .exceptionally(ex -> {
+	                ex.printStackTrace();
+	                return null;
+	            });
+	           client.batchRead("D3010", 2) .thenAccept(response -> {
+	                //System.out.println(ByteBufUtil.hexDump(response));
+	                System.out.println("D3010: " + response.readShort());
+	                //System.out.println("M101: " + response.readBoolean());
+	                //System.out.println("M102: " + response.readBoolean());
+	            })
+	            .exceptionally(ex -> {
+	                ex.printStackTrace();
+	                return null;
+	            });
+			} 
+	     }, 1000, 1000, TimeUnit.MILLISECONDS);
+		
+	}
+
+}

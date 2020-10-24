@@ -1,0 +1,8 @@
+package gateway.core.model;
+
+import java.util.concurrent.CompletableFuture;
+
+public class McuData {
+	public CompletableFuture<String> future;
+	
+}

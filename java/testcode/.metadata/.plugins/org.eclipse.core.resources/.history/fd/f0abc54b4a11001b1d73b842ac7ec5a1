@@ -1,0 +1,5 @@
+package gateway.core.mapper;
+
+public interface  DevAddress {
+	public List<AddressConfig> getAddr();
+}

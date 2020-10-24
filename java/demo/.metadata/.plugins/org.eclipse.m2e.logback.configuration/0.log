@@ -1,0 +1,86 @@
+2020-10-17 08:02:05,492 [Worker-3: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2020-10-17 08:02:34,561 [Worker-1: Importing Maven projects] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: common.gateway:common-gateway-protocol:0.0.1-SNAPSHOT @ D:\bean\code\java\demo\common-gateway-protocol\pom.xml.
+2020-10-17 08:02:35,912 [Worker-1: Importing Maven projects] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/io/netty/netty-all/4.1.45.Final/netty-all-4.1.45.Final.pom
+2020-10-17 08:02:36,446 [Worker-1: Importing Maven projects] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/io/netty/netty-all/4.1.45.Final/netty-all-4.1.45.Final.pom
+2020-10-17 08:02:36,645 [Worker-1: Importing Maven projects] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/io/netty/netty-parent/4.1.45.Final/netty-parent-4.1.45.Final.pom
+2020-10-17 08:02:37,017 [Worker-1: Importing Maven projects] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/io/netty/netty-parent/4.1.45.Final/netty-parent-4.1.45.Final.pom
+2020-10-17 08:02:37,226 [Worker-1: Importing Maven projects] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/io/netty/netty-all/4.1.45.Final/netty-all-4.1.45.Final.jar
+2020-10-17 08:02:38,720 [Worker-1: Importing Maven projects] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/io/netty/netty-all/4.1.45.Final/netty-all-4.1.45.Final.jar
+2020-10-17 08:02:41,155 [Worker-5: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloading https://repo.maven.apache.org/maven2/io/netty/netty-all/4.1.45.Final/netty-all-4.1.45.Final-sources.jar
+2020-10-17 08:02:51,054 [Worker-5: Download sources and javadoc] INFO  o.e.m.c.i.e.AbstractTransferListenerAdapter - Downloaded https://repo.maven.apache.org/maven2/io/netty/netty-all/4.1.45.Final/netty-all-4.1.45.Final-sources.jar
+2020-10-17 08:02:51,258 [Worker-5: Download sources and javadoc] INFO  o.e.m.j.internal.DownloadSourcesJob - Downloaded sources for io.netty:netty-all:4.1.45.Final
+2020-10-17 10:18:32,895 [Worker-19: Importing Maven projects] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: common.gateway:common-gateway-engine:0.0.1-SNAPSHOT @ D:\bean\code\java\demo\common-gateway-engine\pom.xml.
+2020-10-17 10:18:32,913 [Worker-19: Importing Maven projects] WARN  o.e.m.c.i.embedder.EclipseLogger - The POM for common.gateway:common-gateway-config:jar:0.0.1-SNAPSHOT is missing, no dependency information available
+2020-10-17 10:18:32,916 [Worker-19: Importing Maven projects] WARN  o.e.m.c.i.embedder.EclipseLogger - The POM for common.gateway:common-gateway-message:jar:0.0.1-SNAPSHOT is missing, no dependency information available
+2020-10-17 10:18:32,919 [Worker-19: Importing Maven projects] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/common-gateway-protocol: common.gateway:common-gateway-protocol:0.0.1-SNAPSHOT with classifier  to /common-gateway-protocol/target/classes
+2020-10-17 10:18:33,267 [Worker-21: Building] WARN  o.e.m.c.i.embedder.EclipseLogger - The POM for common.gateway:common-gateway-config:jar:0.0.1-SNAPSHOT is missing, no dependency information available
+2020-10-17 10:18:33,269 [Worker-21: Building] WARN  o.e.m.c.i.embedder.EclipseLogger - The POM for common.gateway:common-gateway-message:jar:0.0.1-SNAPSHOT is missing, no dependency information available
+2020-10-17 10:18:33,271 [Worker-21: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/common-gateway-protocol: common.gateway:common-gateway-protocol:0.0.1-SNAPSHOT with classifier  to /common-gateway-protocol/target/classes
+2020-10-17 10:18:34,129 [Worker-19: Download sources and javadoc] ERROR o.e.m.j.internal.DownloadSourcesJob - Could not download sources for common.gateway:common-gateway-config:0.0.1-SNAPSHOT
+org.eclipse.core.runtime.CoreException: Could not resolve artifact common.gateway:common-gateway-config:jar:sources:0.0.1-SNAPSHOT
+	at org.eclipse.m2e.core.internal.embedder.MavenImpl.lambda$4(MavenImpl.java:804)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.executeBare(MavenExecutionContext.java:179)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.execute(MavenExecutionContext.java:114)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.execute(MavenExecutionContext.java:101)
+	at org.eclipse.m2e.core.internal.embedder.MavenImpl.resolve(MavenImpl.java:772)
+	at org.eclipse.m2e.core.internal.embedder.MavenImpl.resolve(MavenImpl.java:749)
+	at org.eclipse.m2e.jdt.internal.DownloadSourcesJob.download(DownloadSourcesJob.java:330)
+	at org.eclipse.m2e.jdt.internal.DownloadSourcesJob.downloadAttachments(DownloadSourcesJob.java:304)
+	at org.eclipse.m2e.jdt.internal.DownloadSourcesJob.downloadMaven(DownloadSourcesJob.java:269)
+	at org.eclipse.m2e.jdt.internal.DownloadSourcesJob.downloadFilesAndPopulateToUpdate(DownloadSourcesJob.java:233)
+	at org.eclipse.m2e.jdt.internal.DownloadSourcesJob.lambda$0(DownloadSourcesJob.java:161)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.executeBare(MavenExecutionContext.java:179)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.execute(MavenExecutionContext.java:153)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.execute(MavenExecutionContext.java:101)
+	at org.eclipse.m2e.core.internal.embedder.MavenImpl.execute(MavenImpl.java:1374)
+	at org.eclipse.m2e.jdt.internal.DownloadSourcesJob.run(DownloadSourcesJob.java:161)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2020-10-17 10:18:34,137 [Worker-19: Download sources and javadoc] ERROR o.e.m.j.internal.DownloadSourcesJob - Could not download sources for common.gateway:common-gateway-message:0.0.1-SNAPSHOT
+org.eclipse.core.runtime.CoreException: Could not resolve artifact common.gateway:common-gateway-message:jar:sources:0.0.1-SNAPSHOT
+	at org.eclipse.m2e.core.internal.embedder.MavenImpl.lambda$4(MavenImpl.java:804)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.executeBare(MavenExecutionContext.java:179)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.execute(MavenExecutionContext.java:114)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.execute(MavenExecutionContext.java:101)
+	at org.eclipse.m2e.core.internal.embedder.MavenImpl.resolve(MavenImpl.java:772)
+	at org.eclipse.m2e.core.internal.embedder.MavenImpl.resolve(MavenImpl.java:749)
+	at org.eclipse.m2e.jdt.internal.DownloadSourcesJob.download(DownloadSourcesJob.java:330)
+	at org.eclipse.m2e.jdt.internal.DownloadSourcesJob.downloadAttachments(DownloadSourcesJob.java:304)
+	at org.eclipse.m2e.jdt.internal.DownloadSourcesJob.downloadMaven(DownloadSourcesJob.java:269)
+	at org.eclipse.m2e.jdt.internal.DownloadSourcesJob.downloadFilesAndPopulateToUpdate(DownloadSourcesJob.java:233)
+	at org.eclipse.m2e.jdt.internal.DownloadSourcesJob.lambda$0(DownloadSourcesJob.java:161)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.executeBare(MavenExecutionContext.java:179)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.execute(MavenExecutionContext.java:153)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.execute(MavenExecutionContext.java:101)
+	at org.eclipse.m2e.core.internal.embedder.MavenImpl.execute(MavenImpl.java:1374)
+	at org.eclipse.m2e.jdt.internal.DownloadSourcesJob.run(DownloadSourcesJob.java:161)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2020-10-17 10:19:13,684 [Worker-21: Importing Maven projects] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: common.gateway:common-gateway-message:0.0.1-SNAPSHOT @ D:\bean\code\java\demo\common-gateway-message\pom.xml.
+2020-10-17 10:19:13,769 [Worker-21: Importing Maven projects] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.eclipse.m2e.jdt.JarLifecycleMapping lifecycle mapping for MavenProject: common.gateway:common-gateway-engine:0.0.1-SNAPSHOT @ D:\bean\code\java\demo\common-gateway-engine\pom.xml.
+2020-10-17 10:19:13,781 [Worker-21: Importing Maven projects] WARN  o.e.m.c.i.embedder.EclipseLogger - The POM for common.gateway:common-gateway-config:jar:0.0.1-SNAPSHOT is missing, no dependency information available
+2020-10-17 10:19:13,783 [Worker-21: Importing Maven projects] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/common-gateway-protocol: common.gateway:common-gateway-protocol:0.0.1-SNAPSHOT with classifier  to /common-gateway-protocol/target/classes
+2020-10-17 10:19:13,785 [Worker-21: Importing Maven projects] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/common-gateway-message: common.gateway:common-gateway-message:0.0.1-SNAPSHOT with classifier  to /common-gateway-message/target/classes
+2020-10-17 10:19:14,222 [Worker-21: Building] WARN  o.e.m.c.i.embedder.EclipseLogger - The POM for common.gateway:common-gateway-config:jar:0.0.1-SNAPSHOT is missing, no dependency information available
+2020-10-17 10:19:14,225 [Worker-21: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/common-gateway-protocol: common.gateway:common-gateway-protocol:0.0.1-SNAPSHOT with classifier  to /common-gateway-protocol/target/classes
+2020-10-17 10:19:14,226 [Worker-21: Building] INFO  o.e.m.c.i.p.WorkspaceClassifierResolverManager - Resolving P/common-gateway-message: common.gateway:common-gateway-message:0.0.1-SNAPSHOT with classifier  to /common-gateway-message/target/classes
+2020-10-17 10:19:14,922 [Worker-19: Download sources and javadoc] ERROR o.e.m.j.internal.DownloadSourcesJob - Could not download javadoc for common.gateway:common-gateway-config:0.0.1-SNAPSHOT
+org.eclipse.core.runtime.CoreException: Could not resolve artifact common.gateway:common-gateway-config:jar:javadoc:0.0.1-SNAPSHOT
+	at org.eclipse.m2e.core.internal.embedder.MavenImpl.lambda$4(MavenImpl.java:804)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.executeBare(MavenExecutionContext.java:179)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.execute(MavenExecutionContext.java:114)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.execute(MavenExecutionContext.java:101)
+	at org.eclipse.m2e.core.internal.embedder.MavenImpl.resolve(MavenImpl.java:772)
+	at org.eclipse.m2e.core.internal.embedder.MavenImpl.resolve(MavenImpl.java:749)
+	at org.eclipse.m2e.jdt.internal.DownloadSourcesJob.download(DownloadSourcesJob.java:330)
+	at org.eclipse.m2e.jdt.internal.DownloadSourcesJob.downloadAttachments(DownloadSourcesJob.java:316)
+	at org.eclipse.m2e.jdt.internal.DownloadSourcesJob.downloadMaven(DownloadSourcesJob.java:269)
+	at org.eclipse.m2e.jdt.internal.DownloadSourcesJob.downloadFilesAndPopulateToUpdate(DownloadSourcesJob.java:233)
+	at org.eclipse.m2e.jdt.internal.DownloadSourcesJob.lambda$0(DownloadSourcesJob.java:161)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.executeBare(MavenExecutionContext.java:179)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.execute(MavenExecutionContext.java:153)
+	at org.eclipse.m2e.core.internal.embedder.MavenExecutionContext.execute(MavenExecutionContext.java:101)
+	at org.eclipse.m2e.core.internal.embedder.MavenImpl.execute(MavenImpl.java:1374)
+	at org.eclipse.m2e.jdt.internal.DownloadSourcesJob.run(DownloadSourcesJob.java:161)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+2020-10-19 17:25:35,047 [Worker-5: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2020-10-19 17:25:45,258 [Worker-5: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Updating Gradle version information cache failed. Using outdated cache.
+2020-10-19 20:33:50,733 [Worker-6: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.

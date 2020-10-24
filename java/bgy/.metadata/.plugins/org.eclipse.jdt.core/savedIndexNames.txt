@@ -1,0 +1,2 @@
+INDEX VERSION 1.131+D:\bean\code\java\bgy\.metadata\.plugins\org.eclipse.jdt.core
+1495579115.index

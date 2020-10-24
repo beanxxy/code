@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <title>添加用户</title>
+	<#include "/index/lib.html"	encoding="utf-8" parse=true>
+  </head>
+  <body>
+	<#include "/index/include.html"		encoding="utf-8" parse=true>
+  	<div class="off-canvas-content">
+    	<div class="docs-content" id="content">
+        <h3 class="s-title">添加用户</h3>
+         <form action="./add" method="Post">
+
+		    <div class="form-group">
+		    	<label class="form-label" >用户</label>
+                <input class="form-input" value="${obj.name!}" name="name" type="text" placeholder="用户"/>
+		    </div>
+
+		    <div class="form-group">
+		    	<label class="form-label" >密码</label>
+                <input class="form-input" value="${obj.password!}" name="password" type="password" placeholder="密码"/>
+		    </div>
+
+            <input name="id" value="${obj.id!}" type="hidden"/>
+            <button class="btn">保存</button>		
+          </form> 
+   		 
+    	</div>
+    </div> 
+  </body>
+</html>

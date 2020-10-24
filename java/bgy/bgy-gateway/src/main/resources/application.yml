@@ -1,0 +1,83 @@
+server:
+  port: 8111 # 根据具体情况修改
+  servlet:
+    context-path: /bgy
+
+gateway:
+#  port: 9001 # 根据具体情况修改
+#  is-big-endian: true # 根据具体情况修改
+  ports: 9001,9002,9000,9004,9005,9006 # 根据具体情况修改(多个已","分割) mcu 9001  9005  plc 9002  9006   9004 机械臂  9000扫码
+  #ports: 9003,9004,9005 # 根据具体情况修改(多个已","分割)
+  #store-id: 1139133211865587714 # 根据具体情况修改
+  byte-orders: 1,0,1,1,1,0 # 根据具体情况修改(多个已","分割，大端取值为 1 小端取值为 0，数量必须与 ports 一致)(mcu 是大端, plc 是小端)
+  file-full-name: /prodata/web/back/dishFile/mcu/%s.bin # 根据具体情况修改
+  #file-full-name: /home/backqx/crt/dishFile/mcu/%s.bin # 根据具体情况修改
+  #file-full-name: D:\\prodata\\web\\back\\dishFile\\mcu\\%s.bin # 根据具体情况修改
+  is-warning-info-real-long: true # 根据具体情况修改(上报状态报警信息长度是不是 4 个字(true),兼容旧网关长度为 3 个字(false)的情况)
+  #store-type: hotpot # 根据具体情况修改(代码里没有用到，仅供标识用)
+  server-type: plc # 根据具体情况修改(代码里没有用到，仅供标识用)
+  restart-sleep-seconds: 30
+  is-read-short: true # 根据具体情况修改(根据遇到多个rfid 或是多个dishId情况 读单字(true)，读双字(false))
+  #version: 1 # 1 火锅  其他为2
+  device:
+    cron: '0 0/3 * * * ?'
+  heart-beat:
+    cron: '0/45 * * * * ? '
+
+
+spring:
+  profiles:
+    #active: ${spring.profiles.active} # 根据具体情况修改
+    active: chinesefood-test # 根据具体情况修改
+ 
+  datasource:
+    username: 用户名
+    password: 密码
+    url: 连接字符串
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  redis:
+    host: 地址
+    port: 端口
+    database: 数据库编号
+    password: 密码
+    timeout: 超时时间
+    jedis:
+      pool:
+        max-active: 最大活跃
+        max-wait: 最大等待
+        max-idle: 最大空闲
+        min-idle: 最小空闲
+
+  kafka:
+    inside:
+      bootstrap-servers: 地址端口
+      consumer:
+        group-id: 组
+        enable-auto-commit: 自动提交
+    outside:
+      bootstrap-servers: 地址端口
+      consumer:
+        group-id: 组
+        enable-auto-commit: 自动提交
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+
+#logging:
+  #file: log/${gateway.store-type}-${gateway.server-type}-${spring.profiles.active}.log
+ # file: log/${gateway.store-type}-${spring.profiles.active}.log
+  #level:
+   # ROOT: info
+#日志
+#logging:
+ # config: classpath:logback-spring-${spring.profiles.active}.xml
+
+#日志
+logging:
+ config: classpath:logback-spring-log.xml
+
+

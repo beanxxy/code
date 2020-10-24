@@ -1,0 +1,13 @@
+import gateway.core.mqtt.MyMqtt;
+
+public class mqtt {
+	public static void main(String arg[]) {
+		MyMqtt qt = new MyMqtt(); 
+		qt.sendMessage("xxx");
+		String[] arrstr = new String[] {
+				"test"
+		};
+		int[] arri = new int[] {0};
+		qt.subscribe(arrstr, arri);
+	}
+}

@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: bean
+Build-Jdk: 14.0.2
+Implementation-Title: alarm
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.alarm
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/alarm
+Created-By: Maven Integration for Eclipse
+

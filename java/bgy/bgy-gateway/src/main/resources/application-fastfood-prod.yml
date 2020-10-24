@@ -1,0 +1,53 @@
+gateway:
+  store-id: 1239863613804683265 # 根据具体情况修改
+  store-type: 1 # 根据具体情况修改(代码里没有用到，仅供标识用)  fastfood  1    hotpot  2   chinesefood   3
+  version: 2 # 1 简版中餐  其他为2
+spring:
+  datasource:
+    username: bzlfast
+    password: 88xfngSuZi#1luubwU2aY
+    url: jdbc:mysql://172.28.9.248:13306/bzl_fast?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false&serverTimezone=GMT%2b8
+
+  redis:
+    host: 172.28.9.248
+    port: 16379
+    database: 12
+    password: byw@#123Rqx
+    timeout: 10000
+    jedis:
+      pool:
+        max-active: 800
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+
+  kafka:
+    inside:
+      bootstrap-servers: 172.28.9.248:29092
+      consumer:
+        group-id: fastfood
+        enable-auto-commit: true
+    #outside:
+      #bootstrap-servers: 203.195.241.219:29092
+      #consumer:
+        #group-id: fastfood
+        #enable-auto-commit: true
+  mqtt:
+    dms:
+      username: prodemos
+      password: Asdfghjkl;#(2020)mqttprod
+      url: tcp://ems.bywrc.com:18830
+      producerClientId: dms-fastfood-producer-${gateway.store-id}
+      producerDefaultTopic: deviceStatus
+      consumerClientId: dms-fastfood-consumer-${gateway.store-id}
+      consumerDefaultTopic: device
+      completionTimeout: 20000
+      keepAliveInterval: 30
+      defaultQos: 1
+      willTopic: deviceOfflineNotify
+      wilData: '{"restaurantId" : "1239863613804683265","code":""}'
+      onlineTopic : deviceOnlineNotify
+
+#logging:
+ # level:
+  #  ROOT: info

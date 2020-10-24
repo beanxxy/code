@@ -1,0 +1,26 @@
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class bb {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Deque<String> deque = new LinkedList<String>();
+		rqueue.add("a");
+		rqueue.
+		rqueue.offer("a1");
+		rqueue.offer("a2");
+		rqueue.offer("a3");
+	
+		rqueue.offer("a4");
+		rqueue.offer("a5");
+		rqueue.offer("a6");
+		rqueue.offer("a7");
+		
+		while(rqueue.size()!=0) {
+			System.out.println(rqueue.poll()); 
+		}
+	}
+
+}

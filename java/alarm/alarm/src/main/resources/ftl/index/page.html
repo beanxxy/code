@@ -1,0 +1,18 @@
+
+        <ul class="pagination">
+         	  <li class="page-item  <#if page==1>disabled</#if>">
+              <a href="./${path!}?p=${1}&s=${s!10}&w=${w!}">首页</a>
+			  </li>
+			  <li class="page-item <#if page==1>disabled</#if>">
+              <a href="./${path!}?p=${page-1}&s=${s!10}&w=${w!}" tabindex="-1">上一页</a>
+			  </li> 
+		 	  <li class="page-item  ">
+		 	  	   <a href="#">${page!}/${count!}</a>
+			  </li>  
+			  <li class="page-item  <#if page==count>disabled</#if>">
+              <a href="./${path!}?p=${page+1}&s=${s!10}&w=${w!}">下一页</a>
+			  </li>
+			   <li class="page-item <#if page==count>disabled</#if>">
+               <a href="./${path!}?p=${count}&s=${s!10}&w=${w!}">尾页</a>
+			  </li>
+		 </ul>

@@ -1,0 +1,17 @@
+INDEX VERSION 1.131+D:\bean\code\java\test\plc\melsec-master\.metadata\.plugins\org.eclipse.jdt.core
+3013780983.index
+2928692225.index
+2839433657.index
+2630710516.index
+3008749341.index
+782029817.index
+3488356403.index
+2215388194.index
+1389661818.index
+571998329.index
+1144949949.index
+1495579115.index
+2468025503.index
+3360687605.index
+3834477761.index
+780891220.index
