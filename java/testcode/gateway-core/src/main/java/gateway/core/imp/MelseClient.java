@@ -11,8 +11,8 @@ import com.vsdata.melsec.client.MelsecClientConfig;
 import com.vsdata.melsec.client.MelsecTcpClient;
 
 import gateway.core.Client;
-import gateway.core.config.AddressConfig;
 import gateway.core.config.DataModel;
+import gateway.core.config.Ioinfo;
 import gateway.core.util.CRC16;
 import gateway.core.util.LittleByteUtil;
 import io.netty.buffer.ByteBuf;
@@ -22,7 +22,7 @@ public class MelseClient implements Client{
 	MelsecClientConfig config ;//= new MelsecClientConfig.Builder("172.28.12.8").setPort(8000).build();
     MelsecTcpClient client ;//= MelsecTcpClient.create3EBinary(config);
     static Map<String,Integer> maplength = new HashMap<String,Integer>(); 
-    public MelseClient(AddressConfig address) {
+    public MelseClient(Ioinfo address) {
     	maplength.put("short",1);
     	maplength.put("int",2);
     	maplength.put("float",2);
@@ -34,7 +34,7 @@ public class MelseClient implements Client{
     	client = MelsecTcpClient.create3EBinary(config);
     }
     
-	public static Client create(AddressConfig address) { 
+	public static Client create(Ioinfo address) { 
 		return new MelseClient(address);
 	}
 	/**
@@ -67,7 +67,7 @@ public class MelseClient implements Client{
 		return addr;
 	}
 	@Override
-	public CompletableFuture<String> batchRead(AddressConfig address) {
+	public CompletableFuture<String> batchRead(Ioinfo address) {
 		// TODO Auto-generated method stub
 		CompletableFuture<String> future = new CompletableFuture<>();  
 		String[] addr = address.dataAddr.split("-");
@@ -107,7 +107,7 @@ public class MelseClient implements Client{
 		
 		return future;
 	}
-	public void writeByModel(String data,AddressConfig address) {
+	public void writeByModel(String data,Ioinfo address) {
 		List<DataModel> ls= ClientTcp.datamap.get(address.dataModel);
 		//ls.ad)
 		if(ls!=null) {
@@ -130,7 +130,7 @@ public class MelseClient implements Client{
 		 
 	}
 	@Override
-	public CompletableFuture<Void> batchWrite(AddressConfig address, String data) {
+	public CompletableFuture<Void> batchWrite(Ioinfo address, String data) {
 		// TODO Auto-generated method stub
 		CompletableFuture<Void> future = new CompletableFuture<>();
 		String[] addr = address.dataAddr.split("-");
@@ -157,7 +157,7 @@ public class MelseClient implements Client{
 				if(data.equals("0")) dat.writeBoolean(false);
 				else dat.writeBoolean(true); 
 			}else {
-				AddressConfig addrs = new AddressConfig();
+				Ioinfo addrs = new Ioinfo();
 				addrs.dataAddr = addr[0];
 				addrs.dataModel = "short";
 				this.batchRead(addrs).thenAccept(s->{ 

@@ -6,4 +6,6 @@ public class Alert {
 	public String value;
 	public String massge;
 	public String deviceid;
+	public String code;
+	public String command;
 }

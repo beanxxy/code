@@ -14,7 +14,7 @@ redis:
 
 mqtt:
   host: tcp://emqdev.bgyfoodom.com:18830
-  tcpic1: test
+  tcpic1: devtask
   clientid: paho181700258583300
   username: emqdevback
   password: hLJ9sTXd1RImYqKeEzQF

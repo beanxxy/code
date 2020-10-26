@@ -1,5 +1,0 @@
-package gateway.core.model;
-
-public class HttpData {
-
-}

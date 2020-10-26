@@ -3,7 +3,6 @@ package gateway.core;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
-import gateway.core.config.AddressConfig;
 import gateway.core.config.ServerConfig;
 import gateway.core.model.HttpData;
 

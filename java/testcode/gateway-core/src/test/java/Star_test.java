@@ -79,7 +79,7 @@ public class Star_test {
 				} 
 				ClientTcp cp = new ClientTcp();
 				//System.out.println(type);
-				//System.out.println(devid);
+				//System.out.println(devid);00
 				//System.out.println(type); 
 				
 				for(AddressConfig ac : ls) {

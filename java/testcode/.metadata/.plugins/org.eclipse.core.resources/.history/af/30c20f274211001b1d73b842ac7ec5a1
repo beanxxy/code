@@ -1,9 +1,0 @@
-package gateway.core.mapper;
-
-public class DevAddress {
-	public int id;
-	public String ip;
-	public int port;
-	public String protocal;
-	public String dataAddr;
-}

@@ -1,0 +1,22 @@
+package gateway.core.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
+
+import gateway.core.config.Function; 
+
+public interface FunctionMapper {
+	@Select("select * from function where state=1")
+	public List<Function> getList();
+	@Select("select * from function where deviceId = #{deviceId} and code = #{code} and devtype = #{type}")
+	public List<Function> getAddrFun(
+		@Param("deviceId") String deviceId,
+		@Param("type") String type,
+		@Param("code") String code); 
+	@Select("select * from function where code = #{code} and devtype = #{type}")
+	public List<Function> getAddrFunByType(
+		@Param("type") String type,
+		@Param("code") String code); 
+}

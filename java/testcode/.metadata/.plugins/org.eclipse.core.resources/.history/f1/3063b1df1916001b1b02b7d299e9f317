@@ -1,0 +1,58 @@
+import java.io.IOException;
+import java.util.List;
+
+import gateway.core.config.ServerConfig;
+import gateway.core.mapper.AlertData;
+import gateway.core.mapper.DevData;
+import gateway.core.mapper.DevServer;
+import gateway.core.mapper.FunctionMapper;
+import gateway.core.mapper.IoinfoMapper;
+import gateway.core.mybatis.MySql;
+import waste.AddressConfig;
+import waste.DevAddress; 
+
+ 
+
+public class Mysqlc{
+	public static void main(String[] args) throws IOException {
+
+		AlertData.java
+		DevData.java
+		DevServer.java
+		FunctionMapper.java
+		IoinfoMapper.java
+		
+		
+		Alert.java
+		DataModel.java
+		Function.java
+		Ioinfo.java
+		ServerConfig.java
+		
+		
+		
+		AlertData alertData = MySql.session.getMapper(AlertData.class);
+		DevData devData = MySql.session.getMapper(DevData.class);
+		DevServer devServer = MySql.session.getMapper(DevServer.class);
+		FunctionMapper functionMapper = MySql.session.getMapper(FunctionMapper.class);
+		IoinfoMapper ioinfoMapper = MySql.session.getMapper(IoinfoMapper.class);
+		
+		
+		List<AddressConfig> ls = devaddr.getAddr();
+		for(AddressConfig ac : ls) { 
+			System.out.println(ac.dataAddr);
+			System.out.println(ac.ip);
+			System.out.println(ac.dataAddr); 
+		}
+		
+		DevServer server = MySql.session.getMapper(DevServer.class);
+		
+		List<ServerConfig> sc = server.getServer();
+		for(ServerConfig cg : sc) { 
+			System.out.println(cg.dataAddr);
+			System.out.println(cg.id); 
+		}
+		
+	}
+	
+}

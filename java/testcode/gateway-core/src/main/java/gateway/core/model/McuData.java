@@ -2,17 +2,17 @@ package gateway.core.model;
 
 import java.util.concurrent.CompletableFuture;
 
-import gateway.core.config.AddressConfig;
+import gateway.core.config.Ioinfo;
 
 public class McuData {
 	public CompletableFuture<String> future;
-	public AddressConfig address;
+	public Ioinfo address;
 	public String wdata;
-	public McuData(CompletableFuture<String> f,AddressConfig as) {
+	public McuData(CompletableFuture<String> f,Ioinfo as) {
 		this.address = as;
 		this.future = f;
 	}
-	public McuData(CompletableFuture<String> f,AddressConfig as,String w) {
+	public McuData(CompletableFuture<String> f,Ioinfo as,String w) {
 		this.address = as;
 		this.future = f;
 		this.wdata = w;

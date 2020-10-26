@@ -1,7 +1,7 @@
 package gateway.core; 
 import java.util.concurrent.CompletableFuture;
 
-import gateway.core.config.AddressConfig;  
+import gateway.core.config.Ioinfo;  
 /**
  * @author bean
  * 2020��10��15��
@@ -13,7 +13,7 @@ public interface Client {
 	 * @param address
 	 * @return
 	 */
-	public static Client create(AddressConfig address) {
+	public static Client create(Ioinfo address) {
 		return null;
 	}
 	
@@ -23,7 +23,7 @@ public interface Client {
      * @param address ��Ԫ����ַ
      * @return ���Future
      */
-    CompletableFuture<String> batchRead(AddressConfig address);
+    CompletableFuture<String> batchRead(Ioinfo address);
 
     /**
      * ����д��
@@ -33,5 +33,5 @@ public interface Client {
      * ByteBuf data
      * @return ���Future
      */
-    CompletableFuture<Void> batchWrite(AddressConfig address, String data);
+    CompletableFuture<Void> batchWrite(Ioinfo address, String data);
 }

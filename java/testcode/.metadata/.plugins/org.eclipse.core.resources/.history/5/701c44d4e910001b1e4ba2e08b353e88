@@ -1,8 +1,0 @@
-package gateway.core.config;
-
-public class ServerConfig {
-	public String port;
-	public String dataAddr;
-	
-	//public String 
-}

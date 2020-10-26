@@ -1,5 +1,0 @@
-package gateway.core.mybatis;
-
-public class Mysql {
-
-}

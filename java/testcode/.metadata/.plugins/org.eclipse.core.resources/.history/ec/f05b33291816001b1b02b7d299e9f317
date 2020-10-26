@@ -1,0 +1,13 @@
+package gateway.core.mapper;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Select;
+
+import gateway.core.config.Alert;
+import gateway.core.config.Function;
+
+public interface FunctionMapper {
+	@Select("select * from function")
+	public List<Function> getList();
+}

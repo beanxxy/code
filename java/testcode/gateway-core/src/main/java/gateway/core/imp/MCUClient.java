@@ -14,8 +14,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import gateway.core.Client;
-import gateway.core.config.AddressConfig;
 import gateway.core.config.DataModel;
+import gateway.core.config.Ioinfo;
 import gateway.core.model.McuData;
 import gateway.core.util.CRC16;
 import gateway.core.util.LittleByteUtil;
@@ -76,7 +76,7 @@ public class MCUClient implements Client{
 		}
 		return r;
 	}
-	public static String decode(AddressConfig address,byte[] bt) { 
+	public static String decode(Ioinfo address,byte[] bt) { 
 		return decode(address.dataAddr,address.dataModel,bt);
 	}
 	//public static Map<String,List>
@@ -107,7 +107,7 @@ public class MCUClient implements Client{
 		if(queue.size()!=0) {
 			McuData md = queue.poll();
 			CompletableFuture<String> future = md.future;
-			AddressConfig address = md.address; 
+			Ioinfo address = md.address; 
 			String[] addr = address.dataAddr.split("-"); 
 			byte[] bt = Udp.send(address.ip, address.port, addr[0],""); 
 			if(bt==null) { 
@@ -136,7 +136,7 @@ public class MCUClient implements Client{
 	}
 	
 	@Override
-	public CompletableFuture<String> batchRead(AddressConfig address) { 
+	public CompletableFuture<String> batchRead(Ioinfo address) { 
 		// TODO Auto-generated method stub
 		CompletableFuture<String> future = new CompletableFuture<>(); 
 		if(rqueue.size()>MAX)rqueue.poll();
@@ -211,7 +211,7 @@ public class MCUClient implements Client{
 	}
 
 	@Override
-	public CompletableFuture<Void> batchWrite(AddressConfig address, String data) {
+	public CompletableFuture<Void> batchWrite(Ioinfo address, String data) {
 		// TODO Auto-generated method stub
 		CompletableFuture<String> future = new CompletableFuture<>(); 
 		if(wqueue.size()>MAX)wqueue.poll();

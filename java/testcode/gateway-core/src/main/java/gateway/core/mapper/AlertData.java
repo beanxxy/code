@@ -7,6 +7,6 @@ import org.apache.ibatis.annotations.Select;
 import gateway.core.config.Alert;
 
 public interface AlertData {
-	@Select("select * from alert")
+	@Select("select * from alert where state=1")
 	public List<Alert> getList();
 }

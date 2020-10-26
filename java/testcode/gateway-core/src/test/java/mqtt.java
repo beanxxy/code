@@ -21,13 +21,18 @@ public class mqtt {
             @Override
             public void messageArrived(String arg0, MqttMessage arg1) throws Exception {
                 // TODO 自动生成的方法存根
-                System.out.println(  " messageArrived: " + arg1.toString());
+            	String msg = new String(arg1.getPayload());
+                System.out.println(arg0+  " messageArrived: " + msg+"xx"+ arg1.getId());
+                arg1.clearPayload();
+                
+                //qt.u
+                //qt.unsubscribe(arg0);
             }
         },false); 
-		qt.sendMessage("xxx");
+		//qt.sendMessage("xxx");
 		String[] arrstr = new String[] { "test" };
 		int[] arri = new int[] {0};
-		qt.subscribe(arrstr, arri);
-		qt.sendMessage("xxxttccf000");
+		qt.subscribe(arrstr, arri); 
+		qt.sendMessage("test1","12312312");
 	}
 }

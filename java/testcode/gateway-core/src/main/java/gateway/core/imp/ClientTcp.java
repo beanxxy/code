@@ -7,8 +7,8 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import gateway.core.Client;
-import gateway.core.config.AddressConfig;
 import gateway.core.config.DataModel;
+import gateway.core.config.Ioinfo;
 import gateway.core.mapper.DevData;
 import gateway.core.mybatis.MySql;
 
@@ -37,11 +37,11 @@ public class ClientTcp implements Client{
 	 * @param address
 	 * @return
 	 */
-	public static String getKey(AddressConfig address) {
+	public static String getKey(Ioinfo address) {
 		return address.protocal+address.ip+address.port;
 	}
 	@Override
-	public CompletableFuture<String> batchRead(AddressConfig address) {  
+	public CompletableFuture<String> batchRead(Ioinfo address) {  
 		Client clt = clients.get(getKey(address));
 		if(clt==null) {
 			clt = ClientTcp.create(address);
@@ -50,7 +50,7 @@ public class ClientTcp implements Client{
 	}
 
 	@Override
-	public CompletableFuture<Void> batchWrite(AddressConfig address, String data) { 
+	public CompletableFuture<Void> batchWrite(Ioinfo address, String data) { 
 		Client clt = clients.get(getKey(address));
 		if(clt==null) {
 			clt = ClientTcp.create(address);
@@ -58,7 +58,7 @@ public class ClientTcp implements Client{
 		return clt.batchWrite(address, data);
 	}
 
-	public static Client create(AddressConfig address) {
+	public static Client create(Ioinfo address) {
 		// TODO Auto-generated method stub
 		Client client = null;
 		switch (address.protocal) {
