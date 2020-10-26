@@ -1,0 +1,24 @@
+package gateway.core.mqtt;
+
+public class Result {
+	/**
+	 * 
+	 */
+	public Long storeId;
+	/**
+	 * 
+	 */
+	public String id;
+	/**
+	 * 命令Id
+	 */
+	public Long cmdId;
+	/**
+	 * 
+	 */
+	public String message;
+	/**
+	 * 点检结果
+	 */
+	public int checkResult;	
+}

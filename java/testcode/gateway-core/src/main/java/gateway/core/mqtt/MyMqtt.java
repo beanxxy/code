@@ -95,18 +95,22 @@ public class MyMqtt {
     
     public void sendMessage(String topic, String msg){
         try {
-            message = new MqttMessage();
+            message = new MqttMessage(); 
             message.setQos(0);
-            message.setRetained(true);
-            message.setPayload(msg.getBytes());
-            mqttTopic = client.getTopic(topic);
-            MqttDeliveryToken token = mqttTopic.publish(message);//发布主题
-            token.waitForCompletion();
+            message.setRetained(false); 
+            message.setPayload(msg.getBytes()); 
+            mqttTopic = client.getTopic(topic); 
+            mqttTopic.publish(message);
+           // MqttDeliveryToken token = mqttTopic.publish(message);//发布主题
+           // token.waitForCompletion(1000);
+            
         } catch (MqttPersistenceException e) {
             // TODO 自动生成的 catch 块
+        	System.out.println("sss");
             e.printStackTrace();
         } catch (MqttException e) {
             // TODO 自动生成的 catch 块
+        	System.out.println("sss1");
             e.printStackTrace();
         }
     }

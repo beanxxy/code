@@ -1,5 +1,0 @@
-package gateway.core.mqtt;
-
-public class MyMqtt {
-
-}

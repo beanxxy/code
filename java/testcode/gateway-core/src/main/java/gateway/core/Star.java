@@ -22,7 +22,9 @@ import gateway.core.imp.ClientTcp;
 import gateway.core.mapper.AlertData;
 import gateway.core.mapper.FunctionMapper;
 import gateway.core.mapper.IoinfoMapper;
+import gateway.core.mqtt.Cmd;
 import gateway.core.mqtt.MyMqtt;
+import gateway.core.mqtt.Result;
 import gateway.core.mybatis.MySql;
 import gateway.core.util.Tool;
 
@@ -30,7 +32,7 @@ public class Star {
 	public static Map<String,String> takes = new HashMap<String,String>();
 	public static Map<String,String> db = new HashMap<String,String>(); 
 	public static Map<String,Alert> alertdb = new HashMap<String,Alert>();
-	public static String STOREID = "1239863613804683265";
+	public static String STOREID = "59905";
 	public static MyMqtt mqtt = null;
 	public static ClientTcp cp = new ClientTcp();
 	public static Gson gson = new Gson();
@@ -63,31 +65,25 @@ public class Star {
 		mqtt= new MyMqtt(new MqttCallback() { 
             public void messageArrived(String arg0, MqttMessage arg1) throws Exception {
                 // TODO 自动生成的方法存根
-            	System.out.println(arg1);
+            	System.out.println(arg0);
             	try {
-	            	if(arg0.equals("devtask")) {
-	            		
+            		if(arg0.equals("deviceCmd_59905")) { 
 	            		String msg = new String(arg1.getPayload());
-	            		Map map  = gson.fromJson(msg, Map.class);
-	            		String storeid 	= map.get("storeId")+"";
-	            		String id	   	= map.get("id")+"";
-	            		String name	   	= map.get("name")+"";
-	            		String type	   	= map.get("type")+"";
-	            		String funid   	= map.get("funid")+"";
-	            		String data	   	= map.get("data")+""; 
-	            		String missionId= map.get("missionId")+"";  
-	            		System.out.println(map);
-	            		if(storeid!=null&&storeid.equals(STOREID)
-	            			&&funid!=null
+	            		Cmd cmd  = gson.fromJson(msg, Cmd.class); 
+	            		String id	   	= cmd.id; 
+	            		int type	   	= cmd.type; 
+	            		String funid   	= cmd.cmd+"";
+	            		String data	   	= cmd.cmdParam; 
+	            		Long missionId	= cmd.cmdId;  
+	            		if( 
+	            			funid!=null
 	            			&&id!=null
-	            			&&type!=null
+	            			&&type!=0
 	            			&&data!=null
-	            			&&missionId!=null) {
-	            			System.out.println(map);
-	            			funs(funid, id, type, data,missionId);
-	            		}
-	            		//System.out.println(storeid);
-	            	} 
+	            			&&missionId!=null) { 
+	            			funs(funid+"", id+"", type+"", data+"",missionId+"");
+	            		} 
+            		}
             	}catch (Throwable t) {
 					//System.out.println("Error");
 				}
@@ -107,7 +103,7 @@ public class Star {
         },false); 
 		//System.out.println("xx");
 		
-		 String[] arrstr = new String[] { "devtask" };
+		 String[] arrstr = new String[] { "deviceCmd_"+STOREID };
 		 int[] arri = new int[] {0};
 		 mqtt.subscribe(arrstr, arri); 
 	}
@@ -139,17 +135,26 @@ public class Star {
 	 */
 	public boolean task(Ioinfo io,String value,Alert at) {
 		String comm = takes.get(io.deviceid+io.dataAddr)+"";
-		if(comm!=null) {
+		if(comm!=null||!comm.equals("null")) {
 			if(at!=null) { 
-				Map<String,String> tmp = new HashMap();
-				tmp.put("storeId", STOREID);
-				tmp.put("id", io.deviceid);
-				tmp.put("name", io.estimateName);
-				tmp.put("type", io.type);
-				tmp.put("data", at.massge);
-				tmp.put("funid", at.code);
-				tmp.put("missionId",comm); 
-				mqtt.sendMessage("taskans", gson.toJson(tmp));
+//				Map<String,String> tmp = new HashMap();
+//				tmp.put("storeId", STOREID);
+//				tmp.put("id", io.deviceid);
+//				//tmp.put("name", io.estimateName);
+//				//tmp.put("type", io.type);
+//				//tmp.put("cmdId", "2");
+//				tmp.put("message", at.massge);
+//				//tmp.put("cmdId", at.code);
+//				tmp.put("cmdId",comm); 
+//				tmp.put("checkResult","1"); 
+				Result r = new Result();
+				r.id = io.deviceid;
+				r.checkResult = 1;
+				System.out.println(comm);
+				r.cmdId = Long.parseLong(comm);
+				r.storeId = Long.parseLong(STOREID);
+				r.message = at.massge;				
+				mqtt.sendMessage("deviceCmdExcResult", gson.toJson(r));
 				if(at.command.equals("over")) { 
 					takes.remove(io.deviceid+io.dataAddr);
 				}
@@ -274,6 +279,7 @@ public class Star {
 		},1000, 1000, TimeUnit.MILLISECONDS); 
 		
 		
+		/*
 		Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(()->{   
 			//发送mqtt
 			try { 
@@ -298,7 +304,7 @@ public class Star {
 				//System.out.println("Error");
 			} 
 		},1000, 1000, TimeUnit.MILLISECONDS);
-		
+		*/
 		
 		
 		

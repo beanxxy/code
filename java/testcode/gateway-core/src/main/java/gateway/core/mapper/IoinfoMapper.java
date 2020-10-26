@@ -7,6 +7,6 @@ import org.apache.ibatis.annotations.Select;
 import gateway.core.config.Ioinfo;
 
 public interface IoinfoMapper {
-	@Select("select * from Ioinfo where state=1")
+	@Select("select * from gw_Ioinfo where state=1")
 	public List<Ioinfo> getList();
 }

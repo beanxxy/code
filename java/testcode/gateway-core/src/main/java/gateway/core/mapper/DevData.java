@@ -7,6 +7,6 @@ import org.apache.ibatis.annotations.Select;
 import gateway.core.config.DataModel;
 
 public interface DevData {
-	@Select("select * from datamodel")
+	@Select("select * from gw_datamodel")
 	public List<DataModel> getModel();
 }

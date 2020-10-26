@@ -7,6 +7,6 @@ import org.apache.ibatis.annotations.Select;
 import gateway.core.config.ServerConfig;
 
 public interface DevServer {
-	@Select("select * from serverconfig where state=1")
+	@Select("select * from gw_serverconfig where state=1")
 	public List<ServerConfig> getServer(); 
 }

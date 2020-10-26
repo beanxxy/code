@@ -8,6 +8,7 @@
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="devtask"/>
 			<item value="test"/>
 			<item value="system.out.print"/>
 			<item value="system.our.print"/>

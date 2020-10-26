@@ -1,0 +1,9 @@
+package gateway.core.mqtt;
+
+public class Cmd {
+	public String id;
+	public int type;
+	public int cmd;
+	public String  cmdParam;
+	public Long cmdId;
+}
