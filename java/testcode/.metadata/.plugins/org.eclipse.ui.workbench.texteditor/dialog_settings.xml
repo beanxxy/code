@@ -1,34 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="selection" value=""/>
+		<item key="selection" value="mapResult"/>
 		<item key="wrap" value="true"/>
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="incremental" value="false"/>
 		<item key="isRegEx" value="false"/>
 		<list key="findhistory">
+			<item value="mapResult"/>
+			<item value="takesTime"/>
+			<item value="takes"/>
+			<item value="addr.deviceid+listens[i]"/>
+			<item value="2021冷柜点检13822237248"/>
+			<item value="isout"/>
+			<item value="at"/>
+			<item value="task"/>
+			<item value="mqtt"/>
+			<item value="pop"/>
+			<item value="MySql"/>
+			<item value="batchWrite"/>
 			<item value="devtask"/>
 			<item value="test"/>
 			<item value="system.out.print"/>
-			<item value="system.our.print"/>
-			<item value="takes"/>
-			<item value="cp"/>
-			<item value="maplength"/>
-			<item value="instance"/>
-			<item value="Config.get()"/>
-			<item value="172.28.12.6"/>
-			<item value="lpush"/>
-			<item value=" jedis1.lpush"/>
-			<item value="ac.deviceId+"/>
-			<item value="devaddr"/>
 		</list>
 		<list key="replacehistory">
+			<item value=""/>
 		</list>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item key="DIALOG_X_ORIGIN" value="1293"/>
-		<item key="DIALOG_Y_ORIGIN" value="197"/>
+		<item key="DIALOG_X_ORIGIN" value="1542"/>
+		<item key="DIALOG_Y_ORIGIN" value="281"/>
 		<item key="DIALOG_WIDTH" value="356"/>
 		<item key="DIALOG_HEIGHT" value="528"/>
 		<item key="DIALOG_FONT_NAME" value="1|Microsoft YaHei UI|9.0|0|WINDOWS|1|-15|0|0|0|400|0|0|0|1|0|0|0|0|Microsoft YaHei UI"/>

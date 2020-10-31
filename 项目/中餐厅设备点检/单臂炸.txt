@@ -17,9 +17,9 @@ D2222.1
 
 
 {
-	"id":"1223",
-	"type":1233,
-	"cmd":"1232",
-	"cmdId":123123,
-	"cmdParam":"fffsasdfas"
+	"id":"1000",
+	"type":1000,
+	"cmd":"2",
+	"cmdId":123,
+	"cmdParam":"1"
 }

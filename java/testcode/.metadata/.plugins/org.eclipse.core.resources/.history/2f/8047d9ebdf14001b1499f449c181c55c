@@ -1,6 +1,0 @@
-
-public class mqtt {
-	public static void main(String arg[]) {
-		System.out.println("xx");
-	}
-}

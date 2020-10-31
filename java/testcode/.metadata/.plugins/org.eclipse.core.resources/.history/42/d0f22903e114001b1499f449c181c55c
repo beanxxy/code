@@ -1,9 +1,0 @@
-import gateway.core.mqtt.MyMqtt;
-
-public class mqtt {
-	public static void main(String arg[]) {
-		MyMqtt qt = new MyMqtt();
-		qt.init();
-		
-	}
-}
