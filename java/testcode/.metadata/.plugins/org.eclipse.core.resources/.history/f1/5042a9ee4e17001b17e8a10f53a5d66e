@@ -1,9 +1,0 @@
-package gateway.core.mqtt;
-
-public class Result {
-	public Long storeId;
-	public String id;
-	public Long cmdId;
-	public String message;
-	public int checkResult;	
-}

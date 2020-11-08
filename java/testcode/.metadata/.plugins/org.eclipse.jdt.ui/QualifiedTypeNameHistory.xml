@@ -58,6 +58,6 @@
     <fullyQualifiedTypeName name="gateway.core.redis.Config"/>
     <fullyQualifiedTypeName name="gateway.core.mqtt.Cmd"/>
     <fullyQualifiedTypeName name="gateway.core.mqtt.Result"/>
-    <fullyQualifiedTypeName name="gateway.core.config.Ioinfo"/>
     <fullyQualifiedTypeName name="java.util.Map.Entry"/>
+    <fullyQualifiedTypeName name="gateway.core.config.Ioinfo"/>
 </qualifiedTypeNameHistroy>

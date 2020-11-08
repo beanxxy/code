@@ -2,10 +2,10 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-	<settings>
-        <!-- 打印查询语句 -->
+	<!--<settings>
+         打印查询语句 
         <setting name="logImpl" value="STDOUT_LOGGING" />
-    </settings>
+    </settings>-->
     <typeAliases> 
         <typeAlias alias="ServerConfig" type="gateway.core.config.ServerConfig"/> 
         <typeAlias alias="DataModel" type="gateway.core.config.DataModel"/>  

@@ -199,10 +199,10 @@ public class MelseClient implements Client{
 		}
 		//System.out.println(CRC16.bytesToHex(dat.array()));
 	   //System.out.println("l"+maplength.get(address.dataModel));
-		System.out.println("wr"+addr[0]+"-"+maplength.get(address.dataModel)+"-"+data);
+		//System.out.println("wr"+addr[0]+"-"+maplength.get(address.dataModel)+"-"+data);
        client.batchWrite(convertAddr(addr[0]), maplength.get(address.dataModel), dat) 
         .thenAccept(response -> { 
-        	System.out.println(addr[0]+"-"+maplength.get(address.dataModel)+"-"+data);
+        	//System.out.println(addr[0]+"-"+maplength.get(address.dataModel)+"-"+data);
         	future.complete(null);
         }); 
 		return future;

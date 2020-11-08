@@ -18,9 +18,15 @@ redis:
   key: 
 
 mqtt:
-  host: tcp://emqdev.bgyfoodom.com:18830
+  host: tcp://ems.bywrc.com:18830
   tcpic1: deviceCmd_59905
   clientid: paho181700258583300
-  username: emqdevback
-  password: hLJ9sTXd1RImYqKeEzQF
+  username: prodemos
+  password: Asdfghjkl;#(2020)mqttprod
+  
+  #host: tcp://emqdev.bgyfoodom.com:18830
+  #tcpic1: deviceCmd_59905
+  #clientid: paho181700258583300
+  #username: emqdevback
+  #password: hLJ9sTXd1RImYqKeEzQF
   

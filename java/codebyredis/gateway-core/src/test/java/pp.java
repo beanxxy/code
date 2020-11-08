@@ -29,11 +29,11 @@ public class pp {
 		map.put("head", "2");
 		map.put("qt1", "0");
 		map.put("qt2", "0");
-		map.put("id", "1");
+		map.put("id", "2");
 		map.put("time", "5");
 		map.put("temp","4");
 		map.put("taskid","6");
-		map.put("basket", "4");
+		map.put("basket", "2");
 		Gson gson = new Gson();
 		String st =  gson.toJson(map);
 		cp.batchWrite(address,st).thenAccept(c->{ 

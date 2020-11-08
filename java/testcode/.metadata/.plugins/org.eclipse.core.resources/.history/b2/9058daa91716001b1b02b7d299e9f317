@@ -1,5 +1,0 @@
-package gateway.core.mapper;
-
-public interface FunctionMapper {
-
-}

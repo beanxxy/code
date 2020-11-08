@@ -50,7 +50,9 @@ public class Star {
 		 star.init();
 		 //======================
 		 star.monitor(); //变量监控
+		 System.out.println(new Date().toGMTString()+":start");
 	}
+	
 	
 	/**
 	 * 
@@ -73,8 +75,8 @@ public class Star {
             	System.out.println(arg0);
             	try {
             		if(arg0.equals("deviceCmd_59905")) { 
-	            		String msg = new String(arg1.getPayload());
-	            		Cmd cmd  = gson.fromJson(msg, Cmd.class); 
+	            		String msg 		= new String(arg1.getPayload());
+	            		Cmd cmd  		= gson.fromJson(msg, Cmd.class); 
 	            		String id	   	= cmd.id; 
 	            		int type	   	= cmd.type; 
 	            		String funid   	= cmd.cmd+"";
@@ -121,9 +123,9 @@ public class Star {
 		 String alertkey = io.deviceid+io.dataAddr+value;
 		 
 		 if(alertdb.get(alertkey)!=null) {//触发报警
-			 System.out.println("alert :" +alertkey);
+			// System.out.println("alert :" +alertkey);
 			 Alert at = alertdb.get(alertkey); 
-			 System.out.println("alert====:" +alertkey);
+			// System.out.println("alert====:" +alertkey);
 			 if(task(io,value,at)) { //是否是执行反馈
 //				 Map<String,String> alertmassg = new HashMap();
 //				 alertmassg.put("storeId", STOREID);
@@ -140,14 +142,14 @@ public class Star {
 	public void checkTime() {
 		//mapResult
 		if(takesTime.keySet().size()!=0)
-		System.out.println("超时检查!"+takesTime.keySet().size());
+		//System.out.println("超时检查!"+takesTime.keySet().size());
 		for(String str:takesTime.keySet()) {
 			Long lg = new Date().getTime() - takesTime.get(str);
-			System.out.println("时间"+lg);
-			if((lg/1000/60) > 7) {
+			//System.out.println("时间"+lg);
+			if((lg/1000/60) > 1) {
 				
 				mqtt.sendMessage("deviceCmdExcResult", gson.toJson(mapResult.get(str)));
-				System.out.println("超时:"+gson.toJson(mapResult.get(str)));
+				//System.out.println("超时:"+gson.toJson(mapResult.get(str)));
 				takesTime.remove(str);//超时
 				mapResult.remove(str);
 				//takes.remove(str);
@@ -161,9 +163,9 @@ public class Star {
 	 * @return 
 	 */
 	public boolean task(Ioinfo io,String value,Alert at) {
-		System.out.println("xxf:"+io.deviceid+io.dataAddr);
+		//System.out.println("xxf:"+io.deviceid+io.dataAddr);
 		String comm = takes.get(io.deviceid+io.dataAddr)+"";
-		System.out.println("taskid:"+comm); 
+		//System.out.println("taskid:"+comm); 
 		if(comm!=null && (!comm.equals("null")) ) {
 			if(at!=null) {  
 				Result r = new Result();
@@ -220,21 +222,33 @@ public class Star {
 			addr.deviceid = fun.deviceid;
 			addr.port = fun.port;
 			addr.protocal = fun.protocal;
-			System.out.println("send : "+addr+":"+data);
+			//System.out.println("send : "+addr+":"+data);
 			cp.batchWrite(addr, data);
 			String[] listens = fun.listenaddr.split(",");
 			
 			for(int i=0;i < listens.length;i++) {
-				System.out.println(addr.deviceid+listens[i]+" xx "+missionId);
-				takes.put(addr.deviceid+listens[i], missionId); 
-				takesTime.put(addr.deviceid+listens[i], new Date().getTime());//超时 
-				Result r = new Result();
-				r.id = addr.deviceid;
-				r.checkResult = 0; 
-				r.cmdId = Long.parseLong(missionId);
-				r.storeId = Long.parseLong(STOREID);
-				r.message = "超时";	
-				mapResult.put(addr.deviceid+listens[i], r);
+				//System.out.println(addr.deviceid+listens[i]+" xx "+missionId);
+				String comm = takes.get(addr.deviceid+listens[i])+"";
+				if(comm!=null && (!comm.equals("null")) ) {
+					Result r = new Result();
+					r.id = "0";
+					r.checkResult 	= 0; 
+					r.cmdId   		= Long.parseLong(missionId);
+					r.storeId 		= Long.parseLong(STOREID);
+					r.message 		= "不能重复执行!";
+					mqtt.sendMessage("deviceCmdExcResult", gson.toJson(r));
+				}else {
+					takes.put(addr.deviceid+listens[i], missionId); 
+					takesTime.put(addr.deviceid+listens[i], new Date().getTime());//超时 
+					Result r 		= new Result();
+					r.id 			= addr.deviceid;
+					r.checkResult 	= 0; 
+					r.cmdId 		= Long.parseLong(missionId);
+					r.storeId 		= Long.parseLong(STOREID);
+					r.message 		= "超时";	 
+					mapResult.put(addr.deviceid+listens[i], r);
+				} 
+				
 			} 
 		}
 		if(functions.size()==0) {
@@ -279,13 +293,13 @@ public class Star {
 						 if((db.get(dbkey)+"").equals(s)) {
 							 
 						 }else {//变量变换
-							System.out.println("变了"+dbkey+":"+s); 
+							//System.out.println("变了"+dbkey+":"+s); 
 							db.put(dbkey,s);
 							String divid = ac.deviceid;
 							String name  = ac.parentName;
 							String partId = Tool.StringToId(name).substring(32);
 							String key = divid+name+partId; 
-							System.out.println("andkey : == "+key);
+							//System.out.println("andkey : == "+key);
 							isout.put(key, "1");  
 							//报警监控
 							alert(ac,s);
@@ -303,7 +317,9 @@ public class Star {
 					//System.out.println("Error");
 				} 
 			}
-			checkTime();//超时检查
+			try {
+				checkTime();//超时检查
+			}catch(Throwable t) {}
 		},1000, 4000, TimeUnit.MILLISECONDS); 
 		
 		/*	Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(()->{   

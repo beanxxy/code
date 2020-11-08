@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.vsdata.melsec.client.MelsecClientConfig;
 import com.vsdata.melsec.client.MelsecTcpClient;
 
@@ -111,7 +112,7 @@ public class MelseClient implements Client{
 		List<DataModel> ls= ClientTcp.datamap.get(address.dataModel);
 		//ls.ad)
 		if(ls!=null) {
-			Map<String,String> map = new Gson().fromJson(data, Map.class);
+			Map<String,String> map = new Gson().fromJson(data,new TypeToken<Map<String,String>>(){}.getType());
 			Collections.sort(ls,new Comparator<DataModel>() { public int compare(DataModel o1, DataModel o2) { 
 					if(o1.index > o2.index) { return 1;
 					}else if(o1.index < o2.index) { return -1;
@@ -120,7 +121,9 @@ public class MelseClient implements Client{
 			});
 			int length = 0; 
 			for(DataModel dm : ls) {
-				String value = map.get(dm.name);  
+				//System.out.println(dm.name);
+				//System.out.println(map.get(dm.name+"").toString()+"");
+				String value = map.get(dm.name+"").toString()+"";  
 				address.dataModel = dm.datatype;
 				address.dataAddr = address.dataAddr.charAt(0)+""+(Integer.parseInt(address.dataAddr.substring(1))+length);
 				length = (dm.length/2); 
@@ -137,7 +140,8 @@ public class MelseClient implements Client{
 		ByteBuf dat = null;//Unpooled.copiedBuffer("".getBytes());
         int length = 0;
         byte[] bt; 
-        //System.out.println(data);
+        System.out.println(data);
+        int tmp = 0;
 		switch (address.dataModel) {
 		case "bit":
 			//if
@@ -195,17 +199,22 @@ public class MelseClient implements Client{
 			break;  
 		default :
 			writeByModel(data,address);  
-			
+			tmp=1;
 		}
 		//System.out.println(CRC16.bytesToHex(dat.array()));
 	   //System.out.println("l"+maplength.get(address.dataModel));
-		System.out.println("wr"+addr[0]+"-"+maplength.get(address.dataModel)+"-"+data);
-       client.batchWrite(convertAddr(addr[0]), maplength.get(address.dataModel), dat) 
-        .thenAccept(response -> { 
-        	System.out.println(addr[0]+"-"+maplength.get(address.dataModel)+"-"+data);
-        	future.complete(null);
-        }); 
-		return future;
+		System.out.println("wr "+addr[0]+"-"+maplength.get(address.dataModel)+"-"+data);
+       if(tmp==0) {
+    	   client.batchWrite(convertAddr(addr[0]), maplength.get(address.dataModel), dat) 
+           .thenAccept(response -> { 
+           		System.out.println("over:"+addr[0]+"-"+maplength.get(address.dataModel)+"-"+data);
+           		future.complete(null);
+           }); 
+       }else {
+    	   future.complete(null);
+       }
+		
+	   return future;
 	}
 	public static int setInt(int index,int num,int value) {
 		int tmp = 1 << index;

@@ -19,7 +19,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>gateway.core.Star</mainClass>
+                  <mainClass>gateway.core.Dbz_Star</mainClass>
                 </transformer>
               </transformers>
             </configuration>

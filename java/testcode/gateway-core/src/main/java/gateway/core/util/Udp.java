@@ -138,8 +138,8 @@ public class Udp {
 			byte[] revdata = response.getData(); 
 			//response.getData() 
 			
-			//String result = CRC16.bytesToHex(revdata);
-		    //System.out.println(result);
+			String result = CRC16.bytesToHex(revdata);
+			//System.out.println(result);
 			byte[] data=UDP_Rec_Event_method(revdata,revdata.length);
 			
 			/*if(data!=null) {
@@ -165,6 +165,7 @@ public class Udp {
 		if (revdata[0] == (byte)0xaa && length >= 9)
 		{
 			int dataLen = revdata[5] * 256 + revdata[6];
+			//System.out.println(dataLen);
 			byte[] data = new byte[dataLen];
 			int packageLen = dataLen + 9;
 			//byte[] packge = new byte[packageLen];

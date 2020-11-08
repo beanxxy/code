@@ -1,0 +1,16 @@
+sudo nohup java -jar gateway-core.jar >> outport.log 2>&1 &
+
+nohup java -jar bgy-gateway-0.0.1-SNAPSHOT.jar 1>/dev/null  2>&1  &
+
+
+
+
+sudo /etc/init.d/gateway restart
+
+OLfOScHQkexlLcuRjJvg
+
+
+ps -ef | grep gateway-core.jar
+nohup java -Xms512m -Xmx1024m -jar gateway-core.jar >>gateway-core.log 2>&1 &
+
+ 

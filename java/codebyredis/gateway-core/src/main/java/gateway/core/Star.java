@@ -1,11 +1,9 @@
 package gateway.core;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -33,12 +31,10 @@ public class Star {
 	public static Map<String,Long> takesTime = new HashMap<String,Long>();
 	public static Map<String,Result> mapResult = new HashMap<String,Result>();
 	
-	
 	public static Map<String,String> db = new HashMap<String,String>(); 
 	public static Map<String,Alert> alertdb = new HashMap<String,Alert>();
 	
-	
-	public static String STOREID = "59905";
+	public static String STOREID = "1000";
 	public static MyMqtt mqtt = null;
 	public static ClientTcp cp = new ClientTcp();
 	public static Gson gson = new Gson();
@@ -55,7 +51,7 @@ public class Star {
 	/**
 	 * 
 	 */
-	public void init() {
+    public void init() {
 		AlertData alertData = MySql.getSqlSession().getMapper(AlertData.class);
 		List<Alert> ls = alertData.getList();
 		for(Alert ac : ls) { 
@@ -72,7 +68,7 @@ public class Star {
                 // TODO 自动生成的方法存根
             	System.out.println(arg0);
             	try {
-            		if(arg0.equals("deviceCmd_59905")) { 
+            		if(arg0.equals("deviceCmd_1000")) { 
 	            		String msg = new String(arg1.getPayload());
 	            		Cmd cmd  = gson.fromJson(msg, Cmd.class); 
 	            		String id	   	= cmd.id; 
@@ -199,8 +195,7 @@ public class Star {
 	public static void funs(String code,String devid,String devtype,String data,String missionId) {
 		List<Function> functions = null;
 		FunctionMapper functionMapper = MySql.getSqlSession().getMapper(FunctionMapper.class);
-		
-		
+		 
 		//System.out.println("fun:"+code+","+devid+","+devtype+","+data+","+missionId);
 		
 		if(devid==null||devid.length()==0||devid.equals("0")) {
@@ -303,7 +298,9 @@ public class Star {
 					//System.out.println("Error");
 				} 
 			}
-			checkTime();//超时检查
+			try { 
+				checkTime();//超时检查
+			}catch(Throwable t) { }
 		},1000, 4000, TimeUnit.MILLISECONDS); 
 		
 		/*	Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(()->{   

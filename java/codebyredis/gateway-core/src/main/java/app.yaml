@@ -12,14 +12,14 @@
 
 redis:
   database: 0
-  host: 127.0.0.1
+  host: 192.168.8.143
   post: 6379
-  password: foobared
+  password: 123456
   key: 
 
 mqtt:
   host: tcp://emqdev.bgyfoodom.com:18830
-  tcpic1: deviceCmd_59905
+  tcpic1: deviceCmd_1000
   clientid: paho181700258583300
   username: emqdevback
   password: hLJ9sTXd1RImYqKeEzQF

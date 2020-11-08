@@ -48,7 +48,7 @@ public class MyMqtt {
     }
     
     public MyMqtt(MqttCallback callback, boolean cleanSession){
-        System.out.println(host+","+userName+","+passWord+","+myTopic+","+id);
+        //System.out.println(host+","+userName+","+passWord+","+myTopic+","+id);
         try {
              //id应该保持唯一性
             client = new MqttClient(host, id, new MemoryPersistence());
