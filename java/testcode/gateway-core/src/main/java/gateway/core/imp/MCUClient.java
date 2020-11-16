@@ -8,8 +8,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -19,6 +21,7 @@ import gateway.core.config.Ioinfo;
 import gateway.core.model.McuData;
 import gateway.core.util.CRC16;
 import gateway.core.util.LittleByteUtil;
+import gateway.core.util.Tool;
 import gateway.core.util.Udp;
 
 public class MCUClient implements Client{
@@ -28,8 +31,8 @@ public class MCUClient implements Client{
 	//public static  Deque<McuData> rqueue = new LinkedList<McuData>();
 	//public static  Deque<McuData> wqueue = new LinkedList<McuData>();
 	public static  int MAX = 100;
-	public static Map<String,Deque<McuData>> rmaxmap = new HashMap<String,Deque<McuData>>();
-	public static Map<String,Deque<McuData>> wmaxmap = new HashMap<String,Deque<McuData>>();
+	public static Map<String,Deque<McuData>> rmaxmap = new ConcurrentHashMap<String,Deque<McuData>>();
+	public static Map<String,Deque<McuData>> wmaxmap = new ConcurrentHashMap<String,Deque<McuData>>();
 	
 	/**
 	 * 高低位
@@ -101,7 +104,7 @@ public class MCUClient implements Client{
 	public String getDataByModel(String datamodel,byte[] bt,String addr) {
 		List<DataModel> ls = ClientTcp.datamap.get(datamodel);
 		if(ls==null)return "";
-		Map<String,String> map = new HashMap<String,String>();
+		Map<String,String> map = new ConcurrentHashMap<String,String>();
 		//ls.sort(c);
 		Collections.sort(ls,new Comparator<DataModel>() { 
 			@Override
@@ -121,7 +124,7 @@ public class MCUClient implements Client{
 		}
 		return "";
 	}
-	public static void execute(Deque<McuData> queue) {
+	public static void execute(Deque<McuData> queue) throws Exception {
 		if(queue.size()!=0) {
 			McuData md = queue.poll();
 			CompletableFuture<String> future = md.future; 
@@ -130,7 +133,7 @@ public class MCUClient implements Client{
 			
 			byte[] bt = Udp.send(address.ip, address.port, addr[0],""); 
 			if(bt==null) { 
-				queue.addFirst(md);
+				if(Tool.ping(address.ip)) queue.addFirst(md);
 			} 
 			String r =  decode(address,bt); 
 			future.complete(r); 
@@ -174,7 +177,7 @@ public class MCUClient implements Client{
 		//System.out.println(rqueue.size());
 		Deque<McuData> rqueue = rmaxmap.get(address.ip);
 		if(rqueue==null) {
-			rqueue = new LinkedList<McuData>();
+			rqueue = new LinkedBlockingDeque<McuData>();
 		}
 		if(rqueue.size()>MAX)rqueue.poll();
 		rqueue.addLast(new McuData(future,address));
@@ -254,7 +257,7 @@ public class MCUClient implements Client{
 		CompletableFuture<String> future = new CompletableFuture<>(); 
 		Deque<McuData> wqueue = wmaxmap.get(address.ip);
 		if(wqueue==null) {
-			wqueue = new LinkedList<McuData>();
+			wqueue = new LinkedBlockingDeque<McuData>();
 		}
 //		if(rqueue.size()>MAX)rqueue.poll();
 //		rqueue.addLast(new McuData(future,address));

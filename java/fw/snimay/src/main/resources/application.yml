@@ -1,0 +1,41 @@
+server:
+  port: 9090
+  tomcat:
+    uri-encoding: UTF-8
+security:
+  basic:
+    enabled: false
+
+spring:
+  datasource:
+    #driver-class-name: oracle.jdbc.OracleDriver
+    #url: jdbc:oracle:thin:@192.168.40.140:1521:orcl
+    #username: LXD
+    #password: 123456
+    
+    hibernate.dialect: hibernate.MySQLServerDialect
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/sample1?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: 123456
+  jpa:
+ #   database:oracle
+ #   show-sql: true
+    hibernate:
+     ddl-auto: update
+  thymeleaf:
+    cache: false
+
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+      enabled: true
+
+myYml:
+  mapProps:
+    admin: sys
+    pw: ICy5YqxZB1uWSwcVLSNLcA==
+
+#redis:
+#  host: localhost

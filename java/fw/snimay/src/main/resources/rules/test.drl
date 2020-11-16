@@ -1,0 +1,9 @@
+
+
+
+rule "rule2"
+    when
+    	$s : String (true)
+    then
+        System.out.println($s.toString());
+end

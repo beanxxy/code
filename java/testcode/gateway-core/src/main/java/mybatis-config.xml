@@ -12,6 +12,7 @@
         <typeAlias alias="Alert" type="gateway.core.config.Alert"/> 
         <typeAlias alias="Function" type="gateway.core.config.Function"/> 
         <typeAlias alias="Ioinfo" type="gateway.core.config.Ioinfo"/> 
+        <typeAlias alias="Call" type="gateway.core.config.Call"/> 
     </typeAliases> 
 	<!-- 数据库环境配置-->
     <environments default="development">
@@ -40,5 +41,6 @@
         <mapper class="gateway.core.mapper.DevServer"></mapper> 
         <mapper class="gateway.core.mapper.DevData"></mapper> 
         <mapper class="gateway.core.mapper.AlertData"></mapper> 
+        <mapper class="gateway.core.mapper.CallMapper"></mapper> 
     </mappers>
 </configuration>

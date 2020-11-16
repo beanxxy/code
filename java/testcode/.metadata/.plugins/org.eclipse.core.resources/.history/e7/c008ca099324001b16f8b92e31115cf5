@@ -1,0 +1,41 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.session.SqlSession;
+
+import com.google.gson.Gson;
+
+import gateway.core.config.Ioinfo;
+import gateway.core.mapper.IoinfoMapper;
+import gateway.core.mybatis.MySql;
+
+public class mqData {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		SqlSession session = MySql.getSqlSession();
+		IoinfoMapper ioinfoMapper = session.getMapper(IoinfoMapper.class);
+		List<Ioinfo> ios = ioinfoMapper.getList();
+		Gson gs = new Gson();
+		
+		//System.out.println(gs.toJson(ios));
+		Map<String,Object> obj = new HashMap<String,Object>();
+		Map<String,List<Map>> point = new HashMap<String,List<Map>>(); 
+		for(Ioinfo ifo : ios) { 
+			 Map<String,String> em = new HashMap<String,String>();
+			List<Map> ls = point.get(ifo.deviceid);
+			if(ls==null) {
+				ls = new ArrayList<Map>();
+			}
+			
+			point.put(ifo.deviceid, ls);
+		}
+		
+		
+		
+		
+	}
+
+}

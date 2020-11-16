@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 import gateway.core.Client;
 import gateway.core.config.DataModel;
@@ -14,8 +15,8 @@ import gateway.core.mybatis.MySql;
 
 public class ClientTcp implements Client{
 	
-	public static Map<String,Client> clients 			= new HashMap<String,Client>(); 
-	public static Map<String,List<DataModel>> datamap 	= new HashMap<String,List<DataModel>>();
+	public static Map<String,Client> clients 			= new ConcurrentHashMap<String,Client>(); 
+	public static Map<String,List<DataModel>> datamap 	= new ConcurrentHashMap<String,List<DataModel>>();
 	//MelsecClientConfig config = new MelsecClientConfig.Builder("172.28.12.8").setPort(8000).build();
     //MelsecTcpClient client = MelsecTcpClient.create3EBinary(config);  
 	static {

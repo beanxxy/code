@@ -1,14 +1,20 @@
 package gateway.core;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.ibatis.session.SqlSession;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
@@ -29,19 +35,24 @@ import gateway.core.mybatis.MySql;
 import gateway.core.util.Tool;
 
 public class Star {
-	public static Map<String,String> takes = new HashMap<String,String>();
-	public static Map<String,Long> takesTime = new HashMap<String,Long>();
-	public static Map<String,Result> mapResult = new HashMap<String,Result>();
+	public static Map<String,String> takes 	  = new ConcurrentHashMap<String,String>();
+	public static Map<String,String> takeskey = new ConcurrentHashMap<String,String>();
 	
+	public static Map<String,String> calls = new ConcurrentHashMap<String,String>();
+	public static Map<String,Long> takesTime = new ConcurrentHashMap<String,Long>();
+	public static Map<String,Result> mapResult = new ConcurrentHashMap<String,Result>();
 	
-	public static Map<String,String> db = new HashMap<String,String>(); 
-	public static Map<String,Alert> alertdb = new HashMap<String,Alert>();
-	
+	public static Map<String,String> db = new ConcurrentHashMap<String,String>(); 
+	public static Map<String,Alert> alertdb = new ConcurrentHashMap<String,Alert>();
 	
 	public static String STOREID = "59905";
 	public static MyMqtt mqtt = null;
 	public static ClientTcp cp = new ClientTcp();
 	public static Gson gson = new Gson();
+	public static int maxpool = 40;//线程数
+	
+	ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(100); 
+	
 	public static void main(String[] args) {
 		//=======================
 		 MySql.init();
@@ -49,7 +60,10 @@ public class Star {
 		 star.mqttRead();//读取设备命令
 		 star.init();
 		 //======================
-		 star.monitor(); //变量监控
+		 star.updata();
+		 star.online();//在线检查
+		 star.monitor(); //变量监控 
+		 
 		 System.out.println(new Date().toGMTString()+":start");
 	}
 	
@@ -72,7 +86,7 @@ public class Star {
 		mqtt= new MyMqtt(new MqttCallback() { 
             public void messageArrived(String arg0, MqttMessage arg1) throws Exception {
                 // TODO 自动生成的方法存根
-            	System.out.println(arg0);
+            	//System.out.println(arg0);
             	try {
             		if(arg0.equals("deviceCmd_59905")) { 
 	            		String msg 		= new String(arg1.getPayload());
@@ -121,7 +135,6 @@ public class Star {
 	 */
 	public void alert(Ioinfo io,String value) {
 		 String alertkey = io.deviceid+io.dataAddr+value;
-		 
 		 if(alertdb.get(alertkey)!=null) {//触发报警
 			// System.out.println("alert :" +alertkey);
 			 Alert at = alertdb.get(alertkey); 
@@ -146,7 +159,9 @@ public class Star {
 		for(String str:takesTime.keySet()) {
 			Long lg = new Date().getTime() - takesTime.get(str);
 			//System.out.println("时间"+lg);
-			if((lg/1000/60) > 1) {
+			if((lg/1000/60) > 2) {
+				
+				//takeskey.put(missionId, "1");
 				
 				mqtt.sendMessage("deviceCmdExcResult", gson.toJson(mapResult.get(str)));
 				//System.out.println("超时:"+gson.toJson(mapResult.get(str)));
@@ -160,6 +175,7 @@ public class Star {
 	/**
 	 * 执行进程反馈
 	 * takes.put(addr.deviceid+fun.listenaddr, missionId);
+	 * calls
 	 * @return 
 	 */
 	public boolean task(Ioinfo io,String value,Alert at) {
@@ -177,11 +193,13 @@ public class Star {
 				mqtt.sendMessage("deviceCmdExcResult", gson.toJson(r));
 				if(at.command.equals("over")) { 
 					//System.out.println("over - ");
+					takeskey.remove(takes.get(io.deviceid+io.dataAddr));
 					takesTime.remove(io.deviceid+io.dataAddr);//超时
 					mapResult.remove(io.deviceid+io.dataAddr);
 					takes.remove(io.deviceid+io.dataAddr);
 				}
 			}else {
+				takeskey.remove(takes.get(io.deviceid+io.dataAddr));
 				takesTime.remove(io.deviceid+io.dataAddr);//超时
 				mapResult.remove(io.deviceid+io.dataAddr);
 				takes.remove(io.deviceid+io.dataAddr);
@@ -199,10 +217,9 @@ public class Star {
 	 * @param data	发送到功能的数据;
 	 */
 	public static void funs(String code,String devid,String devtype,String data,String missionId) {
-		List<Function> functions = null;
-		FunctionMapper functionMapper = MySql.getSqlSession().getMapper(FunctionMapper.class);
-		
-		
+		List<Function> functions 	  = null;
+		SqlSession session 			  = MySql.getSqlSession();
+		FunctionMapper functionMapper = session.getMapper(FunctionMapper.class); 
 		//System.out.println("fun:"+code+","+devid+","+devtype+","+data+","+missionId);
 		
 		if(devid==null||devid.length()==0||devid.equals("0")) {
@@ -222,7 +239,7 @@ public class Star {
 			addr.deviceid = fun.deviceid;
 			addr.port = fun.port;
 			addr.protocal = fun.protocal;
-			//System.out.println("send : "+addr+":"+data);
+			//System.out.println("send : "+new Gson().toJson(addr)+":"+data);
 			cp.batchWrite(addr, data);
 			String[] listens = fun.listenaddr.split(",");
 			
@@ -238,6 +255,7 @@ public class Star {
 					r.message 		= "不能重复执行!";
 					mqtt.sendMessage("deviceCmdExcResult", gson.toJson(r));
 				}else {
+					takeskey.put(missionId, "1");
 					takes.put(addr.deviceid+listens[i], missionId); 
 					takesTime.put(addr.deviceid+listens[i], new Date().getTime());//超时 
 					Result r 		= new Result();
@@ -260,27 +278,183 @@ public class Star {
 			r.message 		= "没有找到设备!";
 			mqtt.sendMessage("deviceCmdExcResult", gson.toJson(r));
 		}
-		
+		session.close();
 	}
 	
 	
+	//读取队
+	public static Deque<Ioinfo> dq = new LinkedBlockingDeque<Ioinfo>();
+	//读取队
+	public static Map<String,Ioinfo> fdq = new ConcurrentHashMap<String,Ioinfo>();
+	/**
+	 * ip回复检查
+	 */
+	public static Map<String,String> ipcheck = new ConcurrentHashMap<String,String>();
 	
 	
-	
-	
-	
-	
-	
-	
-
+	//在线检查
+	public void online(){
+		maxpool--;
+		SqlSession session = MySql.getSqlSession();
+		IoinfoMapper ioinfoMapper = session.getMapper(IoinfoMapper.class);
+		List<Ioinfo> ios = ioinfoMapper.getList();
+		scheduledThreadPool.scheduleAtFixedRate(()->{try {
+			Map<String,String> mp = new HashMap<String,String>();	
+			int ks = dq.size()+fdq.size();  
+			for(Ioinfo ac : ios) {
+				if(mp.get(ac.ip)==null) {
+					if(Tool.ping(ac.ip)) {
+						mp.put(ac.ip,"1");
+					}else {
+						mp.put(ac.ip,"0");
+					}
+				}
+				if(mp.get(ac.ip).equals("1")&&ks==0) {
+					dq.addLast(ac); 
+				}
+			}
+			//System.out.println("sss"+dq.size());
+			for(String key : fdq.keySet()) {
+				Ioinfo info = fdq.get(key);
+				if(mp.get(info.ip).equals("1")) { 
+					dq.addLast(info);fdq.remove(key); 
+					ipcheck.remove(info.ip); 
+				}
+			} 
+		}catch(Throwable t) { t.getStackTrace(); } }, 1, 20, TimeUnit.SECONDS);
+		session.close();
+	}
 	/**
 	 * 监控变量
 	 */
 	public void monitor() {
-		IoinfoMapper ioinfoMapper =MySql.getSqlSession().getMapper(IoinfoMapper.class);
+		ClientTcp cp = new ClientTcp(); 
+		
+		maxpool--;
+		scheduledThreadPool.scheduleAtFixedRate(()->{try { 
+			checkTime();//超时检查
+		}catch(Throwable t) { System.out.println("xx");  } }, 1, 60, TimeUnit.SECONDS);
+		
+		for(;maxpool>0;maxpool--) { 
+			scheduledThreadPool.scheduleAtFixedRate(()->{try { 
+				//System.out.println("sss"+dq.size());
+				Ioinfo  ac =  dq.poll();
+				//System.out.println(ipcheck.size()+" - "+dq.size()+"-"+fdq.size()+":"+(dq.size()+fdq.size()));
+				if(ac!=null) {
+					fdq.put(ac.id+"", ac); 
+					String dbkey = ac.deviceid+"."+ac.parentName+"."+ac.estimateName; 
+					
+					if(ipcheck.get(ac.ip)==null ) {
+						ipcheck.put(ac.ip, "0"); 
+						cp.batchRead(ac).thenAccept(s->{
+							if(fdq.get(ac.id+"")!=null) {
+								dq.addLast(ac);
+								fdq.remove(ac.id+""); 
+							}
+							ipcheck.remove(ac.ip); 
+							this.setValue(ac, s);
+						}).exceptionally(ex -> {
+			                ex.printStackTrace();
+			                return null;
+			            }); 
+					}else {
+						dq.addLast(ac);
+						fdq.remove(ac.id+"");
+					}
+ 				}
+			}catch(Throwable t) { System.out.println("xx");  } }, 1, 300,TimeUnit.MICROSECONDS);
+		}
+	}
+	/**
+	 * 值反馈
+	 * @param ac
+	 * @param s
+	 */
+	public void setValue(Ioinfo  ac,String s) {
+		 String dbkey = ac.deviceid+"."+ac.parentName+"."+ac.estimateName; 
+		 if(db.get(dbkey)==null)db.put(dbkey, "");
+		 //System.out.println(dbkey+":"+s);
+		 if((db.get(dbkey)+"").equals(s)) {
+			 
+		 }else {//变量变换
+			// System.out.println(dbkey+":"+s);
+			db.put(dbkey,s);
+			String divid = ac.deviceid;
+			String name  = ac.parentName;
+			String partId = Tool.StringToId(name).substring(32);
+			String key = divid+name+partId; 
+			//System.out.println("andkey : == "+key);
+			//报警监控
+			alert(ac,s);
+			//执行监控
+			//task(ac,s);
+		 }
+	}
+	
+	/**
+	 * io上报
+	 */
+	public void updata() {
+		SqlSession session = MySql.getSqlSession();
+		IoinfoMapper ioinfoMapper = session.getMapper(IoinfoMapper.class);
+		List<Ioinfo> ios = ioinfoMapper.getList();
+		//System.out.println(ios.size());
+		maxpool--;
+		scheduledThreadPool.scheduleAtFixedRate(()->{try {
+			 
+			Map<String,Object> outmap 	= new HashMap<String,Object>();
+			Map<String,Map> heads 		= new HashMap<String,Map>();
+			Map<String,List<Map>> point = new HashMap<String,List<Map>>(); 
+			for(Ioinfo ifo : ios) { 
+				String dbkey = ifo.deviceid+"."+ifo.parentName+"."+ifo.estimateName;
+				Map<String,String> head = new HashMap<String,String>();
+				Map<String,String> em = new HashMap<String,String>();
+				List<Map> ls = point.get(ifo.deviceid);
+				if(ls==null) {
+					ls = new ArrayList<Map>();
+				}
+				em.put("parentName", ifo.parentName);
+				em.put("estimateName", ifo.estimateName);
+				em.put("estimateValue", db.get(dbkey)==null?"0":(db.get(dbkey)+""));
+				ls.add(em);
+				point.put(ifo.deviceid, ls); 
+				head.put("storeId", STOREID);
+				head.put("id", ifo.deviceid);
+				head.put("name", ifo.parentName);
+				head.put("partId", Tool.StringToId(ifo.parentName+ifo.deviceid).substring(0,5));
+				//head.put("storeId", ""); 
+				heads.put(ifo.deviceid, head);
+			}
+			
+			for(String str : heads.keySet()) {
+				outmap.put("storeId", "");
+				outmap.put("id", heads.get(str).get("id"));
+				outmap.put("storeId", heads.get(str).get("storeId"));
+				outmap.put("name", heads.get(str).get("name"));
+				outmap.put("partId", heads.get(str).get("partId"));
+				outmap.put("checkPointList", point.get(str));
+			    String outstr = gson.toJson(outmap); 
+			    Thread.sleep(50);
+			    mqtt.sendMessage("devicePartCheckPoint", outstr);
+			    //System.out.println(outstr);
+			}
+			
+			 
+		}catch(Throwable t) { System.out.println(t.getMessage());  } }, 10, 60, TimeUnit.SECONDS);
+	    //mqtt.sendMessage("devicePartCheckPoint", outstr);
+		session.close();
+	}
+	
+	/**
+	 * 监控变量
+	 */
+	public void monitor1() {
+		SqlSession session = MySql.getSqlSession();
+		IoinfoMapper ioinfoMapper = session.getMapper(IoinfoMapper.class);
 		List<Ioinfo> ios = ioinfoMapper.getList();
 		ClientTcp cp = new ClientTcp(); 
-		Map<String,String> isout = new HashMap<String,String>();  
+		Map<String,String> isout = new HashMap<String,String>(); 
+		session.close();
 		Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(()->{ 
 			for(Ioinfo ac : ios) { 
 				 //String dd = ac.deviceid+"."+ac.parentName+"."+ac.estimateName; 
@@ -306,13 +480,10 @@ public class Star {
 							//执行监控
 							//task(ac,s);
 						 }
-						  
 					}).exceptionally(ex -> {
 		                ex.printStackTrace();
 		                return null;
 		            });
-					 
-					
 				} catch (Throwable t) {
 					//System.out.println("Error");
 				} 
@@ -322,7 +493,7 @@ public class Star {
 			}catch(Throwable t) {}
 		},1000, 4000, TimeUnit.MILLISECONDS); 
 		
-		/*	Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(()->{   
+		/*Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(()->{   
 			//发送mqtt
 			
 			try { 

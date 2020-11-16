@@ -1,27 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
-    <fullyQualifiedTypeName name="gateway.core.config.ServerConfig"/>
-    <fullyQualifiedTypeName name="gateway.core.imp.ServerHttp"/>
-    <fullyQualifiedTypeName name="java.util.concurrent.CompletableFuture"/>
-    <fullyQualifiedTypeName name="java.util.function.BiConsumer"/>
-    <fullyQualifiedTypeName name="gateway.core.model.HttpData"/>
-    <fullyQualifiedTypeName name="java.util.function.Consumer"/>
-    <fullyQualifiedTypeName name="org.apache.ibatis.annotations.Param"/>
-    <fullyQualifiedTypeName name="com.vsdata.melsec.client.MelsecClientConfig"/>
-    <fullyQualifiedTypeName name="com.vsdata.melsec.client.MelsecTcpClient"/>
     <fullyQualifiedTypeName name="io.netty.buffer.ByteBufUtil"/>
     <fullyQualifiedTypeName name="redis.clients.jedis.JedisPoolConfig"/>
     <fullyQualifiedTypeName name="redis.clients.jedis.JedisPool"/>
     <fullyQualifiedTypeName name="redis.clients.jedis.Jedis"/>
     <fullyQualifiedTypeName name="gateway.core.imp.MCUClient"/>
-    <fullyQualifiedTypeName name="java.util.concurrent.Executors"/>
     <fullyQualifiedTypeName name="java.util.concurrent.ExecutorService"/>
     <fullyQualifiedTypeName name="java.util.Queue"/>
-    <fullyQualifiedTypeName name="java.util.LinkedList"/>
     <fullyQualifiedTypeName name="gateway.core.config.AddressConfig"/>
     <fullyQualifiedTypeName name="gateway.core.model.McuData"/>
-    <fullyQualifiedTypeName name="java.util.concurrent.ScheduledExecutorService"/>
-    <fullyQualifiedTypeName name="java.util.concurrent.TimeUnit"/>
     <fullyQualifiedTypeName name="java.util.Deque"/>
     <fullyQualifiedTypeName name="gateway.core.util.Udp"/>
     <fullyQualifiedTypeName name="gateway.core.util.LittleByteUtil"/>
@@ -29,8 +16,6 @@
     <fullyQualifiedTypeName name="java.util.List"/>
     <fullyQualifiedTypeName name="java.util.Collections"/>
     <fullyQualifiedTypeName name="java.util.Comparator"/>
-    <fullyQualifiedTypeName name="java.util.HashMap"/>
-    <fullyQualifiedTypeName name="java.util.Map"/>
     <fullyQualifiedTypeName name="java.io.IOException"/>
     <fullyQualifiedTypeName name="java.util.concurrent.TimeoutException"/>
     <fullyQualifiedTypeName name="com.sun.corba.se.impl.orbutil.threadpool.TimeoutException"/>
@@ -60,4 +45,19 @@
     <fullyQualifiedTypeName name="gateway.core.mqtt.Result"/>
     <fullyQualifiedTypeName name="java.util.Map.Entry"/>
     <fullyQualifiedTypeName name="gateway.core.config.Ioinfo"/>
+    <fullyQualifiedTypeName name="java.util.concurrent.Executors"/>
+    <fullyQualifiedTypeName name="java.util.concurrent.ScheduledExecutorService"/>
+    <fullyQualifiedTypeName name="java.util.concurrent.TimeUnit"/>
+    <fullyQualifiedTypeName name="java.util.LinkedList"/>
+    <fullyQualifiedTypeName name="java.util.Date"/>
+    <fullyQualifiedTypeName name="java.util.ArrayDeque"/>
+    <fullyQualifiedTypeName name="java.util.concurrent.LinkedBlockingQueue"/>
+    <fullyQualifiedTypeName name="java.util.concurrent.LinkedBlockingDeque"/>
+    <fullyQualifiedTypeName name="java.net.InetAddress"/>
+    <fullyQualifiedTypeName name="java.util.concurrent.ConcurrentHashMap"/>
+    <fullyQualifiedTypeName name="gateway.core.model.MelseData"/>
+    <fullyQualifiedTypeName name="java.lang.System"/>
+    <fullyQualifiedTypeName name="java.util.HashMap"/>
+    <fullyQualifiedTypeName name="java.util.Map"/>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
 </qualifiedTypeNameHistroy>

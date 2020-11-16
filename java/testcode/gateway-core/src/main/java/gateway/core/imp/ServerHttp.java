@@ -3,6 +3,7 @@ package gateway.core.imp;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 import gateway.core.Server;
@@ -19,8 +20,8 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
 public class ServerHttp implements Server{
-	public static Map<String,ServerConfig> servers = new HashMap<String,ServerConfig>();
-	public static Map<String,String> server_port 	= new HashMap<String,String>(); 
+	public static Map<String,ServerConfig> servers = new ConcurrentHashMap<String,ServerConfig>();
+	public static Map<String,String> server_port 	= new ConcurrentHashMap<String,String>(); 
 	public static  Consumer<? super HttpData> action = null;
 	
 	public static Server create(ServerConfig address) throws InterruptedException { 

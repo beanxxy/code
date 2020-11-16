@@ -1,0 +1,17 @@
+package waste;
+
+import org.apache.ibatis.session.SqlSession;
+
+import gateway.core.mapper.CallMapper;
+import gateway.core.mybatis.MySql;
+
+public class Sql {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		SqlSession session 			  = MySql.getSqlSession();
+		CallMapper cm = session.getMapper(CallMapper.class);
+		
+	}
+
+}

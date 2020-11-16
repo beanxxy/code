@@ -1,0 +1,20 @@
+import java.util.List;
+
+import org.apache.ibatis.session.SqlSession;
+
+import gateway.core.config.Ioinfo;
+import gateway.core.mapper.IoinfoMapper;
+import gateway.core.mybatis.MySql;
+
+public class mqData {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		SqlSession session = MySql.getSqlSession();
+		IoinfoMapper ioinfoMapper = session.getMapper(IoinfoMapper.class);
+		List<Ioinfo> ios = ioinfoMapper.getList();
+		
+		
+	}
+
+}

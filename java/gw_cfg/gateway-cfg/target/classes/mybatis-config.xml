@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!--<settings>
+         打印查询语句 
+        <setting name="logImpl" value="STDOUT_LOGGING" />
+    </settings>-->
+    <typeAliases> 
+        <typeAlias alias="Alarm" type="gateway.cfg.model.Alarm"/> 
+        <typeAlias alias="Call" type="gateway.cfg.model.Call"/>  
+        <typeAlias alias="DataModel" type="gateway.cfg.model.DataModel"/> 
+        <typeAlias alias="Dev" type="gateway.cfg.model.Dev"/> 
+        <typeAlias alias="Function" type="gateway.cfg.model.Function"/> 
+        <typeAlias alias="IoInfo" type="gateway.cfg.model.IoInfo"/> 
+    </typeAliases> 
+	<!-- 数据库环境配置-->
+    <environments default="development">
+        <environment id="development">
+        <!-- jdbc管理-->
+        <transactionManager type="JDBC"/>
+         <!-- 用什么连接池-->
+            <dataSource type="POOLED">
+           	<!-- jdbc驱动-->
+           	<!-- <property name="driver" value="com.mysql.cj.jdbc.Driver"/> -->
+           	 <property name="driver" value="com.mysql.jdbc.Driver"/>
+           	<!--  数据库名字url -->
+           	<!-- <property name="url" value="jdbc:mysql://172.28.9.249:13306/device_check?useUnicode=true" /> 
+           	<property name="username" value="bzlcrtcn"/> 
+           	<property name="password" value="rjqNdG#1lKWP%(ltFTerv"/> --> 
+           	<property name="url" value="jdbc:mysql://localhost:3306/gateway_core?useUnicode=true" /> 
+            <property name="username" value="root"/> 
+            <property name="password" value="123456"/>
+            </dataSource>
+        </environment>
+    </environments> 
+    <mappers> 
+        <mapper class="gateway.cfg.mapping.FunctionMapper"></mapper> 
+        <mapper class="gateway.cfg.mapping.AlarmMapper"></mapper> 
+        <mapper class="gateway.cfg.mapping.CallMapper"></mapper> 
+        <mapper class="gateway.cfg.mapping.DataModelMapper"></mapper> 
+        <mapper class="gateway.cfg.mapping.DevMapper"></mapper> 
+        <mapper class="gateway.cfg.mapping.IoInfoMapper"></mapper> 
+    </mappers>
+</configuration>
