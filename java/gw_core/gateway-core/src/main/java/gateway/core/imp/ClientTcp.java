@@ -95,7 +95,7 @@ public class ClientTcp  implements Client{
 		Connection con = getConn(info); 
 		Long lg = new Date().getTime();
 		con.batchRead(info).thenAccept(s->{ 
-			//if(info.value==null || (!info.value.equals(s))) {
+			if(info.value==null || (!info.value.equals(s))) {
 				info.value = s;
 				Executors.newCachedThreadPool().execute(()->{	//线程回调
 					info.change(s);
@@ -103,7 +103,7 @@ public class ClientTcp  implements Client{
 						info.event.get(s).action(info);
 					}
 				});
-			//}
+			}
 			deq.addLast(info);
 			try {
 				Thread.sleep(SLEEPTIME);

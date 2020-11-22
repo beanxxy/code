@@ -248,7 +248,7 @@ public class Star {
 				String comm = takes.get(addr.deviceid+listens[i])+"";
 				if(comm!=null && (!comm.equals("null")) ) {
 					Result r = new Result();
-					r.id = "0";
+					r.id = addr.deviceid;;
 					r.checkResult 	= 0; 
 					r.cmdId   		= Long.parseLong(missionId);
 					r.storeId 		= Long.parseLong(STOREID);
@@ -271,7 +271,7 @@ public class Star {
 		}
 		if(functions.size()==0) {
 			Result r = new Result();
-			r.id = "0";
+			r.id = devid;
 			r.checkResult 	= 0; 
 			r.cmdId   		= Long.parseLong(missionId);
 			r.storeId 		= Long.parseLong(STOREID);

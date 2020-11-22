@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Select;
 
-import gateway.cfg.model.Call;
+import gateway.cfg.model.cfg_Call;
 
 public interface CallMapper {
 	@Select("select * from gw_cfg_call where state=1")
-	public List<Call> getList();
+	public List<cfg_Call> getList();
 }

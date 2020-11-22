@@ -7,12 +7,12 @@
         <setting name="logImpl" value="STDOUT_LOGGING" />
     </settings>-->
     <typeAliases> 
-        <typeAlias alias="Alarm" type="gateway.cfg.model.Alarm"/> 
-        <typeAlias alias="Call" type="gateway.cfg.model.Call"/>  
-        <typeAlias alias="DataModel" type="gateway.cfg.model.DataModel"/> 
-        <typeAlias alias="Dev" type="gateway.cfg.model.Dev"/> 
-        <typeAlias alias="Function" type="gateway.cfg.model.Function"/> 
-        <typeAlias alias="IoInfo" type="gateway.cfg.model.IoInfo"/> 
+        <typeAlias alias="cfg_Alarm" type="gateway.cfg.model.cfg_Alarm"/> 
+        <typeAlias alias="cfg_Call" type="gateway.cfg.model.cfg_Call"/>  
+        <typeAlias alias="cfg_DataModel" type="gateway.cfg.model.cfg_DataModel"/> 
+        <typeAlias alias="cfg_Dev" type="gateway.cfg.model.cfg_Dev"/> 
+        <typeAlias alias="cfg_Function" type="gateway.cfg.model.cfg_Function"/> 
+        <typeAlias alias="cfg_IoInfo" type="gateway.cfg.model.cfg_IoInfo"/> 
     </typeAliases> 
 	<!-- 数据库环境配置-->
     <environments default="development">

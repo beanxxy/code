@@ -1,8 +1,0 @@
-package gateway.core.mapper;
-
-import org.apache.ibatis.annotations.Select;
-
-public interface CallMapper {
-	@Select("select * from gw_datamodel")
-	
-}
