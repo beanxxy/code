@@ -1,0 +1,48 @@
+server:
+  port: 8080 # 根据具体情况修改
+  servlet:
+    context-path: /bgy
+
+plc:
+  interval: 1
+
+spring:
+  profiles:
+    active: test # 根据具体情况修改
+
+  datasource:
+    username: 用户名
+    password: 密码
+    url: 连接字符串
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  redis:
+    host: 地址
+    port: 端口
+    database: 数据库编号
+    password: 密码
+    timeout: 超时时间
+    jedis:
+      pool:
+        max-active: 最大活跃
+        max-wait: 最大等待
+        max-idle: 最大空闲
+        min-idle: 最小空闲
+
+mybatis-plus:
+  mapper-locations: classpath*:**/mapping/*.xml
+  type-aliases-package: com.bgy.gateway.model
+  global-config:
+    db-config:
+      db-type: mysql
+      id-type: auto
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+#日志
+logging:
+ config: classpath:logback-spring-log.xml
+
+

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bgy.gateway.dao.mapper.ConfigVersionMapper">
+
+
+  <select id="listConfigVersionEntity" parameterType="com.bgy.gateway.model.entity.ConfigVersionEntity" resultType="com.bgy.gateway.model.entity.ConfigVersionEntity">
+    select *  from  plc_config_version
+  </select>
+
+  <delete id="deleteConfigVersionEntity">
+     DELETE FROM  plc_config_version
+   </delete>
+
+</mapper>

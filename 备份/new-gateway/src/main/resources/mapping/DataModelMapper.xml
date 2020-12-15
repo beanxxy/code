@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bgy.gateway.dao.mapper.DataModelMapper">
+
+
+  <select id="listDataModelEntity" parameterType="com.bgy.gateway.model.vo.DataModelVO" resultType="com.bgy.gateway.model.vo.DataModelVO">
+    SELECT c.name,IFNULL(c.address,'') AS address,IFNULL(c.sort,0) AS sort,IFNULL(c.length,0) AS length,IFNULL(c.data_type_id,0) AS data_type FROM (
+       SELECT a.*  FROM plc_data_model a WHERE a.id = #{id}
+       UNION
+       SELECT b.*  FROM plc_data_model b WHERE b.parent_id = #{id} AND b.acquisition =1
+     ) c ORDER BY c.sort
+  </select>
+
+    <select id="listMonitorModel" parameterType="com.bgy.gateway.model.vo.EventVO" resultType="com.bgy.gateway.model.vo.EventVO">
+    SELECT m.code,CONCAT(m.monitor_value,d.address) AS address FROM plc_monitor m
+    LEFT JOIN plc_data_model d ON m.data_model_id = d.id
+    WHERE m.component_id = #{componentId}  GROUP BY m.data_model_id
+  </select>
+
+    <delete id="deleteDataModelEntity">
+        DELETE FROM  plc_data_model
+    </delete>
+</mapper>

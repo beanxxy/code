@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bgy.gateway.dao.mapper.PlcMapper">
+
+
+  <select id="getPlcEntity" parameterType="com.bgy.gateway.model.entity.PlcEntity" resultType="com.bgy.gateway.model.entity.PlcEntity">
+    SELECT p.id,p.code,p.name,p.ip,p.port,p.type_id,p.protocol_id,p.big_endian  FROM  plc p
+    LEFT JOIN plc_config_version c ON p.config_version_id = c.id
+    WHERE c.enabled = 1 AND p.id = #{plcId}
+  </select>
+
+  <delete id="deletePlcEntity">
+    DELETE  FROM  plc
+  </delete>
+</mapper>

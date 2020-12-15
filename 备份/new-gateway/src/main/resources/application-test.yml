@@ -1,0 +1,52 @@
+spring:
+  datasource:
+    username: root
+    password: DRbkg8sH3qzbKh9yVn$%
+    url: jdbc:mysql://10.109.20.137:3306/new_gateway?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false&serverTimezone=GMT%2b8&&allowPublicKeyRetrieval=true
+
+
+  redis:
+    host: localhost
+    port: 6379
+    database: 3
+    password:
+    timeout: 10000
+    jedis:
+      pool:
+        max-active: 800
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+  mqtt:
+    dms:
+      username: emqdevback
+      password: hLJ9sTXd1RImYqKeEzQF
+      url: tcp://emqdev.bgyfoodom.com:18830
+      producerClientId: dms-noodle-producer-${gateway.device-id}
+      producerDefaultTopic: deviceStatus
+      consumerClientId: dms-noodle-consumer-${gateway.device-id}
+      consumerDefaultTopic: device
+      completionTimeout: 20000
+      keepAliveInterval: 30
+      defaultQos: 1
+      willTopic: deviceOfflineNotify
+      wilData: '{"restaurantId" : "111","code":""}'
+      onlineTopic: deviceOnlineNotify
+
+    local:
+      username: dispatcher_dev
+      password: dispatcher_dev
+      url: tcp://112.74.52.46:1883
+      producerClientId: local-gateway-producer-${gateway.device-id}
+      producerDefaultTopic: syncDataTopic
+      consumerClientId: local-gateway-consumer-${gateway.device-id}
+      consumerDefaultTopic: gateway/plc/
+      completionTimeout: 20000
+      keepAliveInterval: 30
+      defaultQos: 1
+      willTopic: deviceOfflineNotify
+      wilData: '{"restaurantId" : "1111","code":""}'
+      onlineTopic: deviceOnlineNotify
+#logging:
+ # level:
+  #  ROOT: info
