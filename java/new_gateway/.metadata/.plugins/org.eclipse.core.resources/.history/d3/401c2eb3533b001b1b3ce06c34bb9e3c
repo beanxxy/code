@@ -1,0 +1,60 @@
+package com.bgy.gateway.model.vo;
+
+import java.util.List;
+import java.util.Map;
+
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * @author bean
+ * date 2020年12月1日
+ */
+@Getter
+@Setter
+public abstract class BasePlcDataModelVO {
+	/**
+	 * ip 地址
+	 */
+	private String ip;
+	/**
+	 * 端口
+	 */
+	private int port;
+	/**
+	 * 协议
+	 */
+	private String protocal;  
+	/**
+	 * 大端小端
+	 */
+	private int  endian;
+	/**
+	 * 数据名称对地址
+	 */
+	private Map<String,String> addressNames;
+	
+	/**
+	 * 数据模型
+	 */
+	private List<DataModelVO> arrayDataModelVo;
+	/**
+	 * 其他属性
+	 */
+	private Map<String,String> attr;
+	/**
+	 * 字段值,json 或 字符串,根据数据模型
+	 */
+	private String value; 
+	/**
+	 * 当value+DataAddress = key 时触发   5D0000
+	 * 事件触发
+	 */
+	private Map<String,BaseEvent> event;
+	/**
+	 * 当值发送改变时,回调
+	 * @param value
+	 */
+	public abstract void change(String name , String address, String value);
+
+}

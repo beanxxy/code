@@ -14,6 +14,19 @@ public interface Client {
 	 */
 	public static Map<String,List<DataModel>> datamap 	= new ConcurrentHashMap<String,List<DataModel>>();
 	/**
+	 * 优先级最高
+	 * @param info
+	 */
+	void read0(Ioinfo info);
+	
+	
+	/**
+	 * 关闭读取
+	 * @param info
+	 */
+	void close(Ioinfo info);
+	
+	/**
 	 * 输入，当值改变时调用change
 	 * @param info
 	 */
@@ -22,6 +35,7 @@ public interface Client {
 	 * 写入
 	 * @param iofo
 	 * @param value
+	 * @throws Exception 
 	 */
-	void write(Ioinfo iofo,String value);
+	void write(Ioinfo iofo,String value) throws Exception;
 }

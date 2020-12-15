@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 
  
@@ -22,6 +23,9 @@ import java.util.concurrent.Executors;
  * @author bean
  */
 public class Udp {
+	
+	public static int interval = 50;
+	
 	/**
 	 * 获取当前ip地址
 	 * @return
@@ -75,7 +79,7 @@ public class Udp {
 			//指定包要发送的目的地
 			DatagramPacket request = new DatagramPacket(bt, bt.length, host, port);
 			//为接受的数据包创建空间
-			DatagramPacket response = new DatagramPacket(new byte[16000], 16000);
+			DatagramPacket response = new DatagramPacket(new byte[100], 100);
 			socket.send(request);
 			while(true) {
 				socket.receive(response); 
@@ -98,6 +102,17 @@ public class Udp {
 		return future;
 	}
 	
+	
+	public static Map<String,byte[]> hostdata = new ConcurrentHashMap<String,byte[]>();
+	public static byte[] getByte(String hostname,int port) {
+		byte[] tmp = hostdata.get(hostname+port); 
+		if(tmp==null) {
+			tmp = new byte[100];
+			hostdata.put(hostname+port, tmp);
+		}
+		return tmp;
+	}
+	
 	/**
 	 * @param hostname
 	 * @param port
@@ -107,14 +122,22 @@ public class Udp {
 	 */
 	public static byte[] send(String hostname,int port,String hexhead, byte[] strb) { 
 		
+		
+		try {
+			Thread.sleep(interval);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		//传入0表示让操作系统分配一个端口号 
 		DatagramSocket socket = null;
 		try {
 			//System.out.println(socket.getPort());
 			//DatagramSocket 
-			socket = new DatagramSocket(0);
-			//System.out.println(socket.getLocalPort());
-			socket.setSoTimeout(200); 
+			socket 	= new DatagramSocket(0);
+			//System.out.println("端口打开:"+socket.getLocalPort());
+			socket.setSoTimeout(1000); 
 			InetAddress host = InetAddress.getByName(hostname);  
 			CRC16 crc = new CRC16(); 
 			//byte[] strb = body.getBytes(); 
@@ -124,17 +147,23 @@ public class Udp {
 			String hexstring = "aa"+hexhead+hexlength+body;  
 			byte[] sendbt = CRC16.toBytes(hexstring);
 			crc.update(CRC16.toBytes(hexstring),0,sendbt.length); 
-			hexstring+=crc.getHexValue();
+			hexstring	+=	crc.getHexValue();
 			//System.out.println(hexstring);
 			byte[] bt = CRC16.toBytes(hexstring);
 			//byte[] bt = CRC16.toBytes("aa000d0000db89");  
 			//指定包要发送的目的地
 			DatagramPacket request = new DatagramPacket(bt, bt.length, host, port);
+			
+			byte[] revdata = getByte(hostname,port);
+			
 			//为接受的数据包创建空间
-			DatagramPacket response = new DatagramPacket(new byte[16000], 16000);
+			DatagramPacket response = new DatagramPacket(revdata, revdata.length); 
+			//System.out.println("发送前");
 			socket.send(request);
-			socket.receive(response);  
-			byte[] revdata = response.getData(); 
+			//System.out.println("发送后");
+			socket.receive(response); 
+			//System.out.println("回调");
+			//byte[] revdata = response.getData(); 
 			//response.getData() 
 			
 			String result = CRC16.bytesToHex(revdata);
@@ -144,12 +173,15 @@ public class Udp {
 			/*if(data!=null) {
 				System.out.println("new:"+new String(data,"utf-8"));
 			}*/
+			
+			socket.disconnect();
 			socket.close();
 			return data; 
 			//String result = new String(response.getData(), 0, response.getLength(), "ASCII"); 
 		} catch (IOException e) { 
+			socket.disconnect();
 			socket.close();
-			// System.out.println("发生错误");
+			System.out.println("发生错误:"+e.getMessage()+":"+hostname+":"+hexhead);
 			//e.printStackTrace();
 		} 
 		return null;

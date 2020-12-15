@@ -43,4 +43,8 @@ public class cfg_Call {
 	 * 状态
 	 */
 	public String state;
+	/*
+	 * 操作命令，例如close
+	 */
+	public String command;
 }

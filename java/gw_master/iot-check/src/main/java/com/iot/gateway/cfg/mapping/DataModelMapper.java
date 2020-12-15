@@ -9,7 +9,7 @@ import com.iot.gateway.cfg.model.cfg_DataModel;
 
 
 public interface DataModelMapper {
-	@Select("select * from gw_cfg_dataModel where state=1")
+	@Select("select * from gw_cfg_datamodel where state=1")
 	public List<cfg_DataModel> getList();
 	
  }

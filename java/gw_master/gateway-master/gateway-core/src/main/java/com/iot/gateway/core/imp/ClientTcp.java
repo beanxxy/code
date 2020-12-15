@@ -26,7 +26,7 @@ public class ClientTcp  implements Client{
 	/**
 	 * 扫描间隔
 	 */
-	public static Long SLEEPTIME = (long) 500;
+	public static Long SLEEPTIME = (long) 10;
 	/**
 	 * 客户端链接
 	 */
@@ -48,10 +48,11 @@ public class ClientTcp  implements Client{
 	 * 链接速度
 	 */
 	public static Map<String,Long> ipspeed = new ConcurrentHashMap<String,Long>();
+	
+	public static Gson gs = new Gson(); 
 	/**
 	 * 读取注册
 	 */
-	public static Gson gs = new Gson(); 
 	@Override
 	public void read(Ioinfo iofo) { 
 		if(IoinfoData.get(getKeyInfo(iofo))==null) {

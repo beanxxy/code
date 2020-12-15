@@ -5,6 +5,11 @@ import java.util.Map;
  * 2020年11月14日
  */
 public abstract class Ioinfo {
+	
+	/**
+	 * 生存时间;
+	 */
+	public Long lifetime;
 	/**
 	 * ip 地址
 	 */
@@ -44,6 +49,6 @@ public abstract class Ioinfo {
 	 */
 	public abstract void change(String value);
 	
-	
+
 	
 }

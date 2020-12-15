@@ -1,0 +1,9 @@
+d:\ModbusApiTestForVb\ModbusApiTestForVb\bin\Debug\ModbusApiTestForVb.exe
+d:\ModbusApiTestForVb\ModbusApiTestForVb\bin\Debug\ModbusApiTestForVb.pdb
+d:\ModbusApiTestForVb\ModbusApiTestForVb\bin\Debug\ModbusApiTestForVb.xml
+d:\ModbusApiTestForVb\ModbusApiTestForVb\obj\x86\Debug\ModbusApiTestForVb.Form1.resources
+d:\ModbusApiTestForVb\ModbusApiTestForVb\obj\x86\Debug\ModbusApiTestForVb.Resources.resources
+d:\ModbusApiTestForVb\ModbusApiTestForVb\obj\x86\Debug\ModbusApiTestForVb.vbproj.GenerateResource.Cache
+d:\ModbusApiTestForVb\ModbusApiTestForVb\obj\x86\Debug\ModbusApiTestForVb.exe
+d:\ModbusApiTestForVb\ModbusApiTestForVb\obj\x86\Debug\ModbusApiTestForVb.xml
+d:\ModbusApiTestForVb\ModbusApiTestForVb\obj\x86\Debug\ModbusApiTestForVb.pdb

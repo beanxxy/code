@@ -1,0 +1,16 @@
+谭德卫2020-11-24 14:47:42
+120.76.135.231 41059  192.168.8.200 19000
+
+谭德卫2020-11-24 14:48:41
+ip:192.168.8.200
+网关：192.168.8.1
+ssh端口 19000  ，账号 root  密码 U0HmWOca@@mwliT"S+zf
+redis端口  16379   密码S0!hv$oSZI22x9OoQxm%
+mysql端口 13306 ， 账号backqx  密码 uOnAcTz$l^Jtww*4yEAh
+root ICw1Fc#lna^rwOvAq*u8
+emqx web端口 18083  账号admin 密码 U8EfDBfnfplcInh8q!CE
+mqtt端口 17883  无密码
+admin public
+
+谭德卫2020-11-24 14:49:58
+120.76.135.231 41064  192.168.8.200 13306

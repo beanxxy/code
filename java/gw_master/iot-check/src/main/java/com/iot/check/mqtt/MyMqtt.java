@@ -31,7 +31,7 @@ public class MyMqtt {
         this(null, false);
    
     }
-    static {
+    public static void init() {
     	try {
     		//System.out.println("xx");
     		Yaml yaml = new Yaml();
@@ -45,6 +45,9 @@ public class MyMqtt {
     	}catch(IOException e) {
     		
     	}
+    }
+    static {
+    	init();
     }
     
     public MyMqtt(MqttCallback callback, boolean cleanSession){
@@ -86,30 +89,22 @@ public class MyMqtt {
         }
     }
     
-    public void sendMessage(String msg) {
+    public void sendMessage(String msg) throws MqttException, Exception {
         sendMessage(myTopic, msg);
     }
     
-    public void sendMessage(String topic, String msg){
-        try {
-            message = new MqttMessage(); 
-            message.setQos(0);
-            message.setRetained(false); 
-            message.setPayload(msg.getBytes()); 
-            mqttTopic = client.getTopic(topic); 
-            mqttTopic.publish(message);
+    public void sendMessage(String topic, String msg) throws Exception, MqttException{
+         
+    	message = new MqttMessage(); 
+        message.setQos(0);
+        message.setRetained(false); 
+        message.setPayload(msg.getBytes()); 
+        mqttTopic = client.getTopic(topic); 
+        mqttTopic.publish(message);
            // MqttDeliveryToken token = mqttTopic.publish(message);//发布主题
            // token.waitForCompletion(1000);
             
-        } catch (MqttPersistenceException e) {
-            // TODO 自动生成的 catch 块
-        	System.out.println("sss");
-            e.printStackTrace();
-        } catch (MqttException e) {
-            // TODO 自动生成的 catch 块
-        	System.out.println("sss1");
-            e.printStackTrace();
-        }
+         
     }
     
     public void subscribe(String[] topicFilters, int[] qos) {

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="com.bgy.gateway.model.vo.PlcDataModelVO"/>
+    <fullyQualifiedTypeName name="lombok.Getter"/>
+    <fullyQualifiedTypeName name="lombok.Setter"/>
+    <fullyQualifiedTypeName name="com.bgy.gateway.enums.DataType"/>
+    <fullyQualifiedTypeName name="com.bgy.gateway.enums.Big_endian"/>
+    <fullyQualifiedTypeName name="com.bgy.gateway.util.LittleByteUtil"/>
+    <fullyQualifiedTypeName name="com.bgy.gateway.service.ClientService"/>
+    <fullyQualifiedTypeName name="com.bgy.gateway.model.vo.BasePlcDataModelVO"/>
+    <fullyQualifiedTypeName name="com.bgy.gateway.service.ConnectionService"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="java.util.Comparator"/>
+    <fullyQualifiedTypeName name="org.junit.Test"/>
+    <fullyQualifiedTypeName name="com.bgy.gateway.enums.Big_endianEnum"/>
+    <fullyQualifiedTypeName name="org.junit.Assert"/>
+    <fullyQualifiedTypeName name="io.netty.buffer.ByteBuf"/>
+    <fullyQualifiedTypeName name="java.util.HashMap"/>
+    <fullyQualifiedTypeName name="java.util.Map"/>
+    <fullyQualifiedTypeName name="com.google.gson.Gson"/>
+    <fullyQualifiedTypeName name="com.google.gson.reflect.TypeToken"/>
+    <fullyQualifiedTypeName name="com.bgy.gateway.enums.DataTypeEnum"/>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
+    <fullyQualifiedTypeName name="com.bgy.gateway.enums.EndianEnum"/>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="com.bgy.gateway.util.CRC16"/>
+    <fullyQualifiedTypeName name="java.util.concurrent.CompletableFuture"/>
+    <fullyQualifiedTypeName name="com.bgy.gateway.util.CoderUtil"/>
+    <fullyQualifiedTypeName name="io.netty.buffer.Unpooled"/>
+    <fullyQualifiedTypeName name="com.bgy.gateway.util.Udp"/>
+    <fullyQualifiedTypeName name="com.bgy.gateway.util.Tool"/>
+    <fullyQualifiedTypeName name="lombok.Value"/>
+    <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Value"/>
+    <fullyQualifiedTypeName name="com.bgy.gateway.model.vo.DataModelVO"/>
+</qualifiedTypeNameHistroy>

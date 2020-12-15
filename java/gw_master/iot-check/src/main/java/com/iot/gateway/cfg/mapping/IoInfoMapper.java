@@ -9,9 +9,9 @@ import com.iot.gateway.cfg.model.cfg_IoInfo;
 
 
 public interface IoInfoMapper {
-	@Select("select * from gw_cfg_ioInfo where state=1;")
+	@Select("select * from gw_cfg_ioinfo where state=1;")
 	public List<cfg_IoInfo> getList();
 	
-	@Select("select * from gw_cfg_ioInfo where state=1 and config =#{config};")
+	@Select("select * from gw_cfg_ioinfo where state=1 and config =#{config};")
 	public List<cfg_IoInfo> getListByConfig(@Param("config")String config);
 }

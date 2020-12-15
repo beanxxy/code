@@ -14,6 +14,7 @@ import com.iot.gateway.core.DataModel;
 import com.iot.gateway.core.Ioinfo;
 import com.iot.gateway.core.util.CRC16;
 import com.iot.gateway.core.util.LittleByteUtil;
+import com.iot.gateway.core.util.Tool;
 import com.iot.gateway.core.util.Udp;
 
 /**
@@ -26,11 +27,24 @@ public class McuConn implements Connection{
 	public CompletableFuture<String> batchRead(Ioinfo address) {
 		CompletableFuture<String> future = new CompletableFuture<>(); 
 		String[] addr = address.dataAddr.split("-");  
-		byte[] bt = null;
-		bt = Udp.send(address.ip, address.port, addr[0],""); 
+		byte[] bt = null;	
+		do
+		{
+			bt = Udp.send(address.ip, address.port, addr[0],""); 
+			try {
+				if(bt==null && Tool.ping(addr[0])) break;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				break;
+				//e.printStackTrace();
+			}
+		} while (bt==null);
+		
 		if(bt==null) {
+			//System.out.println("bt is 空");
 			future.completeExceptionally(new Exception());
 		}else {
+			//System.out.println(CRC16.bytesToHex(bt));
 			String r =  decode(address,bt); 
 			future.complete(r); 
 		} 
@@ -53,6 +67,9 @@ public class McuConn implements Connection{
 	}
 
 	public static String decode(String dataAddr,String datamodel,byte[] bt) {
+		
+		if(bt.length==0)return "0";
+		
 		String r = "";
 		String[] addr = null;
 		if(dataAddr!=null&&dataAddr.length()>0)addr = dataAddr.split("-"); 
@@ -70,7 +87,9 @@ public class McuConn implements Connection{
 			r = bt[0]+"";
 			break;
 		case "short":  
+			//System.out.println(bt.length);
 			bt = getByte(bt);
+			
 			r = LittleByteUtil.getShort(bt)+"";
 			break; 
 		case "int": 
@@ -126,7 +145,7 @@ public class McuConn implements Connection{
 	 * @param bt
 	 * @return
 	 */
-	public static byte[] getByte(byte[] bt) {
+	public static byte[] getByte(byte[] bt) { 
 		for(int i=0;i<bt.length;i+=2) {
 			byte t = bt[i];
 			bt[i] = bt[i+1];

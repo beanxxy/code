@@ -15,4 +15,6 @@ public abstract class Event {
 	 * 事件触发
 	 */
 	public abstract void action(Ioinfo info);
+	
+	
 }
