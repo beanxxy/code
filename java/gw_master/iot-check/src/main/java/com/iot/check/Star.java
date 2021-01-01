@@ -9,6 +9,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.apache.ibatis.session.SqlSession;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
@@ -36,10 +38,15 @@ import com.iot.gateway.core.Event;
 import com.iot.gateway.core.Ioinfo;
 import com.iot.gateway.core.imp.ClientTcp;
 import com.iot.gateway.core.util.Tool;
+/**
+ * @author bean
+ *
+ */
 public class Star {
+	static Logger logger = Logger.getLogger(Star.class.getName());
 	public static Map<String,String> db 			= new ConcurrentHashMap<String,String>(); 
 	ScheduledExecutorService scheduledThreadPool 	= Executors.newScheduledThreadPool(100); 
-	public static String STOREID 					= "842";
+	public static String STOREID 					= "59905";
 	public static MyMqtt mqtt 						= null;
 	public static Gson gson 						= new Gson();
 	public static Client client 					= new ClientTcp(); 
@@ -70,33 +77,21 @@ public class Star {
     		return;
 		} 
 		funing.put(devid+code, missionId); 
-		
-//		if(order.get(orderkey)!=null) {
-//			Result r = new Result();
-//			r.id = devid;
-//			r.checkResult 	= 0; 
-//			r.cmdId   		= Long.parseLong(missionId);
-//			r.storeId 		= Long.parseLong(STOREID);
-//			r.message 		= "不能重复执行!"; 
-//			String str 		= gson.toJson(r); 
-//			mqtt.sendMessage("deviceCmdExcResult", str);
-//			return;
-//		}
-//		order.put(orderkey, missionId); 
+		 
 		
 		SqlSession session				= MySql.getSqlSession();
 		DevMapper devMapper 			= session.getMapper(DevMapper.class);
 		FunctionMapper functionMapper 	= session.getMapper(FunctionMapper.class);
 		CallMapper callMapper 			= session.getMapper(CallMapper.class);
-		List<cfg_Dev> devs 				= null;//devMapper.getList();
+		List<cfg_Dev> devs 				= null; 
 		if(devid==null||devid.length()==0||devid.equals("0")) {
 			 devs 				= devMapper.getListByType(devtype);
 		}else {	
 			devs 				= devMapper.getListByDevid(devid);
 		}
 		for(cfg_Dev dev:devs) { 
-			
-			timeCheck.put(missionId,new Date().getTime()+"-"+devid);//超时检查注册
+			//超时检查注册
+			timeCheck.put(missionId,System.currentTimeMillis()+"-"+devid);
 			List<cfg_Function> funs 	= functionMapper.getListByConfig(dev.config); 
 			List<cfg_Call> calls		= callMapper.getListByConfig(dev.config); 
 			for(cfg_Function fun:funs) { 
@@ -142,13 +137,15 @@ public class Star {
 					eventInfo.attr.put("devid", dev.devid);
 					eventInfo.attr.put("parentName", dev.name);
 					eventInfo.attr.put("estimateName", fun.name);
-					 
+					eventInfo.attr.put("code", code);
+					
 					eventInfo.dataAddr  = str;
 					eventInfo.dataModel = lsEvent.get(0).DataModel;
 					eventInfo.ip  		= dev.ip;
 					eventInfo.port 		= Integer.parseInt(dev.port);
 					eventInfo.event		= new ConcurrentHashMap<String,Event>(); 
 					eventInfo.protocal	= dev.protocal;
+					
 					for(cfg_Call call:lsEvent) {
 						FunEvent ev = new FunEvent();
 						ev.attr = new ConcurrentHashMap<String,String>(); 
@@ -162,13 +159,15 @@ public class Star {
 						}
 						ev.attr.put("code", code);
 						ev.attr.put("command", call.command);
-						System.out.println(call.command);
-						System.out.println(call.DataAddr+":"+
-								call.value
-								+":"+call.massge);
+						
+						//logger.info(call.command);
+						//logger.info(call.DataAddr+":"+
+						//		call.value
+						//		+":"+call.massge); 
+						
 						eventInfo.event.put(call.value,ev); 
-					}
-					System.out.println("============");
+					} 
+					//logger.info("============");
 					if(ClientTcp.IoinfoData.get(ClientTcp.getKeyInfo(eventInfo))==null) {
 						client.read0(eventInfo);
 					}else {
@@ -185,14 +184,10 @@ public class Star {
 	public static void mqttSend(String topic, String msg) {
 		try {
 			mqtt.sendMessage(topic, msg);
-		} catch (MqttException e) {
-			// TODO Auto-generated catch block
-			//System.out.println("掉线从连");
+		} catch (MqttException e) { 
 			mqttRead();
 			e.printStackTrace();
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			//System.out.println("掉线从连");
+		} catch (Exception e) { 
 			mqttRead();
 			e.printStackTrace();
 		} 
@@ -203,13 +198,14 @@ public class Star {
 	 */
 	public static void mqttRead() {
 		mqtt= new MyMqtt(new MqttCallback() { 
+			@Override
             public void messageArrived(String arg0, MqttMessage arg1){
                 // TODO 自动生成的方法存根 
             	Long missionId = null	 ;
         		String id = null	;
         		String funid = null;
             	try {
-            		if(arg0.equals("deviceCmd_842")) { 
+            		if(arg0.equals("deviceCmd_59905")) { 
 	            		String msg 		= new String(arg1.getPayload());
 	            		Cmd cmd  		= gson.fromJson(msg, Cmd.class); 
 	            		id	   			= cmd.id; 
@@ -239,11 +235,11 @@ public class Star {
             		Star.funing.remove(r.id+funid);
 				}
             }
-
+			@Override
 			public void connectionLost(Throwable cause) {
 				// TODO Auto-generated method stub
 			}
-
+			@Override
 			public void deliveryComplete(IMqttDeliveryToken token) {
 				// TODO Auto-generated method stub
 			} 
@@ -254,7 +250,9 @@ public class Star {
 		 mqtt.subscribe(arrstr, arri); 
 	}
 	public static void main(String[] args) { 
+		//Logger.global.setLevel(Level.OFF);
 		
+		//logger.getGlobal().setLevel(Level.OFF);
 		Star star = new Star();
 		star.mqttRead();
 		
@@ -315,19 +313,18 @@ public class Star {
 				//dev.devtype
 				AlarmEvent ev 	= new AlarmEvent();
 				ev.attr			= new ConcurrentHashMap<String,String>(); 
-				ev.attr.put("massge", caf.massge);
-				ev.attr.put("massge", caf.code);
+				ev.attr.put("massge",dev.devid+"-"+info.dataAddr+"-"+caf.code+":"+caf.massge);
+				ev.attr.put("code", caf.code);
 				info.event.put(caf.value, ev); 
+				//logger.info(new Gson().toJson(info)); 
 				client.read(info); // break;
-			}
-			
-			
+			} 
 		} 
 		session.close();
 		 
 		
 		star.checktime();
-		System.out.println("start "+ new Date().toString());
+		logger.info("start "+ new Date().toString());  
 	}
 	
 	public void checktime() {
@@ -352,7 +349,9 @@ public class Star {
 					} 
 				}
 			}
-		}catch(Throwable t) { System.out.println(t.getMessage());  } }, 10, 60, TimeUnit.SECONDS);
+		}catch(Throwable t) {  
+			logger.warning(t.getMessage());
+		} }, 10, 60, TimeUnit.SECONDS);
 	}
 	/**
 	 * io上报
@@ -403,8 +402,7 @@ public class Star {
 				outmap.put("checkPointList", point.get(str));
 			    String outstr = gson.toJson(outmap); 
 			    Thread.sleep(50);
-			    mqttSend("devicePartCheckPoint", outstr); 
-			    //System.out.println(outstr);
+			    mqttSend("devicePartCheckPoint", outstr);  
 			}  
 			session.close();
 			 
@@ -429,7 +427,9 @@ public class Star {
 				}
 			}
 			
-		}catch(Throwable t) { System.out.println(t.getMessage());  } }, 10, 60, TimeUnit.SECONDS);
+		}catch(Throwable t) { 
+			logger.warning(t.getMessage());
+		} }, 10, 60, TimeUnit.SECONDS);
 	    //mqtt.sendMessage("devicePartCheckPoint", outstr);
 		
 	}

@@ -3,26 +3,31 @@
 import com.iot.check.DevInfo;
 import com.iot.gateway.core.Ioinfo;
 import com.iot.gateway.core.imp.McuConn;
+import com.iot.gateway.core.util.CRC16;
+import com.iot.gateway.core.util.Udp;
 
  
 public class Star {
 	public static McuConn mcu 	= new McuConn();
 	public static Ioinfo address 	= new DevInfo(); 
-	public static void read() { 
-		address.ip 			= "192.168.8.10";
-		address.dataModel 	= "short";
-		address.port 		= 8000;
-		address.protocal 	= "mc";
-		address.dataAddr 	= "D2210";
+	public static void read()  { 
+		address.ip 			= "172.28.12.84";
+		address.dataModel 	= "byte";
+		address.port 		= 50000;
+		address.protocal 	= "mcu";
+		address.dataAddr 	= "B000";
+//		while(true) { 
+//			byte[] bt 		= Udp.send(address.ip, address.port, address.dataAddr,""); 
+//		    if(bt!=null) {  
+//		    	System.out.println(McuConn.decode(address,bt));
+//		    }  
+//			Thread.sleep(200);
+//			System.gc();
+//		}
 		//System.gc();
 		mcu.batchRead(address).thenAccept(s->{ 
-			System.out.println(s); 
-			try {
-				Thread.sleep(150);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			System.out.println(s);  
+			//System.gc();
 			read();
 		}).exceptionally(ex -> {
 			//ipspeed.put(key, (long) -1);//断线
@@ -33,7 +38,7 @@ public class Star {
         }); 
 	}
 	
-	public static void main(String[] args) { 
+	public static void main(String[] args) throws InterruptedException { 
 		
 		read();
 		

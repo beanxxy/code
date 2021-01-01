@@ -9,9 +9,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 import com.google.gson.Gson;
-
+import com.iot.check.AlarmEvent;
 import com.iot.gateway.core.Client;
 import com.iot.gateway.core.Connection;
 import com.iot.gateway.core.Ioinfo;
@@ -23,6 +24,7 @@ import com.iot.gateway.core.util.Tool;
  */
  
 public class ClientTcp  implements Client{
+	static Logger logger = Logger.getLogger(ClientTcp.class.getName());
 	/**
 	 * 扫描间隔
 	 */
@@ -132,14 +134,16 @@ public class ClientTcp  implements Client{
 				fixedThreadPool.execute(() -> {
 					try {
 						excute(key);
-					}catch(Throwable t) { ipspeed.put(key, (long) -1); System.out.println("线程错误:"+t.getMessage());  }
+					}catch(Throwable t) { 
+						ipspeed.put(key, (long) -1);  
+						logger.log(logger.getLevel().WARNING, "线程错误:"+t.getMessage()); 
+					}
 				});
 			}
 		}
 	}
-	public static void log() { 
-		System.out.println("ipspeed:"+gs.toJson(ipspeed)); 
-		//System.out.println("rDeque:"+rDeque.size());
+	public static void log() {  
+		logger.info("ipspeed:"+gs.toJson(ipspeed));
 	}
 	static {
 		scheduledThreadPool.scheduleAtFixedRate(()->{try { 

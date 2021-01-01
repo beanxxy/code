@@ -6,7 +6,7 @@ import java.util.zip.Checksum;
  */
 public class CRC16 implements Checksum {
 
-    private  final int[] TABLE= {
+    private static  final int[] TABLE= {
         0x0000, 0xc0c1, 0xc181, 0x0140, 0xc301, 0x03c0, 0x0280, 0xc241,
         0xc601, 0x06c0, 0x0780, 0xc741, 0x0500, 0xc5c1, 0xc481, 0x0440,
         0xcc01, 0x0cc0, 0x0d80, 0xcd41, 0x0f00, 0xcfc1, 0xce81, 0x0e40,
@@ -108,7 +108,15 @@ public class CRC16 implements Checksum {
         for (int i = off; i < off+len; i++)
             update(b[i]);
     }
-
+  
+   	public static String update2(byte[] b, int off, int len) {
+   	   int value = 0x00;
+       for (int i = off; i < off+len; i++) {
+    	   value = (value >> 8) ^ TABLE[( (value)^(b[i]&0xff) ) & 0xff];
+       } 
+       return Integer.toHexString(value);
+    }
+    
     @Override
 	public void update(int b) {
         sum = (sum >> 8) ^ TABLE[( (sum)^(b&0xff) ) & 0xff];
@@ -117,25 +125,6 @@ public class CRC16 implements Checksum {
 	public static String getUnsignedByte (short data){      //灏哾ata瀛楄妭鍨嬫暟鎹浆鎹负0~65535 (0xFFFF 鍗� WORD)銆� 
 		String sp = "0000"+Integer.toHexString(data&0x0FFFF);
 		return sp.substring(sp.length()-4, sp.length()); 
-	}
- 
-    public  void main(String[] args) {
-        CRC16 crc = new CRC16();
-        /*crc.update(0x00);
-        crc.update(0x0c);
-        crc.update(0x00);
-        crc.update(0x02);
-        crc.update(0x00);
-        crc.update(0x00);*/
-        crc.update(0xaa);
-        crc.update(0x00);
-        crc.update(0x0d);
-        crc.update(0x00);
-        crc.update(0x00); 
-        //crc.update(0x45);
-        //crc.update(0x67);
-        //crc.update(0x89);
-        System.out.println(Integer.toHexString((int)crc.getValue()));
-    }
+	} 
 
 }

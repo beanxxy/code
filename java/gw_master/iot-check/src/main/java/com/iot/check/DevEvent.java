@@ -42,7 +42,7 @@ public class DevEvent extends Event{
 		Star.mqttSend("deviceCheckPointProcess", new Gson().toJson(process));
 		//================================================================================
 		
-		//System.out.println(str);
+		 
 		info.event.remove(info.value); 
 		Star.timeCheck.remove(this.attr.get("missionId")); 
 		Star.order.remove(this.attr.get("orderkey"));

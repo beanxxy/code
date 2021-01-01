@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;Helloservice.java&apos; to &apos;snimay/src/main/java/com.snimay.app.process&apos;&#x0D;&#x0A;- Original project: &apos;snimay&apos;&#x0D;&#x0A;- Destination element: &apos;snimay/src/main/java/com.snimay.app.process&apos;&#x0D;&#x0A;- Original element: &apos;com.snimay.app.process.Helloservice.java&apos;" description="Copy compilation unit" destination="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.snimay.app.process" element1="/src\/main\/java=/optional=/true=/=/maven.pomderived=/true=/&lt;com.snimay.app.process{Helloservice.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1608606445201" units="1" version="1.0"/>
+</session>

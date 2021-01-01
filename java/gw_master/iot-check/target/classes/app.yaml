@@ -9,23 +9,24 @@
 #    password: byw@#123Rqx
 #    key:  gateway:device:checkstate
 #门店id
-
+# V2.0.1.20.1230_001
 redis:
   database: 0
   host: 127.0.0.1
-  post: 6379
+  #post: 6379
+  post: 59905
   password: foobared
   key: 
 
 mqtt:
-  #host: tcp://ems.bywrc.com:18830
-  #tcpic1: deviceCmd_59905
-  #clientid: paho181700258583300
-  #username: prodemos
-  #password: Asdfghjkl;#(2020)mqttprod
+  host     : tcp://ems.bywrc.com:18830
+  tcpic1   : deviceCmd_59905
+  clientid : paho181700258583300
+  username : prodemos
+  password : Asdfghjkl;#(2020)mqttprod
   
-  host: tcp://emqdev.bgyfoodom.com:18830
-  tcpic1: deviceCmd_842
-  clientid: paho181700258583300
-  username: emqdevback
-  password: hLJ9sTXd1RImYqKeEzQF
+  #host: tcp://emqdev.bgyfoodom.com:18830
+  #tcpic1: deviceCmd_842
+  #clientid: paho181700258583300
+  #username: emqdevback
+  #password: hLJ9sTXd1RImYqKeEzQF

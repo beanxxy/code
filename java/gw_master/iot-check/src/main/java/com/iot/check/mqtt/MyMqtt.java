@@ -32,8 +32,7 @@ public class MyMqtt {
    
     }
     public static void init() {
-    	try {
-    		//System.out.println("xx");
+    	try { 
     		Yaml yaml = new Yaml();
     		InputStream inputStream = Resources.getResourceAsStream("app.yaml"); 
     		Map<String, Object> map = (Map<String, Object>) yaml.loadAs(inputStream, Map.class).get("mqtt"); 
@@ -51,7 +50,7 @@ public class MyMqtt {
     }
     
     public MyMqtt(MqttCallback callback, boolean cleanSession){
-        //System.out.println(host+","+userName+","+passWord+","+myTopic+","+id);
+        
         try {
              //id应该保持唯一性
             client = new MqttClient(host, id, new MemoryPersistence());
@@ -65,18 +64,15 @@ public class MyMqtt {
                 client.setCallback(new MqttCallback() {
     
                     public void connectionLost(Throwable arg0) {
-                        // TODO 自动生成的方法存根
-                        System.out.println(id + " connectionLost " + arg0);
+                         
                     }
     
                     public void deliveryComplete(IMqttDeliveryToken arg0) {
-                        // TODO 自动生成的方法存根
-                        System.out.println(id + " deliveryComplete " + arg0);
+                        
                     }
     
                     public void messageArrived(String arg0, MqttMessage arg1) throws Exception {
-                        // TODO 自动生成的方法存根
-                        System.out.println(id + " messageArrived: " + arg1.toString());
+                         
                     }
                 });
             } else {

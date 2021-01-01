@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.pmes</groupId>
+	<artifactId>pmes</artifactId>
+	<packaging>jar</packaging>
+
+	<name>pmes</name>
+	<description>Demo project for Spring Boot</description>
+
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.12.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	 	<activiti.version>5.22.0</activiti.version>
+	 	<drools.version>6.5.0.Final</drools.version>
+	</properties>
+	
+	<dependencies>
+	
+	<dependency>
+		<groupId>io.springfox</groupId>
+		<artifactId>springfox-swagger2</artifactId>
+		<version>2.6.1</version>
+	</dependency>
+	
+	 
+	
+	<dependency>
+		<groupId>io.springfox</groupId>
+		<artifactId>springfox-swagger-ui</artifactId>
+		<version>2.6.1</version>
+	</dependency>
+	
+	 <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-aop</artifactId>
+      </dependency>
+
+	 <!-- 	<dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>springloaded</artifactId>
+        </dependency>  
+    	<dependency>  
+	            <groupId>org.springframework.boot</groupId>  
+	            <artifactId>spring-boot-devtools</artifactId>  
+	            <optional>true</optional>  
+	           <scope>true</scope>  
+		</dependency>   -->
+		
+		<dependency>
+		    <groupId>net.sourceforge.htmlunit</groupId>
+		    <artifactId>htmlunit</artifactId>
+		    <version>2.30</version>
+		</dependency>
+		
+		<!--  <dependency>
+	        <groupId>tk.mybatis</groupId>
+	        <artifactId>mapper-spring-boot-starter</artifactId>
+	        <version>RELEASE</version>
+	    </dependency>
+		 -->
+		<dependency>
+		  <groupId>org.freemarker</groupId>
+		  <artifactId>freemarker</artifactId>
+		  <version>2.3.28</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.google.zxing</groupId>
+		    <artifactId>core</artifactId>
+		    <version>3.1.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.google.zxing</groupId>
+		    <artifactId>javase</artifactId>
+		    <version>3.1.0</version>
+		</dependency>
+		
+	   <!--  <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency> -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		 <!-- 使用MySQL数据库，并用Spring Data JPA来作为数据库访问 -->  
+        <dependency>  
+            <groupId>org.springframework.boot</groupId>  
+            <artifactId>spring-boot-starter-data-jpa</artifactId>  
+        </dependency>  
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		
+		<!-- 支持发送邮件
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+  		-->
+		
+		
+		<!-- drools -->
+		 <dependency>
+            <groupId>org.kie</groupId>
+            <artifactId>kie-spring</artifactId>
+            <version>${drools.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-tx</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-beans</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-context</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+ 	    <dependency>
+            <groupId>org.drools</groupId>
+            <artifactId>drools-compiler</artifactId>
+            <version>${drools.version}</version>
+        </dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.drools/drools-core -->
+		<dependency>
+		    <groupId>org.drools</groupId>
+		    <artifactId>drools-core</artifactId>
+		    <version>6.5.0.Final</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.drools/knowledge-api -->
+		<!-- <dependency>
+		    <groupId>org.drools</groupId>
+		    <artifactId>knowledge-api</artifactId>
+		    <version>6.5.0.Final</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.drools/knowledge-internal-api -->
+		<dependency>
+		    <groupId>org.drools</groupId>
+		    <artifactId>knowledge-internal-api</artifactId>
+		    <version>5.6.0.Final</version>
+		</dependency>
+		
+		
+		 
+		<dependency>
+		    <groupId>org.drools</groupId>
+		    <artifactId>drools-workbench-models-commons</artifactId>
+		    <version>6.5.0.Final</version>
+		</dependency> -->
+
+
+
+
+
+		<!--activiti begin-->
+		<!--<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-engine</artifactId>
+			<version>${activiti.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-spring</artifactId>
+			<version>${activiti.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-modeler</artifactId>
+			<version>${activiti.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.activiti</groupId>
+			<artifactId>activiti-diagram-rest</artifactId>
+			<version>${activiti.version}</version>
+		</dependency>
+		activiti end-->
+		
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.8.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-batch</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-integration</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
+		</dependency>
+	</dependencies>
+
+	<build>
+	 <plugins>  
+	    <plugin>  
+	       <groupId>org.springframework.boot</groupId>  
+	           <artifactId>spring-boot-maven-plugin</artifactId>  
+	           <executions>  
+	               <execution>  
+	                     <goals>  
+	                         <goal>repackage</goal>  
+	                     </goals>  
+	                 </execution>  
+	             </executions>  
+	     </plugin> 
+	 </plugins>  
+	<resources>  
+        <resource>  
+            <directory>src/main/resources</directory>  
+        </resource>  
+    </resources> 
+	</build>
+
+</project>

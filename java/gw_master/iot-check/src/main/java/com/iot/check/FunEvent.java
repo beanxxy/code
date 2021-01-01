@@ -10,6 +10,10 @@ import com.iot.gateway.core.Event;
 import com.iot.gateway.core.Ioinfo;
 import com.iot.gateway.core.imp.ClientTcp;
 
+/**
+ * @author bean
+ *
+ */
 public class FunEvent extends Event{
 
 	@Override
@@ -28,7 +32,7 @@ public class FunEvent extends Event{
 		r.storeId 		= Long.parseLong(Star.STOREID);
 		r.message 		= this.attr.get("massge");
 		String str 		= new Gson().toJson(r); 
-		Star.mqttSend("deviceCmdExcResult", str);
+		
 
 		//mqtt============================================================================
 		Map<String,String> process = new HashMap<String,String>();
@@ -42,21 +46,20 @@ public class FunEvent extends Event{
 		
 		
 		if(command!=null&&command.equals("close")) {
-			//去掉读取; 
-			//System.out.println("close");
+			//去掉读取;  
 			Star.client.close(info);
 		}
 		
 		if(command!=null&&command.equals("close_fun")) {
-			//去掉读取; 
-			//System.out.println("close");
+			//去掉读取;  
+			
 			Star.client.close(info);
 			Star.funing.remove(r.id+code);
+			Star.mqttSend("deviceCmdExcResult", str);
 		}
 		if(Star.funing.get(r.id+code)==null) {
 			Star.client.close(info);
-		}
-		//System.out.println(str);
+		} 
 		info.event.remove(info.value); 
 		Star.timeCheck.remove(this.attr.get("missionId")); 
 		Star.order.remove(this.attr.get("orderkey"));

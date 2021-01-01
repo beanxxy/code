@@ -17,14 +17,17 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executors;
+import java.util.logging.Logger;
+
+import com.iot.check.AlarmEvent;
 
  
 /**
  * @author bean
  */
 public class Udp {
-	
-	public static int interval = 50;
+	static Logger logger = Logger.getLogger(Udp.class.getName());
+	public static int interval = 200;
 	
 	/**
 	 * 获取当前ip地址
@@ -43,7 +46,8 @@ public class Udp {
                 inetAddresses = networkInterface.getInetAddresses();
                 while (inetAddresses.hasMoreElements()) {
                     inetAddress = inetAddresses.nextElement();
-                    if (inetAddress != null && inetAddress instanceof Inet4Address) { // IPV4
+                    // IPV4
+                    if (inetAddress != null && inetAddress instanceof Inet4Address) { 
                         ip = inetAddress.getHostAddress();
                         ipList.add(ip);
                     }
@@ -113,6 +117,50 @@ public class Udp {
 		return tmp;
 	}
 	
+	public static Map<String,DatagramSocket> DatagramSocketData = new ConcurrentHashMap<String,DatagramSocket>();
+	public static DatagramSocket getDatagramSocketData(String hostname,int port) throws SocketException {
+		DatagramSocket socket = DatagramSocketData.get(hostname+port);
+		if(socket==null) {
+			socket = new DatagramSocket(0); 
+			DatagramSocketData.put(hostname+port, socket);
+		}
+		return socket; 
+	}
+	public static void closeDatagramSocketData(String hostname,int port) {
+		DatagramSocketData.remove(hostname+port);
+	}
+	
+	
+	public static Map<String,DatagramPacket> requestDatagramPacket = new ConcurrentHashMap<String,DatagramPacket>();
+	public static DatagramPacket getRequestDatagramPacket(int port,byte[] bt,InetAddress host,String hostname ) {
+		String key = hostname+port;
+		DatagramPacket tmp = requestDatagramPacket.get(key);  
+		if(tmp==null) {
+			tmp = new DatagramPacket(bt, bt.length, host, port); 
+		}else {
+			tmp.setAddress(host);
+			tmp.setData(bt);
+			tmp.setLength(bt.length);
+			tmp.setPort(port);
+		}
+		requestDatagramPacket.put(key, tmp);
+		return tmp;
+	}
+	
+	public static Map<String,DatagramPacket> responseDatagramPacket = new ConcurrentHashMap<String,DatagramPacket>();
+	public static DatagramPacket getResponseDatagramPacket(int port,byte[] bt,InetAddress host ,String hostname) {
+		String key =hostname+port; 
+		DatagramPacket tmp = responseDatagramPacket.get(key);  
+		if(tmp==null) {
+			tmp = new DatagramPacket(bt, bt.length); 
+		}else { 
+			tmp.setData(bt);
+			tmp.setLength(bt.length); 
+		}
+		responseDatagramPacket.put(key, tmp);
+		return tmp;
+	}
+	
 	/**
 	 * @param hostname
 	 * @param port
@@ -132,56 +180,37 @@ public class Udp {
 		
 		//传入0表示让操作系统分配一个端口号 
 		DatagramSocket socket = null;
-		try {
-			//System.out.println(socket.getPort());
+		try { 
 			//DatagramSocket 
-			socket 	= new DatagramSocket(0);
-			//System.out.println("端口打开:"+socket.getLocalPort());
+			//new DatagramSocket(0);
+			socket 			= getDatagramSocketData(hostname,port) ;
 			socket.setSoTimeout(1000); 
 			InetAddress host = InetAddress.getByName(hostname);  
-			CRC16 crc = new CRC16(); 
+			//CRC16 crc = new CRC16(); 
 			//byte[] strb = body.getBytes(); 
-			String body = CRC16.bytesToHex(strb);
-			short length	=	(short) (body.length()/2); 
-			String hexlength=	CRC16.getUnsignedByte(length); 
-			String hexstring = "aa"+hexhead+hexlength+body;  
-			byte[] sendbt = CRC16.toBytes(hexstring);
-			crc.update(CRC16.toBytes(hexstring),0,sendbt.length); 
-			hexstring	+=	crc.getHexValue();
-			//System.out.println(hexstring);
-			byte[] bt = CRC16.toBytes(hexstring);
-			//byte[] bt = CRC16.toBytes("aa000d0000db89");  
-			//指定包要发送的目的地
-			DatagramPacket request = new DatagramPacket(bt, bt.length, host, port);
-			
-			byte[] revdata = getByte(hostname,port);
-			
-			//为接受的数据包创建空间
-			DatagramPacket response = new DatagramPacket(revdata, revdata.length); 
-			//System.out.println("发送前");
-			socket.send(request);
-			//System.out.println("发送后");
-			socket.receive(response); 
-			//System.out.println("回调");
-			//byte[] revdata = response.getData(); 
-			//response.getData() 
-			
-			String result = CRC16.bytesToHex(revdata);
-			//System.out.println(result);
-			byte[] data=UDP_Rec_Event_method(revdata,revdata.length);
-			
-			/*if(data!=null) {
-				System.out.println("new:"+new String(data,"utf-8"));
-			}*/
-			
-			socket.disconnect();
-			socket.close();
-			return data; 
-			//String result = new String(response.getData(), 0, response.getLength(), "ASCII"); 
+			String body 		= CRC16.bytesToHex(strb);
+			short length		= (short) (body.length()/2); 
+			String hexlength	= CRC16.getUnsignedByte(length); 
+			String hexstring 	= "aa"+hexhead+hexlength+body;  
+			//byte[] sendbt = CRC16.toBytes(hexstring);
+			//crc.update(CRC16.toBytes(hexstring),0,sendbt.length); 
+			//hexstring	+=	crc.getHexValue(); 
+			hexstring	+= CRC16.update2(CRC16.toBytes(hexstring),0,hexstring.length() / 2); 
+			byte[] bt 	=  CRC16.toBytes(hexstring);   
+			//指定包要发送的目的地  new DatagramPacket(bt, bt.length, host, port);
+			DatagramPacket request 	=  getRequestDatagramPacket( port,bt,host,hostname); 
+			byte[] revdata 			=  getByte(hostname,port); 
+			//为接受的数据包创建空间int port,byte[] bt,InetAddress host 	new DatagramPacket(revdata, revdata.length); 
+			DatagramPacket response = getResponseDatagramPacket(port,revdata,host,hostname);
+			socket.send(request); 
+			socket.receive(response);  
+			 
+			return UDP_Rec_Event_method(revdata,revdata.length);  
 		} catch (IOException e) { 
-			socket.disconnect();
-			socket.close();
-			System.out.println("发生错误:"+e.getMessage()+":"+hostname+":"+hexhead);
+			//socket.disconnect();
+			//socket.close();
+			//closeDatagramSocketData( hostname, port);
+			//logger.warning("发生错误:"+e.getMessage()+":"+hostname+":"+hexhead); 
 			//e.printStackTrace();
 		} 
 		return null;
@@ -193,7 +222,7 @@ public class Udp {
 		if (revdata[0] == (byte)0xaa && length >= 9)
 		{
 			int dataLen = revdata[5] * 256 + revdata[6];
-			//System.out.println(dataLen);
+			 
 			byte[] data = new byte[dataLen];
 			int packageLen = dataLen + 9;
 			//byte[] packge = new byte[packageLen];
@@ -203,24 +232,19 @@ public class Udp {
 				CRC16 crc16 = new CRC16(); 
 				crc16.update(revdata, 0, packageLen - 2);
 				 
-				int crc = (int)crc16.getValue();//McuCommon.CRC16_Calculate(revdata, 0, packageLen - 2);
-				//System.out.println(crc16.getHexValue());
+				int crc = (int)crc16.getValue(); 
+				 
 				
 				if (revdata[packageLen - 2] == (byte)(crc / 256) && revdata[packageLen - 1] == (byte)(crc % 256))
 				{
-					System.arraycopy(revdata, 7, data, 0, dataLen);
-					//System.out.println(CRC16.bytesToHex(data));
-					return data;
-					//String temp = revdata[1].ToString("X2"); 
-					//temp += revdata[2].ToString("X2"); 
-					//AddAppdebugInfo("UDP收到命令：" + temp);
+					System.arraycopy(revdata, 7, data, 0, dataLen); 
+					return data; 
 				}
 				else
 				{
 					return null;
 				} 
-				//int intRC = revdata[3] * 256 + revdata[4];
- 
+				 
 			}
 		} 
 		return null;
@@ -267,8 +291,7 @@ public class Udp {
 	public static Map<String,String> getOnline() throws UnsupportedEncodingException {
 		Map online = new HashMap<String,String>();
 		List<String> ls = Udp.getBcstAddr();
-		for(String addr : ls) {
-			//System.out.println(addr);
+		for(String addr : ls) { 
 			byte[] bt = Udp.send(addr, PORT, "0006", "1");
 			if(bt!=null) {
 				//String result = CRC16.bytesToHex(bt);
@@ -282,20 +305,5 @@ public class Udp {
 	}
 	public final static int PORT = 50000;
 	//private static final String  HOSTNAME= "192.168.8.255"; 
-	public static void main(String[] args) throws UnsupportedEncodingException {
-		Map map = Udp.getOnline();
-		System.out.println(map);
-		//byte[] bt = Udp.send("192.168.8.112", 50000, "a00c","");0300
-		//byte[] bt = Udp.send("192.168.8.112",50000, "0006","");
-		/*if(bt==null) {
-			
-		}else {
-			String result = CRC16.bytesToHex(bt);
-			System.out.println(result.length());
-			System.out.println(result);
-			System.out.println(new String(bt));//0101010101010101010101010101
-		} */
-		
-		//Udp.send(HOSTNAME, PORT, "0006", "b");
-	}
+	 
 }

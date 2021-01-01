@@ -9,12 +9,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 import com.google.gson.Gson;
-
+import com.iot.check.Star;
 import com.iot.gateway.core.Client;
 import com.iot.gateway.core.Connection;
 import com.iot.gateway.core.Ioinfo;
+import com.iot.gateway.core.enums.State;
 import com.iot.gateway.core.util.Tool;
 
 /**
@@ -23,6 +25,7 @@ import com.iot.gateway.core.util.Tool;
  */
  
 public class ClientTcp  implements Client{
+	static Logger logger = Logger.getLogger(ClientTcp.class.getName());
 	/** 
 	 * 优先扫描超时 毫秒
 	 */
@@ -37,13 +40,16 @@ public class ClientTcp  implements Client{
 	public static Map<String,Connection> Conns 			= new ConcurrentHashMap<String,Connection>(); 
 	/**
 	 * 线程池
-	 */
-	public static ExecutorService fixedThreadPool 				= Executors.newFixedThreadPool(100); 
-	public static ScheduledExecutorService scheduledThreadPool  = Executors.newScheduledThreadPool(100); 
+	 */ 
+	public static ScheduledExecutorService scheduledThreadPool  = Executors.newScheduledThreadPool(1); 
+	public static ScheduledExecutorService scheduledThreadPool1  = Executors.newScheduledThreadPool(1); 
+	public static ScheduledExecutorService scheduledThreadPool2  = Executors.newScheduledThreadPool(1); 
 	/*
 	 * 优先
 	 */
 	public static Map<String,Deque<Ioinfo>> rDeque0  = new ConcurrentHashMap<String,Deque<Ioinfo>>();
+	
+	
 	/**
 	 * 根据ip和端口分开
 	 */
@@ -56,8 +62,63 @@ public class ClientTcp  implements Client{
 	 * 链接速度
 	 */
 	public static Map<String,Long> ipspeed = new ConcurrentHashMap<String,Long>();
+	/*
+	 * 状态 0 空闲 1 忙碌 3 故障
+	 */
+	public static Map<String,State> STATE  = new ConcurrentHashMap<String,State>();
 	
 	public static Gson gs = new Gson(); 
+	
+	/**
+	 * 获取状态
+	 * @param key 
+	 * @return
+	 */
+	public static State  getState(String key) {
+		return STATE.get(key);
+	}
+	
+	/**
+	 * 设置状态
+	 * @param key
+	 * @param state
+	 */
+	public static void setState(String key ,State state) {
+		STATE.put(key, state);
+	}
+	
+	
+	/**
+	 * 是否空闲
+	 * @param key
+	 * @return
+	 */
+	public static boolean isFree(String key) {
+		if(getState(key)==null) return true;
+		if(getState(key).equals(State.free))return true;
+		return false;
+	}
+	
+	/**
+	 * 设置不空闲
+	 * @param key
+	 */
+	public static void setBusy(String key) {
+		setState(key,State.busy);
+	}
+	
+	public static void setFree(String key) {
+		setState(key,State.free);
+	}
+	
+	/**
+	 * 设置错误
+	 * @param key
+	 */
+	public static void setError(String key) {
+		setState(key,State.error);
+	}
+	
 	
 	/**
 	 * 读取注册
@@ -72,8 +133,7 @@ public class ClientTcp  implements Client{
 			Deque<Ioinfo> rq 	= rDeque0.get(key);
 			if(rq == null ) rq 	= new LinkedBlockingDeque<Ioinfo>(); 
 			rq.addLast(iofo);
-			rDeque0.put(key, rq); 
-			//System.out.println(key+":"+rq.size());
+			rDeque0.put(key, rq);  
 			if(ipspeed.get(key)	==	null)ipspeed.put(key, (long) -1);
 		}else {
 			IoinfoData.put(getKeyInfo(iofo), iofo);
@@ -91,12 +151,11 @@ public class ClientTcp  implements Client{
 			Deque<Ioinfo> rq 	= rDeque.get(key);
 			if(rq == null ) rq 	= new LinkedBlockingDeque<Ioinfo>(); 
 			rq.addLast(iofo);
-			rDeque.put(key, rq); 
-			//System.out.println(key+":"+rq.size());
-			
+			rDeque.put(key, rq);  
 			if(ipspeed.get(key)	==	null)ipspeed.put(key, (long) -1);
 		}else {
 			IoinfoData.put(getKeyInfo(iofo), iofo);
+			//logger.info("------"+new Gson().toJson(iofo));
 		} 
 	}
 	
@@ -117,21 +176,29 @@ public class ClientTcp  implements Client{
 		return iofo.ip+"-"+iofo.port+"+"+iofo.dataAddr;
 	}
 	
+	
+	
+	
+	
 	/**
 	 * 扫描字段
 	 * @param key
 	 */
 	public static void excute(String key) { 
 		
+		// 不在状态 
+		if(!isFree(key)) {
+			return;
+		}
+		
 		Deque<Ioinfo> deq = rDeque0.get(key); //优先
 		
-		if(deq!=null&&deq.size()!=0)
-			System.out.println("====>"+key+":"+deq.toString()+":"+deq.size());
-		 
+		if(deq!=null&&deq.size()!=0) 
+			logger.info("====>"+key+":"+deq.toString()+":"+deq.size());
 		if(deq==null || deq.size() == 0) { 
 			 deq = rDeque.get(key); 
 		}else {
-			//System.out.println();
+			 
 		}
 		
 		if(deq==null) return ;
@@ -143,30 +210,35 @@ public class ClientTcp  implements Client{
 			if(tempio!=null) {
 				infoT = IoinfoData.get(getKeyInfo(tempio));
 			}else {
-				excute(key);
+				//excute(key);
+				setFree(key);
 			}
 		}
 		
 		if(infoT==null) { 
-			excute(key);
+			//excute(key);
+			setFree(key);
 			return ;
 		}
 		Ioinfo info = infoT;
 		// 超时去掉
-		if(info.lifetime!=0 && info.lifetime < (new Date().getTime())) {
+		if(info.lifetime!=0 && info.lifetime < (System.currentTimeMillis())) {
 			IoinfoData.remove(getKeyInfo(info));
-			excute(key);
+			//excute(key);
+			setFree(key);
 		};
-		
-		
+		 
 		Connection con = getConn(info); 
-		Long lg = new Date().getTime();
 		
-		//System.out.println("read==>"+info.dataAddr+"/"+info.dataModel);
+		Long lg = System.currentTimeMillis();
 		
+		setBusy(key);
 		con.batchRead(info).thenAccept(s->{ 
-			
-			//System.out.println(info.dataAddr+"==>"+s);
+			//线程回调
+			Executors.newCachedThreadPool().execute(()->{try { 	
+				info.call(s); 
+			}catch(Throwable t) { t.getStackTrace(); }});
+			 
 			if(info.value==null || (!info.value.equals(s))) {
 				info.value = s;
 				Executors.newCachedThreadPool().execute(()->{try { 	//线程回调
@@ -176,9 +248,11 @@ public class ClientTcp  implements Client{
 					}
 				}catch(Throwable t) { t.getStackTrace(); }});
 			}
+			
+			
 			if(info.lifetime!=0) {
 				// 超时去掉
-				if(info.lifetime < (new Date().getTime())) { 
+				if(info.lifetime < (System.currentTimeMillis())) { 
 					IoinfoData.remove(getKeyInfo(info));
 				}else { 
 					rDeque0.get(key).addLast(info);
@@ -193,12 +267,13 @@ public class ClientTcp  implements Client{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			ipspeed.put(key, new Date().getTime() -  lg);
-			excute(key);//下一个
+			ipspeed.put(key, System.currentTimeMillis() -  lg);
+			//excute(key);
+			setFree(key);//下一个
 		}).exceptionally(ex -> {
-			ipspeed.put(key, (long) -1);//断线
-			
-			System.out.println(ex.getMessage());
+			ipspeed.put(key, (long) -1);//断线 
+			setError(key);
+			logger.warning(ex.getMessage()); 
 			if(info.lifetime!=0) {
 				rDeque0.get(key).addLast(info);
 			}else {
@@ -215,33 +290,68 @@ public class ClientTcp  implements Client{
 	 */
 	public static void execute() throws Exception {
 		for(String str : ipspeed.keySet()) {
+			final String key = str;
+			if(ipspeed.get(str)!=-1) {
+				try {
+					excute(key);
+				}catch(Exception e){
+					logger.warning("线程错误:"+e.getMessage());
+				}catch(Throwable t) { 
+					ipspeed.put(key, (long) -1); 
+					logger.warning("线程错误:"+t.getMessage());
+					logger.warning(t.getLocalizedMessage()); 
+					logger.warning(key);  
+				}
+			}
+		}
+		
+		
+		/*for(String str : ipspeed.keySet()) {
 			if(ipspeed.get(str)==-1 && Tool.ping(str.split("-")[0])) { 
 				final String key = str;
 				fixedThreadPool.execute(() -> {
 					try {
 						excute(key);
 					}catch(Throwable t) { 
-						ipspeed.put(key, (long) -1);
-						System.out.println("线程错误:"+t.getMessage()); 
-						System.out.println(t.getLocalizedMessage());  
-						System.out.println(key); 
+						ipspeed.put(key, (long) -1); 
+						logger.warning("线程错误:"+t.getMessage());
+						logger.warning(t.getLocalizedMessage()); 
+						logger.warning(key);  
 					}
 				});
 			}
+		}*/
+	}
+	public static void check() {
+		for(String str : ipspeed.keySet()) {
+			try {
+				if(ipspeed.get(str)==-1 && Tool.ping(str.split("-")[0])) {
+					ipspeed.put(str, 9999l);
+					setFree(str);
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
 	}
-
 	 
     public static void log() { 
-    	System.out.println("ipspeed:"+gs.toJson(ipspeed));
-    	System.out.println("rDeque:"+rDeque.size()); 
+    	//System.gc();
+    	//logger.info("ipspeed:"+gs.toJson(ipspeed));
+    	//logger.info("rDeque:"+rDeque.size()); 
     }
 	  
 	static {
-		scheduledThreadPool.scheduleAtFixedRate(()->{try { 
+		scheduledThreadPool1.scheduleAtFixedRate(()->{try {  
 			execute(); 
-		}catch(Throwable t) { t.getStackTrace(); } }, 1, 20, TimeUnit.SECONDS); 
+		}catch(Throwable t) { t.getStackTrace(); } }, 1, 50, TimeUnit.MICROSECONDS); 
 		 
+		scheduledThreadPool2.scheduleAtFixedRate(()->{try {  
+			check(); 
+		}catch(Throwable t) { t.getStackTrace(); } }, 1, 10, TimeUnit.SECONDS); 
+		
 		scheduledThreadPool.scheduleAtFixedRate(()->{try { log(); }catch(Throwable t)
 		{ t.getStackTrace(); } }, 1, 10, TimeUnit.SECONDS);
 	 

@@ -1,0 +1,1 @@
+www.baidu.com?server=www.baidu.com&token=xxxyyy

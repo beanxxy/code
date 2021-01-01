@@ -263,55 +263,7 @@ public class LittleByteUtil {
 		char c = 'c';
 		float f = 444.44f;
 		double d = 555.55;
-		String string = "�����ַ���666";
-
-		System.out.println(s);
-		System.out.println(i);
-		System.out.println(l);
-		System.out.println(c);
-		System.out.println(f);
-		System.out.println(d);
-		System.out.println(string);
-
-		System.out.println("**************");
-
-		System.out.println(getShort(getShortBytes(s)));
-		System.out.println(getInt(getIntBytes(i)));
-		System.out.println(getLong(getLongBytes(l)));
-		System.out.println(getChar(getCharBytes(c)));
-		System.out.println(getFloat(getFloatBytes(f)));
-		System.out.println(getDouble(getDoubleBytes(d)));
-		System.out.println(getString(getStringBytes(string)));
+		String string = "�����ַ���666"; 
 		
-	}
-	
-	/*private static void bufferTest(){
-		
-		long a = 4648097885297469030l;
-		
-		ByteBuffer buf = ByteBuffer.allocate(8);
-		buf.order(ByteOrder.LITTLE_ENDIAN);
-		buf.putLong(a);
-		
-		byte[] bufByte = buf.array();
-		
-		byte[] bytes = getLongBytes(a);
-		
-		long ba = getLong(bytes);
-		
-		System.out.println(bufByte.equals(ba));
-		
-		System.out.println(ba);
-		
-	}
-
-	public static void main(String[] args) {
-
-		verifiTest();
-		
-		bufferTest();
-		
-		
-		System.out.println("finished ... ");
-	}*/
+	} 
 }

@@ -41,10 +41,10 @@ public class McuConn implements Connection{
 		} while (bt==null);
 		
 		if(bt==null) {
-			//System.out.println("bt is 空");
+		 
 			future.completeExceptionally(new Exception());
 		}else {
-			//System.out.println(CRC16.bytesToHex(bt));
+			 
 			String r =  decode(address,bt); 
 			future.complete(r); 
 		} 
@@ -87,7 +87,7 @@ public class McuConn implements Connection{
 			r = bt[0]+"";
 			break;
 		case "short":  
-			//System.out.println(bt.length);
+			 
 			bt = getByte(bt);
 			
 			r = LittleByteUtil.getShort(bt)+"";
@@ -146,6 +146,7 @@ public class McuConn implements Connection{
 	 * @return
 	 */
 	public static byte[] getByte(byte[] bt) { 
+		
 		for(int i=0;i<bt.length;i+=2) {
 			byte t = bt[i];
 			bt[i] = bt[i+1];

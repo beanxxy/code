@@ -1,0 +1,71 @@
+
+
+server:
+  port: 9091
+  tomcat:
+     max-http-post-size: -1
+ 
+#  tomcat:
+#    uri-encoding:UTF-8
+security:
+  basic:
+    enabled: false
+spring:
+  servlet:
+    multipart:
+      max-file-size: 30Mb
+      max-request-size: 100Mb
+# mail:
+#   host: smtp.qq.com
+#   username: xxxx@qq.com # 这里填写个人的qq邮箱
+#   password: 12312 # 注：这里不是qq邮箱的密码，而是授权码
+#       properties:
+#       mail.smtp.auth: true
+#       mail.smtp.starttls.enable: true
+#       mail.smtp.starttls.required: true
+  datasource:
+    #driver-class-name: oracle.jdbc.OracleDriver
+    #url: jdbc:oracle:thin:@192.168.40.140:1521:orcl
+    #username: LXD
+    #password: 123456
+    #url: jdbc:mysql://192.168.1.8:3306/pmes?useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://127.1:3306/pmes?useUnicode=true&characterEncoding=UTF-8
+    username: root
+    password: 123
+   
+    #username: xxy
+    #password: 123
+    
+  jpa:
+    hibernate:
+      ddl-auto: update
+      show-sql: true
+    properties:
+      hibernate:
+        show-sql: true
+        ddl-auto: update
+        enable_lazy_load_no_trans: true
+        event:
+          merge:
+            entity_copy_observer: allow
+ #   database:oracle
+ #   show-sql: true
+ #http://localhost:9091/swagger-ui.html#/clazz-controller
+#  hibernate:
+# ddl-auto: update
+  thymeleaf:
+    cache: false
+#  http:
+#    encoding:
+#      force:true
+#      charset:UTF-8
+#      enabled:true
+myYml:
+  mapProps:
+    admin: sys
+    pw: ICy5YqxZB1uWSwcVLSNLcA==
+
+#redis:
+#  host: localhost
+
+   

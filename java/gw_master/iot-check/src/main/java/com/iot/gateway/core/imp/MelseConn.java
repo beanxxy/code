@@ -52,13 +52,12 @@ public class MelseConn implements Connection{
 		
 		client.batchRead(convertAddr(addr[0]),maplength.get(address.dataModel)).thenAccept(response -> {
 			byte[] bt = response.array(); 
-			//System.out.println( CRC16.bytesToHex(bt)); 
-			//bt = getByte(bt); 
+			 
 			String r = "";
-			//System.out.println(CRC16.bytesToHex(bt)); 
+			 
 			switch (address.dataModel) {
 			case "bit": 
-				int adi = 0;
+				int adi = 8;
 				if(addr.length>1) {
 					adi = Integer.parseInt(addr[1]);
 				} 
@@ -147,7 +146,7 @@ public class MelseConn implements Connection{
 		ByteBuf dat = null;//Unpooled.copiedBuffer("".getBytes());
         int length = 0;
         byte[] bt; 
-        //System.out.println(data);
+         
 		switch (address.dataModel) {
 		case "bit":
 			//if
@@ -206,12 +205,9 @@ public class MelseConn implements Connection{
 		default :
 			writeByModel(data,address);  
 		}
-		//System.out.println(CRC16.bytesToHex(dat.array()));
-	   //System.out.println("l"+maplength.get(address.dataModel));
-		//System.out.println("wr"+addr[0]+"-"+maplength.get(address.dataModel)+"-"+data);
+		 
        client.batchWrite(convertAddr(addr[0]), maplength.get(address.dataModel), dat) 
-        .thenAccept(response -> { 
-        	//System.out.println(addr[0]+"-"+maplength.get(address.dataModel)+"-"+data);
+        .thenAccept(response -> {  
         	future.complete(null);
         }).exceptionally(ex -> { 
         	future.completeExceptionally(ex); 
@@ -225,7 +221,6 @@ public class MelseConn implements Connection{
 			return ~tmp & num;
 		}else {
 			return tmp | num;
-		} 
-		//System.out.println()
+		}  
 	}
 }

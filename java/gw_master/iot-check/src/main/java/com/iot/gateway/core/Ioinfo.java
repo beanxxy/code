@@ -49,6 +49,9 @@ public abstract class Ioinfo {
 	 */
 	public abstract void change(String value);
 	
-
+	/**
+	 * @param value
+	 */ 
+	public abstract void call(String value);
 	
 }

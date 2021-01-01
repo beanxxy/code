@@ -9,4 +9,6 @@
     <fullyQualifiedTypeName name="java.util.Map"/>
     <fullyQualifiedTypeName name="com.google.gson.Gson"/>
     <fullyQualifiedTypeName name="com.bgy.gateway.enums.EndianEnum"/>
+    <fullyQualifiedTypeName name="com.bgy.gateway.enums.ProtocolEnum"/>
+    <fullyQualifiedTypeName name="org.springframework.stereotype.Component"/>
 </qualifiedTypeNameHistroy>

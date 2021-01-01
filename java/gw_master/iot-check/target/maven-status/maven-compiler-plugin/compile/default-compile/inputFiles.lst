@@ -2,6 +2,9 @@ D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\gateway\core\Connect
 D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\check\DevEvent.java
 D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\check\Star.java
 D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\gateway\cfg\mapping\DataModelMapper.java
+D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\gateway\core\enums\State.java
+D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\check\AlarmInfo.java
+D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\check\AlarmEvent.java
 D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\gateway\core\util\CRC16.java
 D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\check\DevInfo.java
 D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\gateway\core\imp\MelseConn.java
@@ -19,6 +22,7 @@ D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\gateway\core\Client.
 D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\gateway\cfg\mapping\DevMapper.java
 D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\gateway\core\DataModel.java
 D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\gateway\cfg\mapping\IoInfoMapper.java
+D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\check\FunEvent.java
 D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\gateway\cfg\model\cfg_Dev.java
 D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\gateway\cfg\model\cfg_Call.java
 D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\check\mqtt\Cmd.java
@@ -28,5 +32,6 @@ D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\gateway\cfg\mybatis\
 D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\gateway\cfg\mapping\AlarmMapper.java
 D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\gateway\cfg\mapping\FunctionMapper.java
 D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\gateway\cfg\model\cfg_DataModel.java
+D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\check\FunInfo.java
 D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\gateway\core\util\Udp.java
 D:\bean\code\java\gw_master\iot-check\src\main\java\com\iot\gateway\cfg\redis\redisCfg.java

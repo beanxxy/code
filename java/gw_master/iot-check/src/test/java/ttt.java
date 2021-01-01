@@ -18,12 +18,14 @@ public class ttt {
 		return bt;
 	}
 	 public static void main(String[] args) {
-	    	MelsecClientConfig config = new MelsecClientConfig.Builder("192.168.8.10").setPort(8000).build();
+	    	MelsecClientConfig config = new MelsecClientConfig.Builder("172.29.255.67").setPort(4999).build();
 	        MelsecTcpClient client = MelsecTcpClient.create3EBinary(config);
-	        client.batchRead("D2210",2)
+	        client.batchRead("F0",2)
             .thenAccept(response -> {
             	byte[] bt = response.array();
-            	System.out.println("xx");
+            	 //CRC16.bytesToBin(bt)
+            	System.out.println(CRC16.bytesToBin(bt));
+            	System.out.println(CRC16.bytesToBin(bt).charAt(15-8)+""); 
             	//System.out.println(LittleByteUtil.getFloat(getByte(bt)));
             	//response.order().BIG_ENDIAN 
             	//System.out.println(response.order(ByteOrder.nativeOrder()).readFloat());

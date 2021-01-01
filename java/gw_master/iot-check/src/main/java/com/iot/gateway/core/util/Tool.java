@@ -4,13 +4,22 @@ import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Logger;
 
+import com.iot.check.AlarmEvent;
+
+/**
+ * @author bean
+ *
+ */
 public class Tool {
+	static Logger logger = Logger.getLogger(Tool.class.getName());
 	public static boolean ping(String ipAddress) throws Exception {
-        int  timeOut =  3000 ;  //超时应该在3钞以上     
-        String testCheck = ipAddress;
-        boolean status = InetAddress.getByName(ipAddress).isReachable(timeOut);     // 当返回值是true时，说明host是可用的，false则不可。
-        System.out.println("ping:"+testCheck+":"+status);
+		//超时应该在3钞以上     
+        int  timeOut =  3000 ;   
+        // 当返回值是true时，说明host是可用的，false则不可。
+        boolean status = InetAddress.getByName(ipAddress).isReachable(timeOut);      
+        //logger.info("ping:"+ipAddress+":"+status);
         return status;
     }
 	public static String StringToId(String psw) {
@@ -38,10 +47,6 @@ public class Tool {
                 return "";
             }
         }
-    }
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println(StringToId("上菜口ioi").substring(32));
-	}
+    } 
 
 }
