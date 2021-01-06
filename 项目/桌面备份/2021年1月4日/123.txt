@@ -1,0 +1,1 @@
+http://mirrors.aliyun.com/centos/8.3.2011/BaseOS/x86_64/os/

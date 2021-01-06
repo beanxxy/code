@@ -12,28 +12,29 @@ public class Star {
 	public static Ioinfo address 	= new DevInfo(); 
 	public static void read()  { 
 		address.ip 			= "172.28.12.84";
-		address.dataModel 	= "byte";
+		address.dataModel 	= "string";
 		address.port 		= 50000;
 		address.protocal 	= "mcu";
-		address.dataAddr 	= "B000";
+		address.dataAddr 	= "000D";
+		
 //		while(true) { 
 //			byte[] bt 		= Udp.send(address.ip, address.port, address.dataAddr,""); 
 //		    if(bt!=null) {  
 //		    	System.out.println(McuConn.decode(address,bt));
 //		    }  
-//			Thread.sleep(200);
+//			Thread.sleep(200);5
 //			System.gc();
 //		}
 		//System.gc();
 		mcu.batchRead(address).thenAccept(s->{ 
 			System.out.println(s);  
 			//System.gc();
-			read();
+			//read();
 		}).exceptionally(ex -> {
 			//ipspeed.put(key, (long) -1);//断线
 			//deq.addLast(info);
-			System.out.println("ttt");
-			System.out.print(ex.toString());
+			//System.out.println("ttt");
+			//System.out.print(ex.toString());
             return null;
         }); 
 	}

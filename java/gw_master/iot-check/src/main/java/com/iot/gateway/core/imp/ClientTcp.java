@@ -155,7 +155,7 @@ public class ClientTcp  implements Client{
 			if(ipspeed.get(key)	==	null)ipspeed.put(key, (long) -1);
 		}else {
 			IoinfoData.put(getKeyInfo(iofo), iofo);
-			//logger.info("------"+new Gson().toJson(iofo));
+			if(Star.debug)logger.info("------"+new Gson().toJson(iofo));
 		} 
 	}
 	
@@ -194,7 +194,7 @@ public class ClientTcp  implements Client{
 		Deque<Ioinfo> deq = rDeque0.get(key); //优先
 		
 		if(deq!=null&&deq.size()!=0) 
-			logger.info("====>"+key+":"+deq.toString()+":"+deq.size());
+			if(Star.debug)logger.info("====>"+key+":"+deq.toString()+":"+deq.size());
 		if(deq==null || deq.size() == 0) { 
 			 deq = rDeque.get(key); 
 		}else {
@@ -273,7 +273,7 @@ public class ClientTcp  implements Client{
 		}).exceptionally(ex -> {
 			ipspeed.put(key, (long) -1);//断线 
 			setError(key);
-			logger.warning(ex.getMessage()); 
+			logger.warning("Client:276"+ex.getMessage()+"-"+key); 
 			if(info.lifetime!=0) {
 				rDeque0.get(key).addLast(info);
 			}else {
@@ -339,10 +339,9 @@ public class ClientTcp  implements Client{
 	 
     public static void log() { 
     	//System.gc();
-    	//logger.info("ipspeed:"+gs.toJson(ipspeed));
-    	//logger.info("rDeque:"+rDeque.size()); 
-    }
-	  
+    	if(Star.debug)logger.info("ipspeed:"+gs.toJson(ipspeed));
+    	if(Star.debug)logger.info("rDeque:"+rDeque.size()); 
+    } 
 	static {
 		scheduledThreadPool1.scheduleAtFixedRate(()->{try {  
 			execute(); 

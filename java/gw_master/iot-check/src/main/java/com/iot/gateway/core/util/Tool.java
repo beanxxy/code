@@ -7,6 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.logging.Logger;
 
 import com.iot.check.AlarmEvent;
+import com.iot.check.Star;
 
 /**
  * @author bean
@@ -19,7 +20,7 @@ public class Tool {
         int  timeOut =  3000 ;   
         // 当返回值是true时，说明host是可用的，false则不可。
         boolean status = InetAddress.getByName(ipAddress).isReachable(timeOut);      
-        //logger.info("ping:"+ipAddress+":"+status);
+        if(Star.debug)logger.info("ping:"+ipAddress+":"+status);
         return status;
     }
 	public static String StringToId(String psw) {

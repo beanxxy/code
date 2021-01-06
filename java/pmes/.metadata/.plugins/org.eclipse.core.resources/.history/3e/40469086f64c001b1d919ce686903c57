@@ -1,0 +1,27 @@
+package com.pmes;
+
+import javax.servlet.MultipartConfigElement;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.MultipartConfigFactory;
+import org.springframework.context.annotation.Bean;
+
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.io.File;
+@EnableSwagger2
+@SpringBootApplication
+public class PmesApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(PmesApplication.class, args);
+	}
+	@Bean  
+    MultipartConfigElement multipartConfigElement() {  
+       String filepath=System.getProperties().get("user.home")+"//filedata";
+       MultipartConfigFactory factory = new MultipartConfigFactory();  
+       factory.setLocation(filepath);  
+       return factory.createMultipartConfig();  
+    }
+}

@@ -74,6 +74,15 @@ public class McuConn implements Connection{
 		String[] addr = null;
 		if(dataAddr!=null&&dataAddr.length()>0)addr = dataAddr.split("-"); 
 		switch (datamodel) {
+		case "allbit":
+			int tmi = 0;
+			if(addr.length>1) {
+				tmi = Integer.parseInt(addr[1]);
+				r = CRC16.bytesToBinAll(bt).charAt(tmi)+"";
+			}else {
+				r = CRC16.bytesToBinAll(bt).charAt(0)+"";
+			}
+			break;
 		case "bit": 
 			int adi = 0;
 			if(addr.length>1) {
@@ -84,7 +93,11 @@ public class McuConn implements Connection{
 			}
 			break;
 		case "byte":
-			r = bt[0]+"";
+			int tmpi = 0;
+			if(addr!=null&&addr.length>1) {
+				tmpi = Integer.parseInt(addr[1]);
+			}
+			r = bt[tmpi]+"";
 			break;
 		case "short":  
 			 

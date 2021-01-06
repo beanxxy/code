@@ -31,8 +31,8 @@ public class AlarmEvent extends Event{
 		} 
 		outmap.put("errorList2",ls); 
 		Star.mqttSend("deviceStatus", new Gson().toJson(outmap)); 
-		//logger.info(massge); 
-		//logger.info(new Gson().toJson(outmap)); 
+		if(Star.debug)logger.info(massge); 
+		if(Star.debug)logger.info(new Gson().toJson(outmap)); 
 	}
 	
 }

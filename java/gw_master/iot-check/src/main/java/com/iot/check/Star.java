@@ -55,6 +55,11 @@ public class Star {
 	public static Map<String,String> order 			= new ConcurrentHashMap<String,String>(); 
 	
 	public static Map<String,String> funing			= new ConcurrentHashMap<String,String>(); 
+	
+	/**
+	 * 是否调试
+	 */
+	public static boolean debug						= true;
 	/**
 	 * 功能调用
 	 * @param code 功能代码;
@@ -160,14 +165,12 @@ public class Star {
 						ev.attr.put("code", code);
 						ev.attr.put("command", call.command);
 						
-						//logger.info(call.command);
-						//logger.info(call.DataAddr+":"+
-						//		call.value
-						//		+":"+call.massge); 
+						if(Star.debug)logger.info(call.command);
+						if(Star.debug)logger.info(call.DataAddr+":"+ call.value 	+":"+call.massge); 
 						
 						eventInfo.event.put(call.value,ev); 
 					} 
-					//logger.info("============");
+					if(Star.debug)logger.info("============");
 					if(ClientTcp.IoinfoData.get(ClientTcp.getKeyInfo(eventInfo))==null) {
 						client.read0(eventInfo);
 					}else {
@@ -316,7 +319,7 @@ public class Star {
 				ev.attr.put("massge",dev.devid+"-"+info.dataAddr+"-"+caf.code+":"+caf.massge);
 				ev.attr.put("code", caf.code);
 				info.event.put(caf.value, ev); 
-				//logger.info(new Gson().toJson(info)); 
+				if(Star.debug)logger.info(new Gson().toJson(info)); 
 				client.read(info); // break;
 			} 
 		} 
@@ -350,7 +353,7 @@ public class Star {
 				}
 			}
 		}catch(Throwable t) {  
-			logger.warning(t.getMessage());
+			logger.warning(this.getClass()+":356"+t.getMessage());
 		} }, 10, 60, TimeUnit.SECONDS);
 	}
 	/**
@@ -428,7 +431,7 @@ public class Star {
 			}
 			
 		}catch(Throwable t) { 
-			logger.warning(t.getMessage());
+			logger.warning(this.getClass()+":434"+t.getMessage());
 		} }, 10, 60, TimeUnit.SECONDS);
 	    //mqtt.sendMessage("devicePartCheckPoint", outstr);
 		

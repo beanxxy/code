@@ -207,6 +207,7 @@ public class Udp {
 			 
 			return UDP_Rec_Event_method(revdata,revdata.length);  
 		} catch (IOException e) { 
+			logger.warning("Udp:210"+e.getMessage()); 
 			//socket.disconnect();
 			//socket.close();
 			//closeDatagramSocketData( hostname, port);

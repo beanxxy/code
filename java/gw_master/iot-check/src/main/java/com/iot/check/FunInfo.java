@@ -13,7 +13,7 @@ public class FunInfo extends Ioinfo{
 	@Override
 	public void change(String value) {
 		// TODO Auto-generated method stub
-		//logger.info("stv："+this.dataAddr+":"+value);
+		if(Star.debug)logger.info("stv："+this.dataAddr+":"+value);
 	}
 
 	@Override

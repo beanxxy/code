@@ -22,16 +22,19 @@
            <dataSource type="UNPOOLED">
              <!-- jdbc驱动-->
             
-       		 <!--<property name="driver" value="com.mysql.jdbc.Driver"/>  
-            <property name="url" value="jdbc:mysql://localhost:3306/gateway_10s?characterEncoding=UTF-8" /> 
+       		<!--<property name="driver" value="com.mysql.jdbc.Driver"/>  
+            <property name="url" value="jdbc:mysql://localhost:13306/gateway_core?characterEncoding=UTF-8" /> 
             <property name="username" value="root"/> 
-            <property name="password" value="123456"/> -->
-            
+            <property name="password" value="xxy123"/> -->
+            <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="url" value="jdbc:mysql://localhost:13306/gateway_core?serverTimezone=UTC&amp;useUnicode=true" /> 
+            <property name="username" value="root"/> 
+            <property name="password" value="xxy123"/>
            
-           <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+           <!--<property name="driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="url" value="jdbc:mysql://192.168.8.200:13306/gateway_10s?useUnicode=true" /> 
             <property name="username" value="root"/> 
-            <property name="password" value="ICw1Fc#lna^rwOvAq*u8"/>
+            <property name="password" value="ICw1Fc#lna^rwOvAq*u8"/>-->
            
             </dataSource>
         </environment>

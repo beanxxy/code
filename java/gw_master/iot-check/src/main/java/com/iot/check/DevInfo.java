@@ -44,7 +44,7 @@ public class DevInfo extends Ioinfo{
 			outmap.put("measuredList", point);
 			Star.mqttSend("devicePartMeasuredValue", gs.toJson(outmap));  
 		}
-		//logger.info(gs.toJson(outmap)); 
+		if(Star.debug)logger.info(gs.toJson(outmap)); 
 	}
 
 	@Override

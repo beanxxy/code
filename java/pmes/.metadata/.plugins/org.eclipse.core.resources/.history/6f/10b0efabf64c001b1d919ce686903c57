@@ -1,0 +1,185 @@
+package com.pmes.app.controller;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
+import com.google.gson.Gson;
+import com.pmes.common.QRCodeUtil;
+import com.pmes.common.ToWeb;
+
+import io.swagger.annotations.ApiOperation;
+import sun.misc.BASE64Decoder;
+
+/**
+ * 文件管理
+ * 
+ * @author xxy
+ */
+@RestController
+@RequestMapping("file")
+public class FileController extends Controller {
+    public String filepath	=
+      //  System.getProperties().get("user.home")+"//filedata//";
+    	"D:"+"//filedata//";
+    @ApiOperation(value="生产二维码", notes="生产一个二维码")
+	@PostMapping("/qr/")
+	public Object post(@RequestBody String entity) throws Exception {
+		ToWeb toweb = new ToWeb();
+		//Qr 		ob	=	new Gson().fromJson(entity, Qr.class);
+		String filename= System.currentTimeMillis()+"_qr";
+		//System.out.println(entity);
+		
+		QRCodeUtil.encode(entity,
+             this.filepath+ "logo.png", 
+             this.filepath , filename, true); 
+		toweb.setObjData(filename+".jpg");
+		return new Gson().toJson(toweb);
+	}
+	
+
+	@RequestMapping(value = "/download/{name}/{name1}")
+	public void testDownload(HttpServletResponse res,
+            @PathVariable("name") 	String name,
+            @PathVariable("name") 	String name1)
+    throws UnsupportedEncodingException {
+		String fileName  =	URLDecoder.decode(name, "GBK");  ;
+		//res.setHeader("content-type", "application/octet-stream");
+		//res.setContentType("application/octet-stream");
+		//res.addHeader("Content-Disposition", "attachment;filename=" + fileName);
+		byte[] buff = new byte[1024];
+		BufferedInputStream bis = null;
+		OutputStream os = null;
+		try {
+			os = res.getOutputStream();
+			bis = new BufferedInputStream(new FileInputStream(new File(filepath	
+                            + fileName)));
+			int i = bis.read(buff);
+			while (i != -1) {
+				os.write(buff, 0, buff.length);
+				os.flush();
+				i = bis.read(buff);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (bis != null) {
+				try {
+					bis.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	
+	
+	
+	@RequestMapping(value = "/upload/{name}/")
+	public void testUploadFile(HttpServletRequest req, MultipartHttpServletRequest multiReq,@PathVariable("name") 	String name) {
+		//System.out.println(req.getParameter("file"));
+		String imageFile = req.getParameter("file");
+		if(imageFile!=null) {
+			String[] imageFiles=imageFile.split("data:image/jpeg;base64,");
+			int ii=0;
+			for (String str : imageFiles) if(str.length()>0){
+				//System.out.println(str);
+				BASE64Decoder decoder = new BASE64Decoder();
+	             // Base64解码      
+				byte[] imageByte = null;
+				try {
+					imageByte = decoder.decodeBuffer(str);      
+	                for (int i = 0; i < imageByte.length; ++i) {      
+	                    if (imageByte[i] < 0) {// 调整异常数据      
+	                         imageByte[i] += 256;      
+	                    }      
+	                }      
+	            } catch (Exception e) {
+	                e.printStackTrace(); 
+	            }      
+	            try {
+	                // 生成文件         
+	                File ifile = new File(filepath + (ii++)+name);
+	                ifile.createNewFile();
+	                if(!ifile.exists()){
+	                	ifile.createNewFile();
+	                }
+	                OutputStream imageStream = new FileOutputStream(ifile);
+	                imageStream.write(imageByte);
+	                imageStream.flush();
+	                imageStream.close();                    
+	            } catch (Exception e) {         
+	                e.printStackTrace();
+	            } 
+			} 
+		}else {
+			Map<String, MultipartFile> map = multiReq.getFileMap();
+			for (Entry<String, MultipartFile> entry : map.entrySet()) {
+				//System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+				// 获取上传文件的路径
+				String uploadFilePath = multiReq.getFile(entry.getKey()).getOriginalFilename();
+				//System.out.println("uploadFlePath:" + uploadFilePath);
+				// 截取上传文件的文件名
+				String uploadFileName = uploadFilePath.substring(uploadFilePath.lastIndexOf('\\') + 1,
+						uploadFilePath.indexOf('.'));
+				//System.out.println("multiReq.getFile()" + uploadFileName);
+				// 截取上传文件的后缀
+				String uploadFileSuffix = uploadFilePath.substring(uploadFilePath.indexOf('.') + 1,
+						uploadFilePath.length());
+				//System.out.println("uploadFileSuffix:" + uploadFileSuffix);
+				FileOutputStream fos = null;
+				InputStream fis = null;
+				try {
+					fis = multiReq.getFile(entry.getKey()).getInputStream();
+					fos = new FileOutputStream(new File(filepath + name));
+					byte[] temp = new byte[1024];
+					int i = fis.read(temp);
+					while (i != -1) {
+						fos.write(temp, 0, temp.length);
+						fos.flush();
+						i = fis.read(temp);
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				} finally {
+					if (fis != null) {
+						try {
+							fis.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+					if (fos != null) {
+						try {
+							fos.close();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+				}
+			}
+		}
+		
+		
+	}
+}
